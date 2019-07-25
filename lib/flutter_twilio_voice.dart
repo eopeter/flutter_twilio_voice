@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 class FlutterTwilioVoice {
   static const MethodChannel _channel =
@@ -11,16 +12,29 @@ class FlutterTwilioVoice {
     return version;
   }
 
-  static Future<void> get makeCall async{
-    await _channel.invokeMethod('makeCall');
+  static Future<void> makeCall({ @required String accessTokenUrl, @required String to}) async
+  {
+    assert(accessTokenUrl != null);
+    assert(to != null);
+    final Map<String, Object> args = <String, dynamic>{"accessTokenUrl" : accessTokenUrl, "to" : to};
+    await _channel.invokeMethod('makeCall', args);
   }
 
   static Future<void> get hangUp async{
     await _channel.invokeMethod('hangUp');
   }
 
-  static Future<void> get muteCall async{
-    await _channel.invokeMethod('muteCall');
+  static Future<void> receiveCalls(String clientIdentifier) async{
+    assert(clientIdentifier != null);
+    final Map<String, Object> args = <String, dynamic>{"clientIdentifier" : clientIdentifier};
+    await _channel.invokeMethod('receiveCalls', args);
+  }
+
+
+  static Future<void> muteCall(bool isMuted) async{
+    assert(isMuted != null);
+    final Map<String, Object> args = <String, dynamic>{"isMuted" : isMuted};
+    await _channel.invokeMethod('muteCall', args);
   }
 
   static Future<void> get toggleSpeaker async{

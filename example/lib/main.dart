@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_twilio_voice/flutter_twilio_voice.dart';
 
+import 'dialpad.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -45,11 +47,24 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Twilio Voice Example'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
+        body: SafeArea(child: Center(
+          child: Column(children: <Widget>[
+           
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text('Running on: $_platformVersion\n'),),
+            DialPad(makeCall: (callingNumber) async {
+
+              await FlutterTwilioVoice.makeCall(
+                  accessTokenUrl: "https://<REMOTE-SERVER>/accesstoken",
+                  to: callingNumber);
+
+            },),
+
+          ],),
+        )),
       ),
     );
   }
