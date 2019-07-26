@@ -45,7 +45,7 @@ View Twilio Documentation on Access Token Generation: https://www.twilio.com/doc
 ```
 
 
-## TO DO
+## To Do
 
 1. Android Support
 2. Propagate Events and Call Status Notifications to Flutter
