@@ -61,9 +61,8 @@ class _MyAppState extends State<MyApp> {
             TextFormField(controller: _controller, decoration: InputDecoration(labelText: 'Client Identifier or Phone Number'),),
             SizedBox(height: 10,),
             RaisedButton(child: Text("Make Call"), onPressed: () async {
-              await FlutterTwilioVoice.hangUp;
               await FlutterTwilioVoice.makeCall(
-                  accessTokenUrl: "https://dormmom-website.conveyor.cloud/phone/access/token",
+                  accessTokenUrl: "https://$YOUR_SERVER_URL/accesstoken",
                   to: _controller.text);
             },)
           ],),
