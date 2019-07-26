@@ -1,5 +1,5 @@
 name: flutter_twilio_voice
-description: Provides an interface to Twilio&#x27;s Programmable Voice SDK to allows adding voice-over-IP (VoIP) calling into your Flutter applications.
+description: Provides an interface to Twilio's Programmable Voice SDK to allow adding voice-over-IP (VoIP) calling into your Flutter applications.
 version: 0.0.2
 author: "Emmanuel Oche<eopeter@gmail.com>"
 homepage: "https://www.dormmom.com"

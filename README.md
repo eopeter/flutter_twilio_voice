@@ -1,6 +1,6 @@
 # flutter_twilio_voice
 
-Provides an interface to Twilio&#x27;s Programmable Voice SDK to allows adding voice-over-IP (VoIP) calling into your Flutter applications.
+Provides an interface to Twilio's Programmable Voice SDK to allow voice-over-IP (VoIP) calling into your Flutter applications.
 
 
 ## Configure Server to Generate Access Token
@@ -10,9 +10,8 @@ View Twilio Documentation on Access Token Generation: https://www.twilio.com/doc
 ## Make a Call
 
 ```
- await FlutterTwilioVoice.makeCall(
-                   accessTokenUrl: "https://${YOUR-SERVER-URL}/accesstoken",
-                   to: "$client_identifier_or_number_to_call");
+ await FlutterTwilioVoice.makeCall(to: "$client_identifier_or_number_to_call",
+                   accessTokenUrl: "https://${YOUR-SERVER-URL}/accesstoken");
 
 ```
 
