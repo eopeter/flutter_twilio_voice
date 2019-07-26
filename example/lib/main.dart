@@ -15,11 +15,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
+
     initPlatformState();
+    _controller = TextEditingController();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -47,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Twilio Voice Example'),
+          title: const Text('Plugin example app'),
         ),
         body: SafeArea(child: Center(
           child: Column(children: <Widget>[
@@ -55,14 +58,14 @@ class _MyAppState extends State<MyApp> {
             Padding(
               padding: EdgeInsets.all(10),
               child: Text('Running on: $_platformVersion\n'),),
-            DialPad(makeCall: (callingNumber) async {
-
+            TextFormField(controller: _controller, decoration: InputDecoration(labelText: 'Client Identifier or Phone Number'),),
+            SizedBox(height: 10,),
+            RaisedButton(child: Text("Make Call"), onPressed: () async {
+              await FlutterTwilioVoice.hangUp;
               await FlutterTwilioVoice.makeCall(
-                  accessTokenUrl: "https://<REMOTE-SERVER>/accesstoken",
-                  to: callingNumber);
-
-            },),
-
+                  accessTokenUrl: "https://dormmom-website.conveyor.cloud/phone/access/token",
+                  to: _controller.text);
+            },)
           ],),
         )),
       ),

@@ -20,7 +20,7 @@ class FlutterTwilioVoice {
     await _channel.invokeMethod('makeCall', args);
   }
 
-  static Future<void> get hangUp async{
+  static Future<void> hangUp() async{
     await _channel.invokeMethod('hangUp');
   }
 
@@ -37,8 +37,10 @@ class FlutterTwilioVoice {
     await _channel.invokeMethod('muteCall', args);
   }
 
-  static Future<void> get toggleSpeaker async{
-    await _channel.invokeMethod('toggleSpeaker');
+  static Future<void> toggleSpeaker(bool speakerIsOn) async{
+    assert(speakerIsOn != null);
+    final Map<String, Object> args = <String, dynamic>{"speakerIsOn" : speakerIsOn};
+    await _channel.invokeMethod('toggleSpeaker', args);
   }
 
 }

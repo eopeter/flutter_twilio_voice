@@ -98,6 +98,14 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
         guard let clientIdentity = arguments?["clientIdentifier"] as? String else {return}
         self.identity = clientIdentity;
     }
+    else if flutterCall.method == "hangUp"
+    {
+        if (self.call != nil && self.call?.state == .connected) {
+            self.userInitiatedDisconnect = true
+            performEndCallAction(uuid: self.call!.uuid)
+            //self.toggleUIState(isEnabled: false, showCallControl: false)
+        }
+    }
     result("iOS " + UIDevice.current.systemVersion)
   }
 
