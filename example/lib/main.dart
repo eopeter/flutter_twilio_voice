@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
             SizedBox(height: 10,),
             RaisedButton(child: Text("Make Call"), onPressed: () async {
               await FlutterTwilioVoice.makeCall(
-                  accessTokenUrl: "https://$YOUR_SERVER_URL/accesstoken",
+                  accessTokenUrl: "https://{YOUR_SERVER_URL}/accesstoken",
                   to: _controller.text);
             },)
           ],),

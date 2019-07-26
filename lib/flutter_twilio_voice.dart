@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 class FlutterTwilioVoice {
   static const MethodChannel _channel =
