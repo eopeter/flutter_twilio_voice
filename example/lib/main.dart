@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_twilio_voice/flutter_twilio_voice.dart';
 
-import 'dialpad.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +14,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  String _eventMessage;
+
   TextEditingController _controller;
 
   @override
@@ -45,6 +46,30 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _onEvent(Object event) {
+
+    setState(() {
+
+      _eventMessage = "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
+
+    });
+
+  }
+
+
+
+
+  void _onError(Object error) {
+
+    setState(() {
+
+      _eventMessage = 'Battery status: unknown.';
+
+    });
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -61,9 +86,9 @@ class _MyAppState extends State<MyApp> {
             TextFormField(controller: _controller, decoration: InputDecoration(labelText: 'Client Identifier or Phone Number'),),
             SizedBox(height: 10,),
             RaisedButton(child: Text("Make Call"), onPressed: () async {
-              await FlutterTwilioVoice.makeCall(
-                  accessTokenUrl: "https://{YOUR_SERVER_URL}/accesstoken",
-                  to: _controller.text);
+              FlutterTwilioVoice.phoneCallEventSubscription.listen(_onEvent, onError: _onError);
+              FlutterTwilioVoice.receiveCalls("alice");
+              FlutterTwilioVoice.makeCall(to: "555555555", accessTokenUrl: "https://{SERVER_URL}/accesstoken", toDisplayName: "James Bond" );
             },)
           ],),
         )),

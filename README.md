@@ -44,6 +44,20 @@ View Twilio Documentation on Access Token Generation: https://www.twilio.com/doc
 
 ```
 
+## Listen for Call Events
+```
+FlutterTwilioVoice.phoneCallEventSubscription.listen((data) 
+    {
+      setState(() {
+        _callStatus = data.toString();
+      });
+    }, onError: (error) {
+      setState(() {
+        print(error);
+      });
+    });
+    
+```
 
 ## To Do
 

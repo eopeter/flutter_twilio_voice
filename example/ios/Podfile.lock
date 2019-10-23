@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_twilio_voice (0.0.1):
+  - flutter_twilio_voice (0.0.2):
     - Flutter
     - TwilioVoice (~> 4.1)
   - TwilioVoice (4.1.0)
@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
-  flutter_twilio_voice: 2dfbf9570c909751cff19a4b8566b7de3718609c
+  flutter_twilio_voice: 16a9c30db5ed1914ec622d8cb82515056ff55cc0
   TwilioVoice: f02ca9098bd746c9eeb4b9888998aa74cd17f3b8
 
 PODFILE CHECKSUM: 57404445183a62c76f3fc9efaf2238cd4f60c3b9

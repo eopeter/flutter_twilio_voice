@@ -5,9 +5,11 @@ import PushKit
 import TwilioVoice
 import CallKit
 
-public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegistryDelegate, TVONotificationDelegate, TVOCallDelegate, AVAudioPlayerDelegate, CXProviderDelegate {
+public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStreamHandler, PKPushRegistryDelegate, TVONotificationDelegate, TVOCallDelegate, AVAudioPlayerDelegate, CXProviderDelegate {
 
     var _result: FlutterResult?
+    private var eventSink: FlutterEventSink?
+ 
     var baseURLString = ""
     // If your token server is written in PHP, accessTokenEndpoint needs .php extension at the end. For example : /accessToken.php
     var accessTokenEndpoint = "/accessToken"
@@ -30,11 +32,10 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
 
     public override init() {
         
-        
         //isSpinning = false
         voipRegistry = PKPushRegistry.init(queue: DispatchQueue.main)
-        
-        let configuration = CXProviderConfiguration(localizedName: "CallKit Quickstart")
+        let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
+        let configuration = CXProviderConfiguration(localizedName: appName)
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
         if let callKitIcon = UIImage(named: "iconMask80") {
@@ -53,6 +54,15 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
         voipRegistry.desiredPushTypes = Set([PKPushType.voIP])
         
         
+         let appDelegate = UIApplication.shared.delegate
+         guard let controller = appDelegate?.window??.rootViewController as? FlutterViewController else {
+         fatalError("rootViewController is not type FlutterViewController")
+         }
+         let registrar = controller.registrar(forPlugin: "flutter_twilio_voice");
+         let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice", binaryMessenger: registrar.messenger())
+         
+         eventChannel.setStreamHandler(self)
+
     }
    
 
@@ -60,23 +70,36 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
           // CallKit has an odd API contract where the developer must call invalidate or the CXProvider is leaked.
           callKitProvider.invalidate()
       }
-
+   
+    
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "flutter_twilio_voice", binaryMessenger: registrar.messenger())
+
     let instance = SwiftFlutterTwilioVoicePlugin()
-    registrar.addMethodCallDelegate(instance, channel: channel)
+    let methodChannel = FlutterMethodChannel(name: "flutter_twilio_voice", binaryMessenger: registrar.messenger())
+    let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice", binaryMessenger: registrar.messenger())
+    eventChannel.setStreamHandler(instance)
+    registrar.addMethodCallDelegate(instance, channel: methodChannel)
+    
   }
 
   public func handle(_ flutterCall: FlutterMethodCall, result: @escaping FlutterResult) {
     _result = result
+    
     let arguments = flutterCall.arguments as? NSDictionary
 
     if flutterCall.method == "makeCall" {
         guard let callTo = arguments?["to"] as? String else {return}
+        let callToDisplayName = arguments?["toDisplayName"] as? String
         guard let accessTokenUrl = arguments?["accessTokenUrl"] as? String else {return}
+
+        if(arguments?["from"] != nil)
+        {
+            self.identity = "16072164340";// arguments?["from"] as? String ?? self.identity
+        }
+        
         self.accessTokenEndpoint = accessTokenUrl
         self.callTo = callTo;
-        makeCall(to: callTo)
+        makeCall(to: callTo, displayName: callToDisplayName ?? callTo)
     }
     else if flutterCall.method == "muteCall"
     {
@@ -109,19 +132,20 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
     result("iOS " + UIDevice.current.systemVersion)
   }
 
-  func makeCall(to: String)
+  func makeCall(to: String, displayName: String)
   {
     if (self.call != nil && self.call?.state == .connected) {
                 self.userInitiatedDisconnect = true
                 performEndCallAction(uuid: self.call!.uuid)
                 //self.toggleUIState(isEnabled: false, showCallControl: false)
             } else {
+                let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
                 let uuid = UUID()
-                let handle = "Voice Bot"
+                let handle = displayName
 
                 self.checkRecordPermission { (permissionGranted) in
                     if (!permissionGranted) {
-                        let alertController: UIAlertController = UIAlertController(title: "Voice Quick Start",
+                        let alertController: UIAlertController = UIAlertController(title: appName + " Permission",
                                                                                    message: "Microphone permission not granted",
                                                                                    preferredStyle: .alert)
 
@@ -316,13 +340,13 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
 
         // MARK: TVOCallDelegate
     public func callDidStartRinging(_ call: TVOCall) {
-            NSLog("callDidStartRinging:")
+        sendPhoneCallEvents(description: "Ringing:", isError: false)
 
             //self.placeCallButton.setTitle("Ringing", for: .normal)
         }
 
     public func callDidConnect(_ call: TVOCall) {
-            NSLog("callDidConnect:")
+        sendPhoneCallEvents(description: "Connected:", isError: false)
 
             self.call = call
             self.callKitCompletionCallback!(true)
@@ -364,9 +388,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
 
     public func call(_ call: TVOCall, didDisconnectWithError error: Error?) {
             if let error = error {
-                NSLog("Call failed: \(error.localizedDescription)")
+                sendPhoneCallEvents(description: "Call failed: \(error.localizedDescription)", isError: true)
             } else {
-                NSLog("Call disconnected")
+                sendPhoneCallEvents(description: "Call disconnected", isError: false)
             }
 
             if !self.userInitiatedDisconnect {
@@ -551,9 +575,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
 
             callKitCallController.request(transaction) { error in
                 if let error = error {
-                    NSLog("EndCallAction transaction request failed: \(error.localizedDescription).")
+                    self.sendPhoneCallEvents(description: "End Call Failed: \(error.localizedDescription).", isError: true)
                 } else {
-                    NSLog("EndCallAction transaction request successful")
+                    self.sendPhoneCallEvents(description: "Call Ended", isError: false)
                 }
             }
         }
@@ -563,9 +587,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
                 completionHandler(false)
                 return
             }
-
+            
             let connectOptions: TVOConnectOptions = TVOConnectOptions(accessToken: accessToken) { (builder) in
-                builder.params = [self.twimlParamTo : self.callTo]
+                builder.params = [self.twimlParamTo : self.callTo, "From": self.identity]
                 builder.uuid = uuid
             }
             call = TwilioVoice.connect(with: connectOptions, delegate: self)
@@ -581,6 +605,46 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin, PKPushRegis
             self.callKitCompletionCallback = completionHandler
             self.incomingPushHandled()
         }
+    
+    public func onListen(withArguments arguments: Any?,
+                         eventSink: @escaping FlutterEventSink) -> FlutterError? {
+        self.eventSink = eventSink
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(TVOCallDelegate.call(_:didDisconnectWithError:)),
+            name: NSNotification.Name(rawValue: "PhoneCallEvent"),
+            object: nil)
+        
+        return nil
+    }
+    
+    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        NotificationCenter.default.removeObserver(self)
+        eventSink = nil
+        return nil
+    }
+    
+    private func sendPhoneCallEvents(description: String, isError: Bool) {
+        NSLog(description)
+        guard let eventSink = eventSink else {
+            return
+        }
+        
+        if isError
+        {
+            eventSink(FlutterError(code: "unavailable",
+                                   message: description,
+                                   details: nil))
+        }
+        else
+        {
+            eventSink(description)
+        }
+    }
+    
+    
+    
 }
 
 extension UIWindow {
@@ -609,4 +673,6 @@ extension UIWindow {
             return topViewController(for: presentedViewController)
         }
     }
+    
+    
 }

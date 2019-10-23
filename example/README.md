@@ -11,7 +11,7 @@ View Twilio Documentation on Access Token Generation: https://www.twilio.com/doc
 
 ```
  await FlutterTwilioVoice.makeCall(to: "$client_identifier_or_number_to_call",
-                   accessTokenUrl: "https://${YOUR-SERVER-URL}/accesstoken");
+                   accessTokenUrl: "https://${YOUR-SERVER-URL}/accesstoken", toDisplayName: "Friendly_Name");
 ```
 
 

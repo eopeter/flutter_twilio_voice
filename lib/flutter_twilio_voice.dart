@@ -4,19 +4,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 class FlutterTwilioVoice {
+
   static const MethodChannel _channel =
       const MethodChannel('flutter_twilio_voice');
+
+  static const EventChannel _eventChannel =
+      EventChannel('flutter_twilio_voice');
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
 
-  static Future<void> makeCall({ @required String accessTokenUrl, @required String to}) async
+  static Stream<dynamic> get phoneCallEventSubscription {
+    return _eventChannel.receiveBroadcastStream();
+  }
+
+  static Future<void> makeCall({ @required String accessTokenUrl, String from, @required String to, String toDisplayName}) async
   {
     assert(accessTokenUrl != null);
     assert(to != null);
-    final Map<String, Object> args = <String, dynamic>{"accessTokenUrl" : accessTokenUrl, "to" : to};
+    final Map<String, Object> args = <String, dynamic>{"accessTokenUrl" : accessTokenUrl, "from" : from, "to" : to, "toDisplayName" : toDisplayName};
     await _channel.invokeMethod('makeCall', args);
   }
 
