@@ -279,6 +279,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         } else if (call.method.equals("makeCall")) {
             final HashMap<String, String> params = new HashMap<>();
             params.put("to", call.argument("to"));
+            params.put("from", call.argument("from"));
             final ConnectOptions connectOptions = new ConnectOptions.Builder(this.accessToken)
               .params(params)
               .build();

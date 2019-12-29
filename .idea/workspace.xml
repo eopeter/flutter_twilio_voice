@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -129,7 +127,7 @@
       <workItem from="1577638956815" duration="1714000" />
       <workItem from="1577640930856" duration="151000" />
       <workItem from="1577641343992" duration="375000" />
-      <workItem from="1577642001093" duration="5954000" />
+      <workItem from="1577642001093" duration="6202000" />
     </task>
     <servers />
   </component>
