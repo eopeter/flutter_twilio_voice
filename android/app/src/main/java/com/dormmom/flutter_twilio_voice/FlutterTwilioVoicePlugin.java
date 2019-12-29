@@ -2,10 +2,7 @@ package com.dormmom.flutter_twilio_voice;
 
 import com.twilio.voice.Call;
 import com.twilio.voice.CallException;
-import com.twilio.voice.CallInvite;
 import com.twilio.voice.ConnectOptions;
-import com.twilio.voice.RegistrationException;
-import com.twilio.voice.RegistrationListener;
 import com.twilio.voice.Voice;
 
 import java.util.HashMap;
@@ -18,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -42,7 +40,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private AudioManager audioManager;
     private int savedAudioMode = AudioManager.MODE_INVALID;
 
-    //private SoundPoolManager soundPoolManager;
+    private SoundPoolManager soundPoolManager;
     private Call activeCall;
     private Context context;
     private Activity activity;
@@ -62,7 +60,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         eventChannel.setStreamHandler(plugin);
 
         plugin.context = context;
-        //plugin.soundPoolManager = SoundPoolManager.getInstance(context);
+        plugin.soundPoolManager = SoundPoolManager.getInstance(context);
 
         /*
          * Needed for setting/abandoning audio focus during a call
@@ -339,7 +337,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 }
 
 
-/*
 class SoundPoolManager {
 
     private boolean playing = false;
@@ -427,4 +424,3 @@ class SoundPoolManager {
         instance = null;
     }
 }
-*/
