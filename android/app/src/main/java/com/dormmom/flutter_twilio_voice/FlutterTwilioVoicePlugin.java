@@ -63,6 +63,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     RegistrationListener registrationListener = registrationListener();
     Call.Listener callListener = callListener();
+    private EventChannel.EventSink eventSink;
 
     @Override
     public void onAttachedToEngine(FlutterPluginBinding flutterPluginBinding) {
@@ -151,11 +152,11 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private void showIncomingCallDialog() {
-        // TODO: send event to Dart
+        this.handleIncomingCall();
     }
 
     private void handleIncomingCall() {
-        // TODO: send event to Dart
+        this.eventSink.success(Constants.ACTION_INCOMING_CALL);
         /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             showIncomingCallDialog();
         } else {
@@ -168,7 +169,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private void handleCancel() {
         //if (alertDialog != null && alertDialog.isShowing()) {
             soundPoolManager.stopRinging();
-        // TODO: send event to Dart
+        this.eventSink.success(Constants.ACTION_CANCEL_CALL);
             //alertDialog.cancel();
         //}
     }
@@ -253,28 +254,34 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     @Override
     public void onListen(Object o, EventChannel.EventSink eventSink) {
-
+        this.eventSink = eventSink;
     }
 
     @Override
     public void onCancel(Object o) {
-
-
+        this.eventSink = null;
     }
 
     @Override
     public void onMethodCall(MethodCall call, MethodChannel.Result result) {
         if (call.method.equals("accessToken")) {
             this.accessToken = call.argument("token");
+            this.registerForCallInvites();
             result.success("");
         } else if (call.method.equals("hangUp")) {
             this.disconnect();
             result.success("");
+        } else if (call.method.equals("toggleSpeaker")) {
+            // nuthin
+            result.success("");
         } else if (call.method.equals("muteCall")) {
-            this.mute();
+            this.mute(Boolean.parseBoolean(call.argument("isMuted").toString()));
             result.success("");
         } else if (call.method.equals("holdCall")) {
             this.hold();
+            result.success("");
+        } else if (call.method.equals("answer")) {
+            this.answer();
             result.success("");
         } else if (call.method.equals("makeCall")) {
             final HashMap<String, String> params = new HashMap<>();
@@ -297,7 +304,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         soundPoolManager.getInstance(this.context).stopRinging();
         activeCallInvite.accept(this.activity, callListener);
         notificationManager.cancel(activeCallNotificationId);
-        // TODO: send event to Dart
+        this.eventSink.success(Constants.ACTION_ACCEPT);
     }
 
     @Override
@@ -402,10 +409,9 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         }
     }
 
-    private void mute() {
+    private void mute(boolean isMuted) {
         if (activeCall != null) {
-            boolean mute = !activeCall.isMuted();
-            activeCall.mute(mute);
+            activeCall.mute(isMuted);
 
         }
     }
