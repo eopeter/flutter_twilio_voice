@@ -4,7 +4,11 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="" />
+    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -125,7 +129,7 @@
       <workItem from="1577638956815" duration="1714000" />
       <workItem from="1577640930856" duration="151000" />
       <workItem from="1577641343992" duration="375000" />
-      <workItem from="1577642001093" duration="4444000" />
+      <workItem from="1577642001093" duration="5954000" />
     </task>
     <servers />
   </component>
@@ -165,14 +169,18 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2363" y="117" width="1024" height="852" key="SettingsEditor/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577642083200" />
-    <state x="2609" y="270" width="645" height="524" key="StructurePopup" timestamp="1577658168067">
+    <state x="2609" y="270" width="645" height="524" key="StructurePopup" timestamp="1577660011101">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2609" y="270" width="645" height="524" key="StructurePopup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577658168067" />
+    <state x="2609" y="270" width="645" height="524" key="StructurePopup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577660011101" />
     <state width="465" height="93" key="javadoc.popup.new" timestamp="1577644310829">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="465" height="93" key="javadoc.popup.new/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577644310829" />
+    <state x="2625" y="154" width="500" height="778" key="refactoring.ChangeSignatureDialog" timestamp="1577659638695">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2625" y="154" width="500" height="778" key="refactoring.ChangeSignatureDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577659638695" />
     <state x="2543" y="239" width="672" height="678" key="search.everywhere.popup" timestamp="1577658151141">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
