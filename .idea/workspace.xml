@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/flutter_twilio_voice.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/flutter_twilio_voice.podspec" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +53,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TF_FMT" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
@@ -130,12 +132,24 @@
       <workItem from="1577638956815" duration="1714000" />
       <workItem from="1577640930856" duration="151000" />
       <workItem from="1577641343992" duration="375000" />
-      <workItem from="1577642001093" duration="10763000" />
+      <workItem from="1577642001093" duration="14600000" />
     </task>
+    <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
+      <created>1577742952567</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1577742952567</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
@@ -150,6 +164,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577725996488" />
+    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1577742952494">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577742952494" />
     <state x="2020" y="100" width="1720" height="880" key="DiffContextDialog" timestamp="1577741524123">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

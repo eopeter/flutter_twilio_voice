@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_twilio_voice'
-  s.version          = '0.0.2'
+  s.version          = '0.0.3'
   s.summary          = 'Provides an interface to Twilio&#x27;s Programmable Voice SDK to allows adding voice-over-IP (VoIP) calling into your Flutter applications.'
   s.description      = <<-DESC
 Provides an interface to Twilio&#x27;s Programmable Voice SDK to allows adding voice-over-IP (VoIP) calling into your Flutter applications.
@@ -15,7 +15,7 @@ Provides an interface to Twilio&#x27;s Programmable Voice SDK to allows adding v
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'TwilioVoice','~> 4.1'
+  s.dependency 'TwilioVoice','~> 5.1.1'
 
   s.ios.deployment_target = '10.0'
 end

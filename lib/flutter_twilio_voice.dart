@@ -40,13 +40,17 @@ class FlutterTwilioVoice {
     await _channel.invokeMethod('hangUp');
   }
 
-  static Future<void> receiveCalls(String clientIdentifier) async {
+  static Future<void> answer() async {
+    await _channel.invokeMethod('answer');
+  }
+
+  /*static Future<void> receiveCalls(String clientIdentifier) async {
     assert(clientIdentifier != null);
     final Map<String, Object> args = <String, dynamic>{
       "clientIdentifier": clientIdentifier
     };
     await _channel.invokeMethod('receiveCalls', args);
-  }
+  }*/
 
   static Future<void> muteCall(bool isMuted) async {
     assert(isMuted != null);

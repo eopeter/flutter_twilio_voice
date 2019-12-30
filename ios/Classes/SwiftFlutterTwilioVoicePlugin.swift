@@ -9,10 +9,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
     var _result: FlutterResult?
     private var eventSink: FlutterEventSink?
- 
-    var baseURLString = ""
+
+    //var baseURLString = ""
     // If your token server is written in PHP, accessTokenEndpoint needs .php extension at the end. For example : /accessToken.php
-    var accessTokenEndpoint = "/accessToken"
+    //var accessTokenEndpoint = "/accessToken"
+    var accessToken = ""
     var identity = "alice"
     let twimlParamTo = "To"
     var callTo: String = "error"
@@ -21,17 +22,18 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     var voipRegistry: PKPushRegistry
     var incomingPushCompletionCallback: (()->Swift.Void?)? = nil
 
-   var callInvite: TVOCallInvite?
-   var call: TVOCall?
+   var activeCall: TVOCall? = nil
+   var activeCalls: [String: TVOCall]! = [:]
    var callKitCompletionCallback: ((Bool)->Swift.Void?)? = nil
    var audioDevice: TVODefaultAudioDevice = TVODefaultAudioDevice()
+   var activeCallInvites: [String: TVOCallInvite]! = [:]
 
    var callKitProvider: CXProvider
    var callKitCallController: CXCallController
    var userInitiatedDisconnect: Bool = false
 
     public override init() {
-        
+
         //isSpinning = false
         voipRegistry = PKPushRegistry.init(queue: DispatchQueue.main)
         let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
@@ -41,37 +43,37 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         if let callKitIcon = UIImage(named: "iconMask80") {
             configuration.iconTemplateImageData = UIImagePNGRepresentation(callKitIcon)
         }
-        
+
         callKitProvider = CXProvider(configuration: configuration)
         callKitCallController = CXCallController()
-        
+
         //super.init(coder: aDecoder)
         super.init()
-        
+
         callKitProvider.setDelegate(self, queue: nil)
-        
+
         voipRegistry.delegate = self
         voipRegistry.desiredPushTypes = Set([PKPushType.voIP])
-        
-        
+
+
          let appDelegate = UIApplication.shared.delegate
          guard let controller = appDelegate?.window??.rootViewController as? FlutterViewController else {
          fatalError("rootViewController is not type FlutterViewController")
          }
-         let registrar = controller.registrar(forPlugin: "flutter_twilio_voice");
+         let registrar = controller.registrar(forPlugin: "flutter_twilio_voice")
          let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice", binaryMessenger: registrar.messenger())
-         
+
          eventChannel.setStreamHandler(self)
 
     }
-   
+
 
       deinit {
           // CallKit has an odd API contract where the developer must call invalidate or the CXProvider is leaked.
           callKitProvider.invalidate()
       }
-   
-    
+
+
   public static func register(with registrar: FlutterPluginRegistrar) {
 
     let instance = SwiftFlutterTwilioVoicePlugin()
@@ -79,27 +81,32 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice", binaryMessenger: registrar.messenger())
     eventChannel.setStreamHandler(instance)
     registrar.addMethodCallDelegate(instance, channel: methodChannel)
-    
+
   }
 
   public func handle(_ flutterCall: FlutterMethodCall, result: @escaping FlutterResult) {
     _result = result
-    
+
     let arguments = flutterCall.arguments as? NSDictionary
 
-    if flutterCall.method == "makeCall" {
+    if flutterCall.method == "accessToken" {
+        guard let token = arguments?["token"] as? String else {return}
+        self.accessToken = token
+    } else if flutterCall.method == "makeCall" {
         guard let callTo = arguments?["to"] as? String else {return}
-        let callToDisplayName = arguments?["toDisplayName"] as? String
-        guard let accessTokenUrl = arguments?["accessTokenUrl"] as? String else {return}
+        guard let callFrom = arguments?["from"] as? String else {return}
+        //let callToDisplayName = arguments?["toDisplayName"] as? String
+        //guard let accessTokenUrl = arguments?["accessTokenUrl"] as? String else {return}
 
-        if(arguments?["from"] != nil)
+        /* if(arguments?["from"] != nil)
         {
             self.identity = "16072164340";// arguments?["from"] as? String ?? self.identity
-        }
-        
-        self.accessTokenEndpoint = accessTokenUrl
-        self.callTo = callTo;
-        makeCall(to: callTo, displayName: callToDisplayName ?? callTo)
+        } */
+
+        //self.accessTokenEndpoint = accessTokenUrl
+        self.callTo = callTo
+        self.identity = callFrom
+        makeCall(to: callTo, displayName: /* callToDisplayName ??  */callTo)
     }
     else if flutterCall.method == "muteCall"
     {
@@ -114,18 +121,27 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     else if flutterCall.method == "toggleSpeaker"
     {
         guard let speakerIsOn = arguments?["speakerIsOn"] as? Bool else {return}
-        toggleAudioRoute(toSpeaker: speakerIsOn);
+        toggleAudioRoute(toSpeaker: speakerIsOn)
     }
-    else if flutterCall.method == "receiveCalls"
+    /* else if flutterCall.method == "receiveCalls"
     {
         guard let clientIdentity = arguments?["clientIdentifier"] as? String else {return}
         self.identity = clientIdentity;
+    } */
+    else if flutterCall.method == "holdCall" {
+        if (self.activeCall != nil) {
+            var hold = !activeCall.isOnHold
+            self.activeCall.setOnHold(hold)
+        }
+    }
+    else if flutterCall.method == "answer" {
+        // nuthin
     }
     else if flutterCall.method == "hangUp"
     {
-        if (self.call != nil && self.call?.state == .connected) {
+        if (self.activeCall != nil && self.activeCall?.state == .connected) {
             self.userInitiatedDisconnect = true
-            performEndCallAction(uuid: self.call!.uuid)
+            performEndCallAction(uuid: self.activeCall!.uuid)
             //self.toggleUIState(isEnabled: false, showCallControl: false)
         }
     }
@@ -134,68 +150,68 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
   func makeCall(to: String, displayName: String)
   {
-    if (self.call != nil && self.call?.state == .connected) {
-                self.userInitiatedDisconnect = true
-                performEndCallAction(uuid: self.call!.uuid)
-                //self.toggleUIState(isEnabled: false, showCallControl: false)
-            } else {
-                let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
-                let uuid = UUID()
-                let handle = displayName
+        if (self.activeCall != nil && self.activeCall?.state == .connected) {
+            self.userInitiatedDisconnect = true
+            performEndCallAction(uuid: self.activeCall!.uuid)
+            //self.toggleUIState(isEnabled: false, showCallControl: false)
+        } else {
+            let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
+            let uuid = UUID()
+            let handle = displayName
 
-                self.checkRecordPermission { (permissionGranted) in
-                    if (!permissionGranted) {
-                        let alertController: UIAlertController = UIAlertController(title: appName + " Permission",
-                                                                                   message: "Microphone permission not granted",
-                                                                                   preferredStyle: .alert)
+            self.checkRecordPermission { (permissionGranted) in
+                if (!permissionGranted) {
+                    let alertController: UIAlertController = UIAlertController(title: appName + " Permission",
+                                                                               message: "Microphone permission not granted",
+                                                                               preferredStyle: .alert)
 
-                        let continueWithMic: UIAlertAction = UIAlertAction(title: "Continue without microphone",
-                                                                           style: .default,
-                                                                           handler: { (action) in
-                            self.performStartCallAction(uuid: uuid, handle: handle)
-                        })
-                        alertController.addAction(continueWithMic)
-
-                        let goToSettings: UIAlertAction = UIAlertAction(title: "Settings",
-                                                                        style: .default,
-                                                                        handler: { (action) in
-                            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!,
-                                                      options: [UIApplicationOpenURLOptionUniversalLinksOnly: false],
-                                                      completionHandler: nil)
-                        })
-                        alertController.addAction(goToSettings)
-
-                        let cancel: UIAlertAction = UIAlertAction(title: "Cancel",
-                                                                  style: .cancel,
-                                                                  handler: { (action) in
-                            //self.toggleUIState(isEnabled: true, showCallControl: false)
-                            //self.stopSpin()
-                        })
-                        alertController.addAction(cancel)
-                        guard let currentViewController = UIApplication.shared.keyWindow?.topMostViewController() else {
-                            return
-                        }
-                        currentViewController.present(alertController, animated: true, completion: nil)
-                        
-                    } else {
+                    let continueWithMic: UIAlertAction = UIAlertAction(title: "Continue without microphone",
+                                                                       style: .default,
+                                                                       handler: { (action) in
                         self.performStartCallAction(uuid: uuid, handle: handle)
+                    })
+                    alertController.addAction(continueWithMic)
+
+                    let goToSettings: UIAlertAction = UIAlertAction(title: "Settings",
+                                                                    style: .default,
+                                                                    handler: { (action) in
+                        UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!,
+                                                  options: [UIApplicationOpenURLOptionUniversalLinksOnly: false],
+                                                  completionHandler: nil)
+                    })
+                    alertController.addAction(goToSettings)
+
+                    let cancel: UIAlertAction = UIAlertAction(title: "Cancel",
+                                                              style: .cancel,
+                                                              handler: { (action) in
+                        //self.toggleUIState(isEnabled: true, showCallControl: false)
+                        //self.stopSpin()
+                    })
+                    alertController.addAction(cancel)
+                    guard let currentViewController = UIApplication.shared.keyWindow?.topMostViewController() else {
+                        return
                     }
+                    currentViewController.present(alertController, animated: true, completion: nil)
+
+                } else {
+                    self.performStartCallAction(uuid: uuid, handle: handle)
                 }
             }
+        }
   }
-    
-    func fetchAccessToken() -> String? {
+
+    /* func fetchAccessToken() -> String? {
         let endpointWithIdentity = String(format: "%@?identity=%@", accessTokenEndpoint, identity)
         guard let accessTokenURL = URL(string: baseURLString + endpointWithIdentity) else {
             return nil
         }
-        
+
         return try? String.init(contentsOf: accessTokenURL, encoding: .utf8)
-    }
-    
+    } */
+
     func checkRecordPermission(completion: @escaping (_ permissionGranted: Bool) -> Void) {
         let permissionStatus: AVAudioSessionRecordPermission = AVAudioSession.sharedInstance().recordPermission()
-        
+
         switch permissionStatus {
         case AVAudioSessionRecordPermission.granted:
             // Record permission already granted.
@@ -217,7 +233,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             break
         }
     }
-    
+
 
   // MARK: PKPushRegistryDelegate
       public func pushRegistry(_ registry: PKPushRegistry, didUpdate credentials: PKPushCredentials, for type: PKPushType) {
@@ -227,11 +243,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
               return
           }
 
-          guard let accessToken = fetchAccessToken() else {
-              return
-          }
+          //guard let accessToken = fetchAccessToken() else {
+          //    return
+          //}
 
-          let deviceToken = (credentials.token as NSData).description
+          let deviceToken = credentials.token.map { String(format: "%02x", $0) }.joined()
 
           TwilioVoice.register(withAccessToken: accessToken, deviceToken: deviceToken) { (error) in
               if let error = error {
@@ -252,7 +268,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
               return
           }
 
-          guard let deviceToken = deviceTokenString, let accessToken = fetchAccessToken() else {
+          guard let deviceToken = deviceTokenString/* , let accessToken = fetchAccessToken() */ else {
               return
           }
 
@@ -276,7 +292,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             NSLog("pushRegistry:didReceiveIncomingPushWithPayload:forType:")
 
             if (type == PKPushType.voIP) {
-                TwilioVoice.handleNotification(payload.dictionaryPayload, delegate: self)
+                TwilioVoice.handleNotification(payload.dictionaryPayload, delegate: self, delegateQueue: nil)
             }
         }
 
@@ -290,7 +306,18 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             self.incomingPushCompletionCallback = completion
 
             if (type == PKPushType.voIP) {
-                TwilioVoice.handleNotification(payload.dictionaryPayload, delegate: self)
+                TwilioVoice.handleNotification(payload.dictionaryPayload, delegate: self, delegateQueue: nil)
+            }
+
+            if let version = Float(UIDevice.current.systemVersion), version < 13.0 {
+                // Save for later when the notification is properly handled.
+                self.incomingPushCompletionCallback = completion
+            } else {
+                /**
+                * The Voice SDK processes the call notification and returns the call invite synchronously. Report the incoming call to
+                * CallKit and fulfill the completion before exiting this callback method.
+                */
+                completion()
             }
         }
 
@@ -305,37 +332,32 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     public func callInviteReceived(_ callInvite: TVOCallInvite) {
             NSLog("callInviteReceived:")
 
-            if (self.callInvite != nil) {
-                NSLog("A CallInvite is already in progress. Ignoring the incoming CallInvite from \(callInvite.from)")
-                self.incomingPushHandled()
-                return;
-            } else if (self.call != nil) {
-                NSLog("Already an active call.");
-                NSLog("  >> Ignoring call from \(String(describing: callInvite.from))");
-                self.incomingPushHandled()
-                return;
-            }
+            var from:String = callInvite.from ?? "Voice Bot"
+            from = from.replacingOccurrences(of: "client:", with: "")
 
-            self.callInvite = callInvite
-
-            reportIncomingCall(from: "Voice Bot", uuid: callInvite.uuid)
+            reportIncomingCall(from: from, uuid: callInvite.uuid)
+            self.activeCallInvites[callInvite.uuid.uuidString] = callInvite
         }
 
     public func cancelledCallInviteReceived(_ cancelledCallInvite: TVOCancelledCallInvite) {
             NSLog("cancelledCallInviteCanceled:")
 
-            self.incomingPushHandled()
-
-            if (self.callInvite == nil ||
-                self.callInvite!.callSid != cancelledCallInvite.callSid) {
-                NSLog("No matching pending CallInvite. Ignoring the Cancelled CallInvite")
+            if (self.activeCallInvites!.isEmpty) {
+                NSLog("No pending call invite")
                 return
             }
 
-            performEndCallAction(uuid: self.callInvite!.uuid)
+            var callInvite: TVOCallInvite?
+            for (_, invite) in self.activeCallInvites {
+                if (invite.callSid == cancelledCallInvite.callSid) {
+                    callInvite = invite
+                    break
+                }
+            }
 
-            self.callInvite = nil
-            self.incomingPushHandled()
+            if let callInvite = callInvite {
+                performEndCallAction(uuid: callInvite.uuid)
+            }
         }
 
         // MARK: TVOCallDelegate
@@ -348,9 +370,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     public func callDidConnect(_ call: TVOCall) {
         sendPhoneCallEvents(description: "Connected:", isError: false)
 
-            self.call = call
             self.callKitCompletionCallback!(true)
-            self.callKitCompletionCallback = nil
 
             //self.placeCallButton.setTitle("Hang Up", for: .normal)
 
@@ -407,8 +427,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
 
         func callDisconnected() {
-            self.call = nil
-            self.callKitCompletionCallback = nil
+            if (call == self.activeCall) {
+                self.activeCall = nil
+            }
+            self.activeCalls.removeValue(forKey: call.uuid.uuidString)
+
             self.userInitiatedDisconnect = false
 
             //stopSpin()
@@ -465,7 +488,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             //startSpin()
 
             audioDevice.isEnabled = false
-            audioDevice.block();
+            audioDevice.block()
 
             provider.reportOutgoingCall(with: action.callUUID, startedConnectingAt: Date())
 
@@ -482,10 +505,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         public func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
             NSLog("provider:performAnswerCallAction:")
 
-            assert(action.callUUID == self.callInvite?.uuid)
-
             audioDevice.isEnabled = false
-            audioDevice.block();
+            audioDevice.block()
 
             self.performAnswerVoiceCall(uuid: action.callUUID) { (success) in
                 if (success) {
@@ -501,11 +522,13 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         public func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
             NSLog("provider:performEndCallAction:")
 
-            if (self.callInvite != nil) {
-                self.callInvite!.reject()
-                self.callInvite = nil
-            } else if (self.call != nil) {
-                self.call?.disconnect()
+            if let invite = self.activeCallInvites[action.callUUID.uuidString] {
+                invite.reject()
+                self.activeCallInvites.removeValue(forKey: action.callUUID.uuidString)
+            } else if let call = self.activeCalls[action.callUUID.uuidString] {
+                call.disconnect()
+            } else {
+                NSLog("Unknown UUID to perform end-call action with")
             }
 
             audioDevice.isEnabled = true
@@ -514,8 +537,19 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
         public func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
             NSLog("provider:performSetHeldAction:")
-            if (self.call?.state == .connected) {
-                self.call?.isOnHold = action.isOnHold
+            if let call = self.activeCalls[action.callUUID.uuidString] {
+                call.isOnHold = action.isOnHold
+                action.fulfill()
+            } else {
+                action.fail()
+            }
+        }
+
+        func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
+            NSLog("provider:performSetMutedAction:")
+
+            if let call = self.activeCalls[action.callUUID.uuidString] {
+                call.isMuted = action.isMuted
                 action.fulfill()
             } else {
                 action.fail()
@@ -583,54 +617,67 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
 
         func performVoiceCall(uuid: UUID, client: String?, completionHandler: @escaping (Bool) -> Swift.Void) {
-            guard let accessToken = fetchAccessToken() else {
+            /* guard let accessToken = fetchAccessToken() else {
                 completionHandler(false)
                 return
-            }
-            
+            } */
+
             let connectOptions: TVOConnectOptions = TVOConnectOptions(accessToken: accessToken) { (builder) in
                 builder.params = [self.twimlParamTo : self.callTo, "From": self.identity]
                 builder.uuid = uuid
             }
-            call = TwilioVoice.connect(with: connectOptions, delegate: self)
+            let call = TwilioVoice.connect(with: connectOptions, delegate: self)
+            self.activeCall = call
+            self.activeCalls[call.uuid.uuidString] = call
             self.callKitCompletionCallback = completionHandler
         }
 
         func performAnswerVoiceCall(uuid: UUID, completionHandler: @escaping (Bool) -> Swift.Void) {
-            let acceptOptions: TVOAcceptOptions = TVOAcceptOptions(callInvite: self.callInvite!) { (builder) in
-                builder.uuid = self.callInvite?.uuid
+            if let callInvite = self.activeCallInvites[uuid.uuidString] {
+                let acceptOptions: TVOAcceptOptions = TVOAcceptOptions(callInvite: callInvite) { (builder) in
+                    builder.uuid = callInvite.uuid
+                }
+                let call = callInvite.accept(with: acceptOptions, delegate: self)
+                self.activeCall = call
+                self.activeCalls[call.uuid.uuidString] = call
+                self.callKitCompletionCallback = completionHandler
+
+                self.activeCallInvites.removeValue(forKey: uuid.uuidString)
+
+                guard #available(iOS 13, *) else {
+                    self.incomingPushHandled()
+                    return
+                }
+            } else {
+                NSLog("No CallInvite matches the UUID")
             }
-            call = self.callInvite?.accept(with: acceptOptions, delegate: self)
-            self.callInvite = nil
-            self.callKitCompletionCallback = completionHandler
-            self.incomingPushHandled()
         }
-    
+
     public func onListen(withArguments arguments: Any?,
                          eventSink: @escaping FlutterEventSink) -> FlutterError? {
         self.eventSink = eventSink
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(TVOCallDelegate.call(_:didDisconnectWithError:)),
             name: NSNotification.Name(rawValue: "PhoneCallEvent"),
             object: nil)
-        
+
         return nil
     }
-    
+
     public func onCancel(withArguments arguments: Any?) -> FlutterError? {
         NotificationCenter.default.removeObserver(self)
         eventSink = nil
         return nil
     }
-    
+
     private func sendPhoneCallEvents(description: String, isError: Bool) {
         NSLog(description)
         guard let eventSink = eventSink else {
             return
         }
-        
+
         if isError
         {
             eventSink(FlutterError(code: "unavailable",
@@ -642,9 +689,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             eventSink(description)
         }
     }
-    
-    
-    
+
+
+
 }
 
 extension UIWindow {
@@ -654,7 +701,7 @@ extension UIWindow {
         }
         return topViewController(for: rootViewController)
     }
-    
+
     func topViewController(for rootViewController: UIViewController?) -> UIViewController? {
         guard let rootViewController = rootViewController else {
             return nil
@@ -673,6 +720,6 @@ extension UIWindow {
             return topViewController(for: presentedViewController)
         }
     }
-    
-    
+
+
 }
