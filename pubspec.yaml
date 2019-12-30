@@ -6,6 +6,7 @@ repository: "https://github.com/eopeter/flutter_twilio_voice"
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
+  flutter: ">=1.9.1+hotfix.4 <2.0.0"
 
 dependencies:
   flutter:
