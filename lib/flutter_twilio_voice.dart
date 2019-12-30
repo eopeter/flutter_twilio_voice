@@ -26,7 +26,9 @@ class FlutterTwilioVoice {
   }
 
   static Future<void> makeCall(
-      {@required String from, @required String to, String toDisplayName}) async {
+      {@required String from,
+      @required String to,
+      String toDisplayName}) async {
     assert(to != null);
     final Map<String, Object> args = <String, dynamic>{
       "from": from,
