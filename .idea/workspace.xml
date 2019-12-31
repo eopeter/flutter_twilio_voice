@@ -5,8 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/launch_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/raw/disconnect.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/raw/incoming.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/raw/outgoing.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/values/styles.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/android/app/src/main/java/com/dormmom/flutter_twilio_voice_example/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/src/main/kotlin/com/dormmom/flutter_twilio_voice_example/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/flutter_twilio_voice_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/flutter_twilio_voice_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +79,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../boxview-mobile-flutter/boxview_mobile_flutter" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../uni_links" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -70,6 +93,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/android/src/main/res" />
+      <recent name="$PROJECT_DIR$/android/src/main/" />
       <recent name="$PROJECT_DIR$/android/app/src" />
       <recent name="$PROJECT_DIR$/android/app/" />
       <recent name="$PROJECT_DIR$/android/app" />
@@ -130,7 +155,7 @@
       <workItem from="1577638956815" duration="1714000" />
       <workItem from="1577640930856" duration="151000" />
       <workItem from="1577641343992" duration="375000" />
-      <workItem from="1577642001093" duration="15962000" />
+      <workItem from="1577642001093" duration="21526000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -174,7 +199,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577757424283</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Fix plugin code">
+      <created>1577757704354</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1577757704354</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +217,8 @@
     <MESSAGE value="Work on Swift implementation" />
     <MESSAGE value="Mark from param as required" />
     <MESSAGE value="Add constants" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add constants" />
+    <MESSAGE value="Fix plugin code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix plugin code" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
@@ -208,10 +241,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2020" y="104" width="1720" height="876" key="DiffContextDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577746836932" />
-    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl" timestamp="1577741569658">
+    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl" timestamp="1577760271291">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577741569658" />
+    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577760271291" />
     <state width="1872" height="273" key="GridCell.Tab.0.bottom" timestamp="1577726004078">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -228,10 +261,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1872" height="273" key="GridCell.Tab.0.right/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577726004077" />
-    <state x="2531" y="251" width="688" height="585" key="RollbackChangesDialog" timestamp="1577741526409">
+    <state x="2531" y="251" width="688" height="585" key="RollbackChangesDialog" timestamp="1577760216362">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2531" y="251" width="688" height="585" key="RollbackChangesDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577741526409" />
+    <state x="2531" y="251" width="688" height="585" key="RollbackChangesDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577760216362" />
     <state x="2363" y="117" width="1024" height="852" key="SettingsEditor" timestamp="1577642083200">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -252,9 +285,9 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2625" y="154" width="500" height="778" key="refactoring.ChangeSignatureDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577659638695" />
-    <state x="2543" y="239" width="672" height="678" key="search.everywhere.popup" timestamp="1577658151141">
+    <state x="2543" y="239" width="672" height="678" key="search.everywhere.popup" timestamp="1577758617494">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2543" y="239" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577658151141" />
+    <state x="2543" y="239" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577758617494" />
   </component>
 </project>

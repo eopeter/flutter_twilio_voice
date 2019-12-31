@@ -1,3 +1,6 @@
+group 'com.dormmom.flutter_twilio_voice'
+version '0.0.3'
+
 buildscript {
     repositories {
         google()
@@ -5,25 +8,38 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.3'
     }
 }
 
-allprojects {
+rootProject.allprojects {
     repositories {
         google()
         jcenter()
     }
 }
 
-rootProject.buildDir = '../build'
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.twilio:voice-android:5.0.2'
+    implementation 'com.google.firebase:firebase-messaging:17.6.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
