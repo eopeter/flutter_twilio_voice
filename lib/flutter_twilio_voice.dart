@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class FlutterTwilioVoice {
-
   static final String ACTION_ACCEPT = "ACTION_ACCEPT";
   static final String ACTION_REJECT = "ACTION_REJECT";
   static final String ACTION_INCOMING_CALL_NOTIFICATION =

@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +130,7 @@
       <workItem from="1577638956815" duration="1714000" />
       <workItem from="1577640930856" duration="151000" />
       <workItem from="1577641343992" duration="375000" />
-      <workItem from="1577642001093" duration="15577000" />
+      <workItem from="1577642001093" duration="15690000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -163,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577746912062</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add constants">
+      <created>1577757406292</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1577757406292</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,7 +177,8 @@
     <MESSAGE value="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions" />
     <MESSAGE value="Work on Swift implementation" />
     <MESSAGE value="Mark from param as required" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mark from param as required" />
+    <MESSAGE value="Add constants" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add constants" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
@@ -188,10 +193,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577725996488" />
-    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1577746911992">
+    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1577757406117">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577746911992" />
+    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577757406117" />
     <state x="2020" y="104" width="1720" height="876" key="DiffContextDialog" timestamp="1577746836932">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
