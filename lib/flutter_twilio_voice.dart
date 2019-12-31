@@ -13,10 +13,10 @@ class FlutterTwilioVoice {
   static final String ACTION_FCM_TOKEN = "ACTION_FCM_TOKEN";
 
   static const MethodChannel _channel =
-      const MethodChannel('flutter_twilio_voice');
+      const MethodChannel('flutter_twilio_voice/messages');
 
   static const EventChannel _eventChannel =
-      EventChannel('flutter_twilio_voice');
+      EventChannel('flutter_twilio_voice/events');
 
   /*static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
@@ -27,34 +27,32 @@ class FlutterTwilioVoice {
     return _eventChannel.receiveBroadcastStream();
   }
 
-  static Future<void> accessToken({@required String accessToken}) async {
+  static Future<bool> accessToken({@required String accessToken}) {
     assert(accessToken != null);
-    final Map<String, Object> args = <String, dynamic>{"token": accessToken};
-    await _channel.invokeMethod('accessToken', args);
+    return _channel
+        .invokeMethod('accessToken', <String, dynamic>{"token": accessToken});
   }
 
-  static Future<void> makeCall(
-      {@required String from,
-      @required String to,
-      String toDisplayName}) async {
+  static Future<bool> makeCall(
+      {@required String from, @required String to, String toDisplayName}) {
     assert(to != null);
-    final Map<String, Object> args = <String, dynamic>{
+    assert(from != null);
+    return _channel.invokeMethod('makeCall', <String, dynamic>{
       "from": from,
       "to": to,
       "toDisplayName": toDisplayName
-    };
-    await _channel.invokeMethod('makeCall', args);
+    });
   }
 
-  static Future<void> hangUp() async {
-    await _channel.invokeMethod('hangUp');
+  static Future<bool> hangUp() {
+    return _channel.invokeMethod('hangUp');
   }
 
-  static Future<void> answer() async {
-    await _channel.invokeMethod('answer');
+  static Future<bool> answer() {
+    return _channel.invokeMethod('answer');
   }
 
-  /*static Future<void> receiveCalls(String clientIdentifier) async {
+  /*static Future<bool> receiveCalls(String clientIdentifier) async {
     assert(clientIdentifier != null);
     final Map<String, Object> args = <String, dynamic>{
       "clientIdentifier": clientIdentifier
@@ -62,17 +60,19 @@ class FlutterTwilioVoice {
     await _channel.invokeMethod('receiveCalls', args);
   }*/
 
-  static Future<void> muteCall(bool isMuted) async {
-    assert(isMuted != null);
-    final Map<String, Object> args = <String, dynamic>{"isMuted": isMuted};
-    await _channel.invokeMethod('muteCall', args);
+  static Future<bool> holdCall() {
+    return _channel.invokeMethod('holdCall');
   }
 
-  static Future<void> toggleSpeaker(bool speakerIsOn) async {
+  static Future<bool> muteCall(bool isMuted) {
+    assert(isMuted != null);
+    return _channel
+        .invokeMethod('muteCall', <String, dynamic>{"isMuted": isMuted});
+  }
+
+  static Future<bool> toggleSpeaker(bool speakerIsOn) {
     assert(speakerIsOn != null);
-    final Map<String, Object> args = <String, dynamic>{
-      "speakerIsOn": speakerIsOn
-    };
-    await _channel.invokeMethod('toggleSpeaker', args);
+    return _channel.invokeMethod(
+        'toggleSpeaker', <String, dynamic>{"speakerIsOn": speakerIsOn});
   }
 }

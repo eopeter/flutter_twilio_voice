@@ -71,10 +71,10 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private static void register(BinaryMessenger messenger, FlutterTwilioVoicePlugin plugin, Context context) {
-        final MethodChannel methodChannel = new MethodChannel(messenger, CHANNEL_NAME);
+        final MethodChannel methodChannel = new MethodChannel(messenger, CHANNEL_NAME + "/messages");
         methodChannel.setMethodCallHandler(plugin);
 
-        final EventChannel eventChannel = new EventChannel(messenger, CHANNEL_NAME);
+        final EventChannel eventChannel = new EventChannel(messenger, CHANNEL_NAME + "/events");
         eventChannel.setStreamHandler(plugin);
 
         plugin.context = context;
@@ -94,20 +94,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
          * Enable changing the volume using the up/down keys during a conversation
          */
         //setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-
-
-
-        /*
-         * Displays a call dialog if the intent contains a call invite
-         */
-        //handleIncomingCallIntent(getIntent());
-
-        /*
-         * Ensure the microphone permission is enabled
-         */
-        if (!plugin.checkPermissionForMicrophone()) {
-            plugin.requestPermissionForMicrophone();
-        }
     }
 
     /** Plugin registration. */
@@ -267,22 +253,22 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         if (call.method.equals("accessToken")) {
             this.accessToken = call.argument("token");
             this.registerForCallInvites();
-            result.success("");
+            result.success(true);
         } else if (call.method.equals("hangUp")) {
             this.disconnect();
-            result.success("");
+            result.success(true);
         } else if (call.method.equals("toggleSpeaker")) {
             // nuthin
-            result.success("");
+            result.success(true);
         } else if (call.method.equals("muteCall")) {
             this.mute(Boolean.parseBoolean(call.argument("isMuted").toString()));
-            result.success("");
+            result.success(true);
         } else if (call.method.equals("holdCall")) {
             this.hold();
-            result.success("");
+            result.success(true);
         } else if (call.method.equals("answer")) {
             this.answer();
-            result.success("");
+            result.success(true);
         } else if (call.method.equals("makeCall")) {
             final HashMap<String, String> params = new HashMap<>();
             params.put("To", call.argument("to").toString());
@@ -291,7 +277,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
               .params(params)
               .build();
             this.activeCall = Voice.connect(this.activity, connectOptions, this.callListener);
-            result.success("");
+            result.success(true);
         } else {
             result.notImplemented();
         }
@@ -317,6 +303,12 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     public void onAttachedToActivity(ActivityPluginBinding activityPluginBinding) {
         this.activity = activityPluginBinding.getActivity();
         registerReceiver();
+        /*
+         * Ensure the microphone permission is enabled
+         */
+        if (!this.checkPermissionForMicrophone()) {
+            this.requestPermissionForMicrophone();
+        }
     }
 
     @Override
