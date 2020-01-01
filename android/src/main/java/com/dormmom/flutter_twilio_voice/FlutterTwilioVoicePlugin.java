@@ -1,6 +1,7 @@
 package com.dormmom.flutter_twilio_voice;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+//import com.google.firebase.iid.FirebaseInstanceId;
+//import com.google.firebase.iid.InstanceIdResult;
 
 import com.twilio.voice.Call;
 import com.twilio.voice.CallException;
@@ -64,6 +65,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     RegistrationListener registrationListener = registrationListener();
     Call.Listener callListener = callListener();
     private EventChannel.EventSink eventSink;
+    private String fcmToken;
 
     @Override
     public void onAttachedToEngine(FlutterPluginBinding flutterPluginBinding) {
@@ -226,10 +228,25 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
      *
      */
     private void registerForCallInvites() {
-        final String fcmToken = FirebaseInstanceId.getInstance().getToken();
-        if (fcmToken != null) {
+        /*FirebaseInstanceId.getInstance()
+          .getInstanceId()
+          .addOnCompleteListener(
+            new OnCompleteListener<InstanceIdResult>() {
+                @Override
+                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getToken, error fetching instanceID: ", task.getException());
+                        result.success(null);
+                        return;
+                    }
+
+                    Log.i(TAG, "Registering with FCM");
+                    Voice.register(accessToken, Voice.RegistrationChannel.FCM, task.getResult().getToken(), registrationListener);
+                }
+            });*/
+        if (this.accessToken != null && this.fcmToken != null) {
             Log.i(TAG, "Registering with FCM");
-            Voice.register(accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
+            Voice.register(this.accessToken, Voice.RegistrationChannel.FCM, this.fcmToken, registrationListener);
         }
     }
 
@@ -250,8 +267,9 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     @Override
     public void onMethodCall(MethodCall call, MethodChannel.Result result) {
-        if (call.method.equals("accessToken")) {
-            this.accessToken = call.argument("token");
+        if (call.method.equals("tokens")) {
+            this.accessToken = call.argument("accessToken");
+            this.fcmToken = call.argument("fcmToken");
             this.registerForCallInvites();
             result.success(true);
         } else if (call.method.equals("hangUp")) {
@@ -302,6 +320,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     @Override
     public void onAttachedToActivity(ActivityPluginBinding activityPluginBinding) {
         this.activity = activityPluginBinding.getActivity();
+        activityPluginBinding.addOnNewIntentListener(this);
         registerReceiver();
         /*
          * Ensure the microphone permission is enabled
@@ -313,18 +332,21 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     @Override
     public void onDetachedFromActivityForConfigChanges() {
+        this.activity = null;
         unregisterReceiver();
     }
 
     @Override
     public void onReattachedToActivityForConfigChanges(ActivityPluginBinding activityPluginBinding) {
         this.activity = activityPluginBinding.getActivity();
+        activityPluginBinding.addOnNewIntentListener(this);
         registerReceiver();
     }
 
     @Override
     public void onDetachedFromActivity() {
         unregisterReceiver();
+        this.activity = null;
     }
 
     private Call.Listener callListener() {

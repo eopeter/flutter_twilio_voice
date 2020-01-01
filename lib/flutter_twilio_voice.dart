@@ -27,10 +27,11 @@ class FlutterTwilioVoice {
     return _eventChannel.receiveBroadcastStream();
   }
 
-  static Future<bool> accessToken({@required String accessToken}) {
+  static Future<bool> tokens(
+      {@required String accessToken, @required String fcmToken}) {
     assert(accessToken != null);
-    return _channel
-        .invokeMethod('accessToken', <String, dynamic>{"token": accessToken});
+    return _channel.invokeMethod('tokens',
+        <String, dynamic>{"accessToken": accessToken, "fcmToken": fcmToken});
   }
 
   static Future<bool> makeCall(
