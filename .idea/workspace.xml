@@ -4,13 +4,10 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="Add">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/flutter_twilio_voice.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/flutter_twilio_voice.podspec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +58,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../boxview-mobile-flutter/boxview_mobile_flutter" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -139,7 +136,8 @@
       <workItem from="1577640930856" duration="151000" />
       <workItem from="1577641343992" duration="375000" />
       <workItem from="1577642001093" duration="21526000" />
-      <workItem from="1577806708206" duration="2216000" />
+      <workItem from="1577806708206" duration="4887000" />
+      <workItem from="1578429252171" duration="5235000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -197,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577803657008</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Change accessToken method to tokens to allow sending a FCM token in as well">
+      <created>1577853932527</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1577853932527</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,7 +218,8 @@
     <MESSAGE value="Add constants" />
     <MESSAGE value="Fix plugin code" />
     <MESSAGE value="Fix plugin not found exception by splitting method and event channels by name suffix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix plugin not found exception by splitting method and event channels by name suffix" />
+    <MESSAGE value="Change accessToken method to tokens to allow sending a FCM token in as well" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change accessToken method to tokens to allow sending a FCM token in as well" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
@@ -228,18 +234,18 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577725996488" />
-    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1577803656908">
+    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578431073379">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577803656908" />
+    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578431073379" />
     <state x="2020" y="104" width="1720" height="876" key="DiffContextDialog" timestamp="1577746836932">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2020" y="104" width="1720" height="876" key="DiffContextDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577746836932" />
-    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl" timestamp="1577806750324">
+    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl" timestamp="1577934317985">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577806750324" />
+    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577934317985" />
     <state width="1872" height="273" key="GridCell.Tab.0.bottom" timestamp="1577726004078">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -268,6 +274,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2609" y="270" width="645" height="524" key="StructurePopup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577660011101" />
+    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1577853934666">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577853934666" />
     <state x="2486" y="154" width="778" height="779" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577802733323">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -284,10 +294,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2625" y="154" width="500" height="778" key="refactoring.ChangeSignatureDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577659638695" />
-    <state x="2544" y="245" width="672" height="677" key="run.anything.popup" timestamp="1577802687034">
+    <state x="2544" y="245" width="672" height="677" key="run.anything.popup" timestamp="1578433750887">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2544" y="245" width="672" height="677" key="run.anything.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577802687034" />
+    <state x="2544" y="245" width="672" height="677" key="run.anything.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578433750887" />
     <state x="2543" y="239" width="672" height="678" key="search.everywhere.popup" timestamp="1577758617494">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
