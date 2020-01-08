@@ -151,6 +151,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     else if flutterCall.method == "answer" {
         // nuthin
     }
+    else if flutterCall.method == "unregister" {
+        self.unregister()
+    }
     else if flutterCall.method == "hangUp"
     {
         if (self.call != nil && self.call?.state == .connected) {
@@ -281,6 +284,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
               return
           }
 
+          self.unregister()
+      }
+
+      func unregister() {
+
           guard let deviceToken = deviceTokenString/* , let accessToken = fetchAccessToken() */ else {
               return
           }
@@ -288,8 +296,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
           TwilioVoice.unregister(withAccessToken: accessToken, deviceToken: deviceToken) { (error) in
               if let error = error {
                   NSLog("An error occurred while unregistering: \(error.localizedDescription)")
-              }
-              else {
+              } else {
                   NSLog("Successfully unregistered from VoIP push notifications.")
               }
           }

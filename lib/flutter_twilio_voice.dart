@@ -34,6 +34,10 @@ class FlutterTwilioVoice {
         <String, dynamic>{"accessToken": accessToken, "fcmToken": fcmToken});
   }
 
+  static Future<bool> unregister() {
+    return _channel.invokeMethod('unregister');
+  }
+
   static Future<bool> makeCall(
       {@required String from, @required String to, String toDisplayName}) {
     assert(to != null);

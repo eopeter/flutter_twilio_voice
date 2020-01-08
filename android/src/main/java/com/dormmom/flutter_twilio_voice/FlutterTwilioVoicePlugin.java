@@ -9,6 +9,7 @@ import com.twilio.voice.CallInvite;
 import com.twilio.voice.ConnectOptions;
 import com.twilio.voice.RegistrationException;
 import com.twilio.voice.RegistrationListener;
+import com.twilio.voice.UnregistrationListener;
 import com.twilio.voice.Voice;
 
 import java.util.HashMap;
@@ -63,6 +64,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private Activity activity;
 
     RegistrationListener registrationListener = registrationListener();
+    UnregistrationListener unregistrationListener = unregistrationListener();
     Call.Listener callListener = callListener();
     private EventChannel.EventSink eventSink;
     private String fcmToken;
@@ -196,6 +198,21 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         };
     }
 
+    private UnregistrationListener unregistrationListener() {
+        return new UnegistrationListener() {
+            @Override
+            public void onUnregistered(String accessToken, String fcmToken) {
+                Log.d(TAG, "Successfully un-registered FCM " + fcmToken);
+            }
+
+            @Override
+            public void onError(RegistrationException error, String accessToken, String fcmToken) {
+                String message = String.format("Unregistration Error: %d, %s", error.getErrorCode(), error.getMessage());
+                Log.e(TAG, message);
+            }
+        };
+    }
+
     private static class VoiceBroadcastReceiver extends BroadcastReceiver {
 
         private final FlutterTwilioVoicePlugin plugin;
@@ -250,6 +267,13 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         }
     }
 
+    private void unregisterForCallInvites() {
+        if (this.accessToken != null && this.fcmToken != null) {
+            Log.i(TAG, "Un-registering with FCM");
+            Voice.unregister(this.accessToken, Voice.RegistrationChannel.FCM, this.fcmToken, unregistrationListener);
+        }
+    }
+
     @Override
     public void onDetachedFromEngine(FlutterPluginBinding flutterPluginBinding) {
         soundPoolManager.release();
@@ -286,6 +310,9 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             result.success(true);
         } else if (call.method.equals("answer")) {
             this.answer();
+            result.success(true);
+        } else if (call.method.equals("unregister")) {
+            this.unregisterForCallInvites();
             result.success(true);
         } else if (call.method.equals("makeCall")) {
             final HashMap<String, String> params = new HashMap<>();
