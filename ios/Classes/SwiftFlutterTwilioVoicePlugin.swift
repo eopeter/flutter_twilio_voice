@@ -159,7 +159,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             //self.toggleUIState(isEnabled: false, showCallControl: false)
         }
     }
-    result("iOS " + UIDevice.current.systemVersion)
+    result(true)
   }
 
   func makeCall(to: String, displayName: String)
