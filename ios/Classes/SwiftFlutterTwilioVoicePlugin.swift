@@ -172,7 +172,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             performEndCallAction(uuid: self.call!.uuid)
             //self.toggleUIState(isEnabled: false, showCallControl: false)
         } else {
-            let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
+            let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as! String
             let uuid = UUID()
             let handle = displayName
 
