@@ -36,7 +36,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
         //isSpinning = false
         voipRegistry = PKPushRegistry.init(queue: DispatchQueue.main)
-        let configuration = CXProviderConfiguration(localizedName: "SafeNSound")
+        let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as! String
+        let configuration = CXProviderConfiguration(localizedName: appName)
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
         if let callKitIcon = UIImage(named: "iconMask80") {
