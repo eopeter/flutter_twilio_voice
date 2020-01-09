@@ -3,7 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute }
+enum CallState {
+  ringing,
+  connected,
+  call_ended,
+  unhold,
+  hold,
+  unmute,
+  mute,
+  speaker_on,
+  speaker_off
+}
 
 class FlutterTwilioVoice {
   static final String ACTION_ACCEPT = "ACTION_ACCEPT";
@@ -107,6 +117,10 @@ class FlutterTwilioVoice {
         return CallState.unmute;
       case 'Mute':
         return CallState.mute;
+      case 'Speaker On':
+        return CallState.speaker_on;
+      case 'Speaker Off':
+        return CallState.speaker_off;
       default:
         print('$state is not a valid CallState.');
         throw ArgumentError('$state is not a valid CallState.');
