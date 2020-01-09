@@ -65,10 +65,8 @@ class FlutterTwilioVoice {
     return _channel.invokeMethod('holdCall');
   }
 
-  static Future<bool> muteCall(bool isMuted) {
-    assert(isMuted != null);
-    return _channel
-        .invokeMethod('muteCall', <String, dynamic>{"isMuted": isMuted});
+  static Future<bool> muteCall() {
+    return _channel.invokeMethod('muteCall');
   }
 
   static Future<bool> toggleSpeaker(bool speakerIsOn) {

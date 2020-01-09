@@ -123,13 +123,13 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     }
     else if flutterCall.method == "muteCall"
     {
-        guard let isMuted = arguments?["isMuted"] as? Bool else {return}
         if (self.call != nil) {
-           self.call!.isMuted = isMuted
+           let muted = self.call!.isMuted
+           self.call!.isMuted = !muted
            guard let eventSink = eventSink else {
                return
            }
-           eventSink(isMuted ? "Mute" : "Unmute")
+           eventSink(!muted ? "Mute" : "Unmute")
         } else {
             let ferror: FlutterError = FlutterError(code: "MUTE_ERROR", message: "No call to be muted", details: nil)
             _result!(ferror)

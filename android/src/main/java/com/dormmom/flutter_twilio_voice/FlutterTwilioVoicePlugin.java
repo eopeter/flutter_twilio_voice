@@ -303,7 +303,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             // nuthin
             result.success(true);
         } else if (call.method.equals("muteCall")) {
-            this.mute(Boolean.parseBoolean(call.argument("isMuted").toString()));
+            this.mute();
             result.success(true);
         } else if (call.method.equals("holdCall")) {
             this.hold();
@@ -452,10 +452,11 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         }
     }
 
-    private void mute(boolean isMuted) {
+    private void mute() {
         if (activeCall != null) {
-            activeCall.mute(isMuted);
-            eventSink.success(isMuted ? "Mute" : "Unmute");
+            boolean mute = activeCall.isOnMute();
+            activeCall.mute(!mute);
+            eventSink.success(mute ? "Unmute" : "Mute");
         }
     }
 
