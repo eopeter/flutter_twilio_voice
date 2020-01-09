@@ -126,6 +126,10 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         guard let isMuted = arguments?["isMuted"] as? Bool else {return}
         if (self.call != nil) {
            self.call!.isMuted = isMuted
+           guard let eventSink = eventSink else {
+               return
+           }
+           eventSink(isMuted ? "Unmute" : "Mute")
         } else {
             let ferror: FlutterError = FlutterError(code: "MUTE_ERROR", message: "No call to be muted", details: nil)
             _result!(ferror)
@@ -146,6 +150,10 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
             let hold = self.call!.isOnHold
             self.call!.isOnHold = !hold
+            guard let eventSink = eventSink else {
+                return
+            }
+            eventSink(!hold ? "Unhold" : "Hold")
         }
     }
     else if flutterCall.method == "answer" {

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute }
+
 class FlutterTwilioVoice {
   static final String ACTION_ACCEPT = "ACTION_ACCEPT";
   static final String ACTION_REJECT = "ACTION_REJECT";
@@ -18,13 +20,15 @@ class FlutterTwilioVoice {
   static const EventChannel _eventChannel =
       EventChannel('flutter_twilio_voice/events');
 
-  /*static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }*/
+  static Stream<CallState> _onCallStateChanged;
 
-  static Stream<dynamic> get phoneCallEventSubscription {
-    return _eventChannel.receiveBroadcastStream();
+  static Stream<CallState> get onCallStateChanged {
+    if (_onCallStateChanged == null) {
+      _onCallStateChanged = _eventChannel
+          .receiveBroadcastStream()
+          .map((dynamic event) => _parseCallState(event));
+    }
+    return _onCallStateChanged;
   }
 
   static Future<bool> tokens(
@@ -57,14 +61,6 @@ class FlutterTwilioVoice {
     return _channel.invokeMethod('answer');
   }
 
-  /*static Future<bool> receiveCalls(String clientIdentifier) async {
-    assert(clientIdentifier != null);
-    final Map<String, Object> args = <String, dynamic>{
-      "clientIdentifier": clientIdentifier
-    };
-    await _channel.invokeMethod('receiveCalls', args);
-  }*/
-
   static Future<bool> holdCall() {
     return _channel.invokeMethod('holdCall');
   }
@@ -79,5 +75,27 @@ class FlutterTwilioVoice {
     assert(speakerIsOn != null);
     return _channel.invokeMethod(
         'toggleSpeaker', <String, dynamic>{"speakerIsOn": speakerIsOn});
+  }
+
+  static CallState _parseCallState(String state) {
+    switch (state) {
+      case 'Ringing':
+        return CallState.ringing;
+      case 'Connected':
+        return CallState.connected;
+      case 'Call Ended':
+        return CallState.call_ended;
+      case 'Unhold':
+        return CallState.unhold;
+      case 'Hold':
+        return CallState.hold;
+      case 'Unmute':
+        return CallState.unmute;
+      case 'Mute':
+        return CallState.mute;
+      default:
+        print('$state is not a valid CallState.');
+        throw ArgumentError('$state is not a valid CallState.');
+    }
   }
 }
