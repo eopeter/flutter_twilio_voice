@@ -87,9 +87,9 @@ class FlutterTwilioVoice {
   }
 
   static CallState _parseCallState(String state) {
-    if (state.startsWith("Connected:")) {
+    if (state.startsWith("Connected\\|")) {
       List<String> tokens = state.split(':');
-      from = tokens[1];
+      from = _prettyPrintNumber(tokens[1]);
       return CallState.connected;
     }
     switch (state) {
@@ -111,5 +111,30 @@ class FlutterTwilioVoice {
         print('$state is not a valid CallState.');
         throw ArgumentError('$state is not a valid CallState.');
     }
+  }
+
+  static String _prettyPrintNumber(String phoneNumber) {
+    if (phoneNumber.indexOf('client:') > -1) {
+      return phoneNumber.split(':')[1];
+    }
+    if (phoneNumber.substring(0, 1) == '+') {
+      phoneNumber = phoneNumber.substring(1);
+    }
+    if (phoneNumber.length == 7) {
+      return phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3);
+    }
+    if (phoneNumber.length < 10) {
+      return phoneNumber;
+    }
+    int start = 0;
+    if (phoneNumber.length == 11) {
+      start = 1;
+    }
+    return "(" +
+        phoneNumber.substring(start, start + 3) +
+        ") " +
+        phoneNumber.substring(start + 3, start + 6) +
+        "-" +
+        phoneNumber.substring(start + 6);
   }
 }
