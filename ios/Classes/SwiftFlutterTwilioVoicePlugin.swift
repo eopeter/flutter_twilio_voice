@@ -400,7 +400,13 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
 
     public func callDidConnect(_ call: TVOCall) {
-        sendPhoneCallEvents(description: "Connected|" + call!.from, isError: false)
+        if (call.from == nil) {
+            sendPhoneCallEvents(description: "Connected", isError: false)
+        } else {
+            let from = call.from {
+                sendPhoneCallEvents(description: "Connected|" + from, isError: false)
+            }
+        }
 
             self.callKitCompletionCallback!(true)
 
