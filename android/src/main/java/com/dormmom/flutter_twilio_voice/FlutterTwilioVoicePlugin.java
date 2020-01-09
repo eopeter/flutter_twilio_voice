@@ -446,8 +446,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void hold() {
         if (activeCall != null) {
-            boolean hold = !activeCall.isOnHold();
-            activeCall.hold(hold);
+            boolean hold = activeCall.isOnHold();
+            activeCall.hold(!hold);
             eventSink.success(hold ? "Unhold" : "Hold");
         }
     }
@@ -455,7 +455,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private void mute(boolean isMuted) {
         if (activeCall != null) {
             activeCall.mute(isMuted);
-            eventSink.success(isMuted ? "Unmute" : "Mute");
+            eventSink.success(isMuted ? "Mute" : "Unmute");
         }
     }
 

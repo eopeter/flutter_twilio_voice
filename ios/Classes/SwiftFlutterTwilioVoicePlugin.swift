@@ -129,7 +129,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
            guard let eventSink = eventSink else {
                return
            }
-           eventSink(isMuted ? "Unmute" : "Mute")
+           eventSink(isMuted ? "Mute" : "Unmute")
         } else {
             let ferror: FlutterError = FlutterError(code: "MUTE_ERROR", message: "No call to be muted", details: nil)
             _result!(ferror)
@@ -153,7 +153,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             guard let eventSink = eventSink else {
                 return
             }
-            eventSink(!hold ? "Unhold" : "Hold")
+            eventSink(!hold ? "Hold" : "Unhold")
         }
     }
     else if flutterCall.method == "answer" {
