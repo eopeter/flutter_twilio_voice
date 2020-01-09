@@ -146,7 +146,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private void handleIncomingCall() {
-        this.eventSink.success(Constants.ACTION_INCOMING_CALL);
+        this.eventSink.success("Ringing");
         /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             showIncomingCallDialog();
         } else {
@@ -159,7 +159,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private void handleCancel() {
         //if (alertDialog != null && alertDialog.isShowing()) {
             soundPoolManager.stopRinging();
-        this.eventSink.success(Constants.ACTION_CANCEL_CALL);
+        this.eventSink.success("Canceled");
             //alertDialog.cancel();
         //}
     }
@@ -335,7 +335,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         soundPoolManager.getInstance(this.context).stopRinging();
         activeCallInvite.accept(this.activity, callListener);
         notificationManager.cancel(activeCallNotificationId);
-        this.eventSink.success(Constants.ACTION_ACCEPT);
     }
 
     @Override
@@ -394,6 +393,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             @Override
             public void onRinging(Call call) {
                 Log.d(TAG, "Ringing");
+                eventSink.success("Ringing");
             }
 
             @Override
@@ -410,6 +410,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 setAudioFocus(true);
                 Log.d(TAG, "Connected");
                 activeCall = call;
+                eventSink.success("Connected");
             }
 
             @Override
@@ -430,6 +431,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                     String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                     Log.e(TAG, message);
                 }
+                eventSink.success("Call Ended");
             }
         };
 
@@ -439,6 +441,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         if (activeCall != null) {
             activeCall.disconnect();
             activeCall = null;
+            eventSink.success("Call Ended");
         }
     }
 

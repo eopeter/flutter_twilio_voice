@@ -374,13 +374,13 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
         // MARK: TVOCallDelegate
     public func callDidStartRinging(_ call: TVOCall) {
-        sendPhoneCallEvents(description: "Ringing:", isError: false)
+        sendPhoneCallEvents(description: "Ringing", isError: false)
 
             //self.placeCallButton.setTitle("Ringing", for: .normal)
         }
 
     public func callDidConnect(_ call: TVOCall) {
-        sendPhoneCallEvents(description: "Connected:", isError: false)
+        sendPhoneCallEvents(description: "Connected", isError: false)
 
             self.callKitCompletionCallback!(true)
 
@@ -420,9 +420,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
     public func call(_ call: TVOCall, didDisconnectWithError error: Error?) {
             if let error = error {
-                sendPhoneCallEvents(description: "Call failed: \(error.localizedDescription)", isError: true)
+                sendPhoneCallEvents(description: "Call Failed: \(error.localizedDescription)", isError: true)
             } else {
-                sendPhoneCallEvents(description: "Call disconnected", isError: false)
+                sendPhoneCallEvents(description: "Disconnected", isError: false)
             }
 
             if !self.userInitiatedDisconnect {
