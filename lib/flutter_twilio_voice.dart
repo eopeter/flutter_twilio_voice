@@ -21,6 +21,7 @@ class FlutterTwilioVoice {
       EventChannel('flutter_twilio_voice/events');
 
   static Stream<CallState> _onCallStateChanged;
+  static String from = "SafeNSound";
 
   static Stream<CallState> get onCallStateChanged {
     if (_onCallStateChanged == null) {
@@ -81,7 +82,16 @@ class FlutterTwilioVoice {
         .invokeMethod('sendDigits', <String, dynamic>{"digits": digits});
   }
 
+  static String getFrom() {
+    return from;
+  }
+
   static CallState _parseCallState(String state) {
+    if (state.startsWith("Connected:")) {
+      List<String> tokens = state.split(':');
+      from = tokens[1];
+      return CallState.connected;
+    }
     switch (state) {
       case 'Ringing':
         return CallState.ringing;

@@ -416,7 +416,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 setAudioFocus(true);
                 Log.d(TAG, "Connected");
                 activeCall = call;
-                eventSink.success("Connected");
+                eventSink.success("Connected:" + call.getFrom());
             }
 
             @Override
