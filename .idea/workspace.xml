@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,11 +33,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1920" />
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
   </component>
   <component name="ProjectId" id="1VfKwtgP6oAoCuptzXqAGZ6xcNk" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -138,7 +131,7 @@
       <workItem from="1577641343992" duration="375000" />
       <workItem from="1577642001093" duration="21526000" />
       <workItem from="1577806708206" duration="4887000" />
-      <workItem from="1578429252171" duration="12490000" />
+      <workItem from="1578429252171" duration="15536000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -266,7 +259,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578542254469</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Refactor events and return a Stream of CallState enum values">
+      <created>1578543551412</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1578543551412</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -290,7 +290,8 @@
     <MESSAGE value="Set localized app name from CF Bundle" />
     <MESSAGE value="Bump version" />
     <MESSAGE value="Sync messages sent to Flutter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sync messages sent to Flutter" />
+    <MESSAGE value="Refactor events and return a Stream of CallState enum values" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor events and return a Stream of CallState enum values" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
@@ -305,10 +306,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577725996488" />
-    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578542254313">
+    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578543551269">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578542254313" />
+    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543551269" />
     <state x="2020" y="104" width="1720" height="876" key="DiffContextDialog" timestamp="1577746836932">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -345,10 +346,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2609" y="270" width="645" height="524" key="StructurePopup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577660011101" />
-    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578542256521">
+    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578543552766">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578542256521" />
+    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543552766" />
     <state x="2486" y="154" width="778" height="779" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577802733323">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

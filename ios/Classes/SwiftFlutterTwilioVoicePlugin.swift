@@ -165,6 +165,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     else if flutterCall.method == "hangUp"
     {
         if (self.call != nil && self.call?.state == .connected) {
+            NSLog("hangUp method invoked")
             self.userInitiatedDisconnect = true
             performEndCallAction(uuid: self.call!.uuid)
             //self.toggleUIState(isEnabled: false, showCallControl: false)
@@ -541,15 +542,23 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         public func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
             NSLog("provider:performEndCallAction:")
 
-            if (self.callInvite != nil) {
-                self.callInvite?.reject()
-                self.callInvite = nil
-            } else if (self.call != nil) {
+            audioDevice.isEnabled = true
+
+            if (self.call != nil) {
+                NSLog("provider:performEndCallAction: disconnecting call")
                 self.call?.disconnect()
+                self.callInvite = nil
+                action.fulfill()
+                return
             }
 
-            audioDevice.isEnabled = true
-            action.fulfill()
+            if (self.callInvite != nil) {
+                NSLog("provider:performEndCallAction: rejecting call")
+                self.callInvite?.reject()
+                self.callInvite = nil
+                action.fulfill()
+                return
+            }
         }
 
         public func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
@@ -621,6 +630,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
         func performEndCallAction(uuid: UUID) {
 
+            NSLog("performEndCallAction method invoked")
+
             let endCallAction = CXEndCallAction(call: uuid)
             let transaction = CXTransaction(action: endCallAction)
 
@@ -628,6 +639,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 if let error = error {
                     self.sendPhoneCallEvents(description: "End Call Failed: \(error.localizedDescription).", isError: true)
                 } else {
+                    self.call = nil
+                    self.callInvite = nil
                     self.sendPhoneCallEvents(description: "Call Ended", isError: false)
                 }
             }
@@ -653,6 +666,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 let acceptOptions: TVOAcceptOptions = TVOAcceptOptions(callInvite: ci) { (builder) in
                     builder.uuid = ci.uuid
                 }
+                NSLog("performAnswerVoiceCall: answering call")
                 let call = ci.accept(with: acceptOptions, delegate: self)
                 self.call = call
                 self.callKitCompletionCallback = completionHandler
