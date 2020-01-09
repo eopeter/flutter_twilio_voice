@@ -639,8 +639,6 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 if let error = error {
                     self.sendPhoneCallEvents(description: "End Call Failed: \(error.localizedDescription).", isError: true)
                 } else {
-                    self.call = nil
-                    self.callInvite = nil
                     self.sendPhoneCallEvents(description: "Call Ended", isError: false)
                 }
             }
@@ -656,8 +654,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 builder.params = [self.twimlParamTo : self.callTo, "From": self.identity]
                 builder.uuid = uuid
             }
-            let call = TwilioVoice.connect(with: connectOptions, delegate: self)
-            self.call = call
+            let theCall = TwilioVoice.connect(with: connectOptions, delegate: self)
+            self.call = theCall
             self.callKitCompletionCallback = completionHandler
         }
 
@@ -667,8 +665,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                     builder.uuid = ci.uuid
                 }
                 NSLog("performAnswerVoiceCall: answering call")
-                let call = ci.accept(with: acceptOptions, delegate: self)
-                self.call = call
+                let theCall = ci.accept(with: acceptOptions, delegate: self)
+                self.call = theCall
                 self.callKitCompletionCallback = completionHandler
 
                 guard #available(iOS 13, *) else {
