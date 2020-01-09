@@ -139,6 +139,10 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     {
         guard let speakerIsOn = arguments?["speakerIsOn"] as? Bool else {return}
         toggleAudioRoute(toSpeaker: speakerIsOn)
+        guard let eventSink = eventSink else {
+            return
+        }
+        eventSink(!speakerIsOn ? "Speaker On" : "Speaker Off")
     }
     else if flutterCall.method == "sendDigits"
     {
