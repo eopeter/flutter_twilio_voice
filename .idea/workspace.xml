@@ -54,7 +54,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../boxview-vitals-playback" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -133,7 +133,8 @@
       <workItem from="1577641343992" duration="375000" />
       <workItem from="1577642001093" duration="21526000" />
       <workItem from="1577806708206" duration="4887000" />
-      <workItem from="1578429252171" duration="21260000" />
+      <workItem from="1578429252171" duration="21876000" />
+      <workItem from="1578604709266" duration="1461000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -289,7 +290,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578560022825</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Get mute and hold working">
+      <created>1578583500026</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1578583500026</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,7 +324,8 @@
     <MESSAGE value="Refactor events and return a Stream of CallState enum values" />
     <MESSAGE value="Work on hanging up in iOS" />
     <MESSAGE value="Fix some messages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix some messages" />
+    <MESSAGE value="Get mute and hold working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Get mute and hold working" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
@@ -331,11 +340,11 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577725996488" />
-    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578560022709">
+    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578583499809">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543551269" />
-    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578560022709" />
+    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578583499809" />
     <state x="2020" y="104" width="1720" height="876" key="DiffContextDialog" timestamp="1577746836932">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -372,11 +381,11 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2609" y="270" width="645" height="524" key="StructurePopup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577660011101" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578560024616">
+    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578583501899">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543552766" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578560024616" />
+    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578583501899" />
     <state x="2486" y="154" width="778" height="779" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577802733323">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

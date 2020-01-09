@@ -296,6 +296,12 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             this.fcmToken = call.argument("fcmToken");
             this.registerForCallInvites();
             result.success(true);
+        } else if (call.method.equals("sendDigits")) {
+            String digits = call.argument("digits");
+            if (this.activeCall != null) {
+                this.activeCall.sendDigits(digits);
+            }
+            result.success(true);
         } else if (call.method.equals("hangUp")) {
             this.disconnect();
             result.success(true);

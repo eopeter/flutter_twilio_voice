@@ -140,6 +140,13 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         guard let speakerIsOn = arguments?["speakerIsOn"] as? Bool else {return}
         toggleAudioRoute(toSpeaker: speakerIsOn)
     }
+    else if flutterCall.method == "sendDigits"
+    {
+        guard let digits = arguments?["digits"] as? String else {return}
+        if (self.call != nil) {
+            self.call!.sendDigits(digits);
+        }
+    }
     /* else if flutterCall.method == "receiveCalls"
     {
         guard let clientIdentity = arguments?["clientIdentifier"] as? String else {return}

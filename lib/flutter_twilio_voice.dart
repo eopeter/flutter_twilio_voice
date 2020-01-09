@@ -75,6 +75,12 @@ class FlutterTwilioVoice {
         'toggleSpeaker', <String, dynamic>{"speakerIsOn": speakerIsOn});
   }
 
+  static Future<bool> sendDigits(String digits) {
+    assert(digits != null);
+    return _channel
+        .invokeMethod('sendDigits', <String, dynamic>{"digits": digits});
+  }
+
   static CallState _parseCallState(String state) {
     switch (state) {
       case 'Ringing':
