@@ -460,7 +460,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void mute() {
         if (activeCall != null) {
-            boolean mute = activeCall.isOnMute();
+            boolean mute = activeCall.isMuted();
             activeCall.mute(!mute);
             eventSink.success(mute ? "Unmute" : "Mute");
         }
