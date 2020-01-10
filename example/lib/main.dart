@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
               RaisedButton(
                 child: Text("Make Call"),
                 onPressed: () async {
-                  FlutterTwilioVoice.phoneCallEventSubscription
+                  FlutterTwilioVoice.onCallStateChanged
                       .listen(_onEvent, onError: _onError);
                   FlutterTwilioVoice.makeCall(
                       to: _controller.text,

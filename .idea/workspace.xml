@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +132,7 @@
       <workItem from="1577642001093" duration="21526000" />
       <workItem from="1577806708206" duration="4887000" />
       <workItem from="1578429252171" duration="21876000" />
-      <workItem from="1578604709266" duration="5158000" />
+      <workItem from="1578604709266" duration="6221000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -350,7 +351,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578610976668</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Properly format message">
+      <created>1578611581900</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1578611581900</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -382,7 +390,8 @@
     <MESSAGE value="Add fetching caller's phone number" />
     <MESSAGE value="Add events for toggling speaker state" />
     <MESSAGE value="unwrap Swift object" />
-    <option name="LAST_COMMIT_MESSAGE" value="unwrap Swift object" />
+    <MESSAGE value="Properly format message" />
+    <option name="LAST_COMMIT_MESSAGE" value="Properly format message" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
@@ -397,11 +406,11 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577725996488" />
-    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578611561560">
+    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578623542169">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543551269" />
-    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578611561560" />
+    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578623542169" />
     <state x="2020" y="104" width="1720" height="876" key="DiffContextDialog" timestamp="1577746836932">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -426,10 +435,11 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1872" height="273" key="GridCell.Tab.0.right/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577726004077" />
-    <state x="2531" y="251" width="688" height="585" key="RollbackChangesDialog" timestamp="1577760216362">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="4451" y="251" width="688" height="585" key="RollbackChangesDialog" timestamp="1578623242519">
+      <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2531" y="251" width="688" height="585" key="RollbackChangesDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577760216362" />
+    <state x="4451" y="251" key="RollbackChangesDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578623242519" />
     <state x="2363" y="117" width="1024" height="852" key="SettingsEditor" timestamp="1577806733830">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -438,11 +448,11 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2609" y="270" width="645" height="524" key="StructurePopup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577660011101" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578610977790">
+    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578611583112">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543552766" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578610977790" />
+    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578611583112" />
     <state x="2486" y="154" width="778" height="779" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577802733323">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

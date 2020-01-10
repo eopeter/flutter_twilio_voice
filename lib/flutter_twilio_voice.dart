@@ -97,8 +97,8 @@ class FlutterTwilioVoice {
   }
 
   static CallState _parseCallState(String state) {
-    if (state.startsWith("Connected\\|")) {
-      List<String> tokens = state.split(':');
+    if (state.startsWith("Connected|")) {
+      List<String> tokens = state.split('|');
       from = _prettyPrintNumber(tokens[1]);
       return CallState.connected;
     }
