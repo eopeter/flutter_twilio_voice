@@ -199,7 +199,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private UnregistrationListener unregistrationListener() {
-        return new UnegistrationListener() {
+        return new UnregistrationListener() {
             @Override
             public void onUnregistered(String accessToken, String fcmToken) {
                 Log.d(TAG, "Successfully un-registered FCM " + fcmToken);
