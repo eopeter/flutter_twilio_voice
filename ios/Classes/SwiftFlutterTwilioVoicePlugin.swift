@@ -144,6 +144,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
         eventSink(speakerIsOn ? "Speaker On" : "Speaker Off")
     }
+    else if flutterCall.method == "isOnCall"
+        {
+            result(self.call != nil);
+            return;
+        }
     else if flutterCall.method == "sendDigits"
     {
         guard let digits = arguments?["digits"] as? String else {return}

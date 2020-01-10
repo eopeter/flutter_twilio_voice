@@ -311,6 +311,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         } else if (call.method.equals("muteCall")) {
             this.mute();
             result.success(true);
+        } else if (call.method.equals("isOnCall")) {
+            result.success(this.activeCall != null);
         } else if (call.method.equals("holdCall")) {
             this.hold();
             result.success(true);
