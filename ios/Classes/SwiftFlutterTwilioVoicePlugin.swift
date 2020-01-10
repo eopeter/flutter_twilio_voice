@@ -142,7 +142,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         guard let eventSink = eventSink else {
             return
         }
-        eventSink(!speakerIsOn ? "Speaker On" : "Speaker Off")
+        eventSink(speakerIsOn ? "Speaker On" : "Speaker Off")
     }
     else if flutterCall.method == "sendDigits"
     {
