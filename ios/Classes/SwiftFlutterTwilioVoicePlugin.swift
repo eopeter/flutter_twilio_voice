@@ -16,9 +16,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     var accessToken = ""
     var fcmToken = ""
     var identity = "alice"
-    let twimlParamTo = "To"
     var callTo: String = "error"
     var deviceTokenString: String?
+    var callArgs: NSDictionary?
 
     var voipRegistry: PKPushRegistry
     var incomingPushCompletionCallback: (()->Swift.Void?)? = nil
@@ -108,7 +108,13 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     } else if flutterCall.method == "makeCall" {
         guard let callTo = arguments?["to"] as? String else {return}
         guard let callFrom = arguments?["from"] as? String else {return}
-        //let callToDisplayName = arguments?["toDisplayName"] as? String
+        let callToDisplayName = arguments?["toDisplayName"] as? String
+        let args = arguments {
+            args["to"] = nil;
+            args["from"] = nil;
+            args["toDisplayName"] = nil;
+            self.callArgs = args
+        }
         //guard let accessTokenUrl = arguments?["accessTokenUrl"] as? String else {return}
 
         /* if(arguments?["from"] != nil)
@@ -119,7 +125,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         //self.accessTokenEndpoint = accessTokenUrl
         self.callTo = callTo
         self.identity = callFrom
-        makeCall(to: callTo, displayName: /* callToDisplayName ??  */callTo)
+        self.callOptions
+        makeCall(to: callTo, displayName: callToDisplayName)
     }
     else if flutterCall.method == "muteCall"
     {
@@ -667,7 +674,14 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             } */
 
             let connectOptions: TVOConnectOptions = TVOConnectOptions(accessToken: accessToken) { (builder) in
-                builder.params = [self.twimlParamTo : self.callTo, "From": self.identity]
+                builder.params = ["PhoneNumber": self.callTo, "From": self.identity]
+                if (self.callArgs != nil) {
+                    let args = self.callArgs {
+                        for (key, value) in args {
+                            builder.params[key] = value
+                        }
+                    }
+                }
                 builder.uuid = uuid
             }
             let theCall = TwilioVoice.connect(with: connectOptions, delegate: self)

@@ -36,10 +36,14 @@ class FlutterTwilioVoice {
     return _channel.invokeMethod('unregister');
   }
 
-  static Future<bool> makeCall({@required String from, @required String to, String toDisplayName}) {
+  static Future<bool> makeCall(
+      {@required String from, @required String to, String toDisplayName, Map<String, dynamic> extraOptions}) {
     assert(to != null);
     assert(from != null);
-    return _channel.invokeMethod('makeCall', <String, dynamic>{"from": from, "to": to, "toDisplayName": toDisplayName});
+    extraOptions['from'] = from;
+    extraOptions['to'] = to;
+    extraOptions['toDisplayName'] = toDisplayName;
+    return _channel.invokeMethod('makeCall', extraOptions);
   }
 
   static Future<bool> hangUp() {
