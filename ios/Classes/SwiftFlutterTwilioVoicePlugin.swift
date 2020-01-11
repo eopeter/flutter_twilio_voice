@@ -439,10 +439,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
 
     public func call(_ call: TVOCall, didDisconnectWithError error: Error?) {
+            self.sendPhoneCallEvents(description: "Call Ended", isError: false)
             if let error = error {
-                sendPhoneCallEvents(description: "Call Failed: \(error.localizedDescription)", isError: true)
-            } else {
-                sendPhoneCallEvents(description: "Disconnected", isError: false)
+                self.sendPhoneCallEvents(description: "Call Failed: \(error.localizedDescription)", isError: true)
             }
 
             if !self.userInitiatedDisconnect {
@@ -559,6 +558,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 NSLog("provider:performEndCallAction: disconnecting call")
                 self.call?.disconnect()
                 self.callInvite = nil
+                self.call = nil
                 action.fulfill()
                 return
             }
@@ -567,6 +567,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 NSLog("provider:performEndCallAction: rejecting call")
                 self.callInvite?.reject()
                 self.callInvite = nil
+                self.call = nil
                 action.fulfill()
                 return
             }
@@ -649,8 +650,6 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             callKitCallController.request(transaction) { error in
                 if let error = error {
                     self.sendPhoneCallEvents(description: "End Call Failed: \(error.localizedDescription).", isError: true)
-                } else {
-                    self.sendPhoneCallEvents(description: "Call Ended", isError: false)
                 }
             }
         }
