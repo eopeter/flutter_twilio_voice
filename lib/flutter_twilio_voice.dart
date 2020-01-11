@@ -33,7 +33,7 @@ class FlutterTwilioVoice {
   }
 
   static Future<bool> unregister() {
-    return _channel.invokeMethod('unregister');
+    return _channel.invokeMethod('unregister', <String, dynamic>{});
   }
 
   static Future<bool> makeCall(
@@ -47,19 +47,19 @@ class FlutterTwilioVoice {
   }
 
   static Future<bool> hangUp() {
-    return _channel.invokeMethod('hangUp');
+    return _channel.invokeMethod('hangUp', <String, dynamic>{});
   }
 
   static Future<bool> answer() {
-    return _channel.invokeMethod('answer');
+    return _channel.invokeMethod('answer', <String, dynamic>{});
   }
 
   static Future<bool> holdCall() {
-    return _channel.invokeMethod('holdCall');
+    return _channel.invokeMethod('holdCall', <String, dynamic>{});
   }
 
   static Future<bool> muteCall() {
-    return _channel.invokeMethod('muteCall');
+    return _channel.invokeMethod('muteCall', <String, dynamic>{});
   }
 
   static Future<bool> toggleSpeaker(bool speakerIsOn) {
@@ -73,7 +73,7 @@ class FlutterTwilioVoice {
   }
 
   static Future<bool> isOnCall() {
-    return _channel.invokeMethod('isOnCall');
+    return _channel.invokeMethod('isOnCall', <String, dynamic>{});
   }
 
   static String getFrom() {
