@@ -18,7 +18,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     var identity = "alice"
     var callTo: String = "error"
     var deviceTokenString: String?
-    var callArgs: NSDictionary?
+    var callArgs: Dictionary<String, AnyObject> = [String: AnyObject]()
 
     var voipRegistry: PKPushRegistry
     var incomingPushCompletionCallback: (()->Swift.Void?)? = nil
@@ -87,11 +87,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
   public func handle(_ flutterCall: FlutterMethodCall, result: @escaping FlutterResult) {
     _result = result
 
-    let arguments = flutterCall.arguments as? NSDictionary
+    let arguments:Dictionary<String, AnyObject> = flutterCall.arguments as! Dictionary<String, AnyObject>;
 
     if flutterCall.method == "tokens" {
-        guard let token = arguments?["accessToken"] as? String else {return}
-        guard let fcmToken = arguments?["fcmToken"] as? String else {return}
+        guard let token = arguments["accessToken"] as? String else {return}
+        guard let fcmToken = arguments["fcmToken"] as? String else {return}
         self.accessToken = token
         self.fcmToken = fcmToken
         if self.deviceTokenString != nil {
@@ -106,26 +106,14 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             }
         }
     } else if flutterCall.method == "makeCall" {
-        guard let callTo = arguments?["to"] as? String else {return}
-        guard let callFrom = arguments?["from"] as? String else {return}
-        let callToDisplayName = arguments?["toDisplayName"] as? String
-        let args = arguments {
-            args["to"] = nil;
-            args["from"] = nil;
-            args["toDisplayName"] = nil;
-            self.callArgs = args
-        }
-        //guard let accessTokenUrl = arguments?["accessTokenUrl"] as? String else {return}
-
-        /* if(arguments?["from"] != nil)
-        {
-            self.identity = "16072164340";// arguments?["from"] as? String ?? self.identity
-        } */
-
+        guard let callTo = arguments["to"] as? String else {return}
+        guard let callFrom = arguments["from"] as? String else {return}
+        let callToDisplayName:String = arguments["toDisplayName"] as? String ?? callTo
+        self.callArgs = arguments
+        //guard let accessTokenUrl = arguments["accessTokenUrl"] as? String else {return}
         //self.accessTokenEndpoint = accessTokenUrl
         self.callTo = callTo
         self.identity = callFrom
-        self.callOptions
         makeCall(to: callTo, displayName: callToDisplayName)
     }
     else if flutterCall.method == "muteCall"
@@ -144,7 +132,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     }
     else if flutterCall.method == "toggleSpeaker"
     {
-        guard let speakerIsOn = arguments?["speakerIsOn"] as? Bool else {return}
+        guard let speakerIsOn = arguments["speakerIsOn"] as? Bool else {return}
         toggleAudioRoute(toSpeaker: speakerIsOn)
         guard let eventSink = eventSink else {
             return
@@ -158,14 +146,14 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
     else if flutterCall.method == "sendDigits"
     {
-        guard let digits = arguments?["digits"] as? String else {return}
+        guard let digits = arguments["digits"] as? String else {return}
         if (self.call != nil) {
             self.call!.sendDigits(digits);
         }
     }
     /* else if flutterCall.method == "receiveCalls"
     {
-        guard let clientIdentity = arguments?["clientIdentifier"] as? String else {return}
+        guard let clientIdentity = arguments["clientIdentifier"] as? String else {return}
         self.identity = clientIdentity;
     } */
     else if flutterCall.method == "holdCall" {
@@ -675,11 +663,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
             let connectOptions: TVOConnectOptions = TVOConnectOptions(accessToken: accessToken) { (builder) in
                 builder.params = ["PhoneNumber": self.callTo, "From": self.identity]
-                if (self.callArgs != nil) {
-                    let args = self.callArgs {
-                        for (key, value) in args {
-                            builder.params[key] = value
-                        }
+                for (key, value) in self.callArgs {
+                    if (key != "to" && key != "toDisplayName" && key != "from") {
+                        builder.params[key] = "\(value)"
                     }
                 }
                 builder.uuid = uuid
