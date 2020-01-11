@@ -4,10 +4,9 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="Send notification when remote side ended call">
+    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +131,7 @@
       <workItem from="1577642001093" duration="21526000" />
       <workItem from="1577806708206" duration="4887000" />
       <workItem from="1578429252171" duration="21876000" />
-      <workItem from="1578604709266" duration="20542000" />
+      <workItem from="1578604709266" duration="21181000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -414,7 +413,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578766904092</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Send notification when remote side ended call">
+      <created>1578781032225</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1578781032225</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -424,7 +430,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_twilio_voice" />
     </ignored-roots>
-    <MESSAGE value="Fix plugin not found exception by splitting method and event channels by name suffix" />
     <MESSAGE value="Change accessToken method to tokens to allow sending a FCM token in as well" />
     <MESSAGE value="Simplify call handling to only one call.&#10;Get Swift code compiling" />
     <MESSAGE value="Return bool from SwiftFlutterTwilioVoicePlugin.swift for method handler calls" />
@@ -449,7 +454,8 @@
     <MESSAGE value="Add ability to set extra params on outbound call" />
     <MESSAGE value="Stupid Swift syntax fixes" />
     <MESSAGE value="Prevent null arguments dictionary" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prevent null arguments dictionary" />
+    <MESSAGE value="Send notification when remote side ended call" />
+    <option name="LAST_COMMIT_MESSAGE" value="Send notification when remote side ended call" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
@@ -464,11 +470,11 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577725996488" />
-    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578780854066">
+    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578781032141">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543551269" />
-    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578780854066" />
+    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578781032141" />
     <state x="3940" y="104" width="1720" height="876" key="DiffContextDialog" timestamp="1578781027335">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
@@ -511,11 +517,11 @@
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="4579" y="243" width="432" height="600" key="VCS.ChangeListViewerDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578766834164" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578766906663">
+    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578781033412">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543552766" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578766906663" />
+    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578781033412" />
     <state x="2486" y="154" width="778" height="779" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577802733323">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

@@ -650,6 +650,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             callKitCallController.request(transaction) { error in
                 if let error = error {
                     self.sendPhoneCallEvents(description: "End Call Failed: \(error.localizedDescription).", isError: true)
+                } else {
+                    self.sendPhoneCallEvents(description: "Call Ended", isError: false)
                 }
             }
         }
