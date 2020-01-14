@@ -18,7 +18,7 @@ class FlutterTwilioVoice {
   static const EventChannel _eventChannel = EventChannel('flutter_twilio_voice/events');
 
   static Stream<CallState> _onCallStateChanged;
-  static String from = "SafeNSound";
+  static String callFrom = "SafeNSound";
 
   static Stream<CallState> get onCallStateChanged {
     if (_onCallStateChanged == null) {
@@ -43,6 +43,7 @@ class FlutterTwilioVoice {
     extraOptions['from'] = from;
     extraOptions['to'] = to;
     extraOptions['toDisplayName'] = toDisplayName;
+    callFrom = from;
     return _channel.invokeMethod('makeCall', extraOptions);
   }
 
@@ -77,13 +78,13 @@ class FlutterTwilioVoice {
   }
 
   static String getFrom() {
-    return from;
+    return callFrom;
   }
 
   static CallState _parseCallState(String state) {
     if (state.startsWith("Connected|")) {
       List<String> tokens = state.split('|');
-      from = _prettyPrintNumber(tokens[1]);
+      callFrom = _prettyPrintNumber(tokens[1]);
       return CallState.connected;
     }
     switch (state) {
