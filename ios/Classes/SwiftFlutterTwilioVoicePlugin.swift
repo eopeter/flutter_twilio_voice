@@ -458,8 +458,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
 
         func callDisconnected() {
-            if (self.call != nil && call == self.call!) {
+            if (self.call != nil) {
                 self.call = nil
+            }
+            if (self.callInvite != nil) {
+                self.callInvite = nil
             }
 
             self.userInitiatedDisconnect = false
@@ -557,8 +560,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             if (self.call != nil) {
                 NSLog("provider:performEndCallAction: disconnecting call")
                 self.call?.disconnect()
-                self.callInvite = nil
-                self.call = nil
+                //self.callInvite = nil
+                //self.call = nil
                 action.fulfill()
                 return
             }
@@ -566,8 +569,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             if (self.callInvite != nil) {
                 NSLog("provider:performEndCallAction: rejecting call")
                 self.callInvite?.reject()
-                self.callInvite = nil
-                self.call = nil
+                //self.callInvite = nil
+                //self.call = nil
                 action.fulfill()
                 return
             }
