@@ -408,7 +408,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
             //toggleUIState(isEnabled: true, showCallControl: true)
             //stopSpin()
-            toggleAudioRoute(toSpeaker: true)
+            toggleAudioRoute(toSpeaker: false)
         }
 
         public func call(_ call: TVOCall, isReconnectingWithError error: Error) {
