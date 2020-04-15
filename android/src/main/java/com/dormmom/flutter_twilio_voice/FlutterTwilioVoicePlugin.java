@@ -1,8 +1,5 @@
 package com.dormmom.flutter_twilio_voice;
 
-//import com.google.firebase.iid.FirebaseInstanceId;
-//import com.google.firebase.iid.InstanceIdResult;
-
 import com.twilio.voice.Call;
 import com.twilio.voice.CallException;
 import com.twilio.voice.CallInvite;
@@ -25,7 +22,6 @@ import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -56,7 +52,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private VoiceBroadcastReceiver voiceBroadcastReceiver;
 
     private NotificationManager notificationManager;
-    private SoundPoolManager soundPoolManager;
+    //private SoundPoolManager soundPoolManager;
     private CallInvite activeCallInvite;
     private Call activeCall;
     private int activeCallNotificationId;
@@ -66,6 +62,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     RegistrationListener registrationListener = registrationListener();
     UnregistrationListener unregistrationListener = unregistrationListener();
     Call.Listener callListener = callListener();
+    private MethodChannel methodChannel;
+    private EventChannel eventChannel;
     private EventChannel.EventSink eventSink;
     private String fcmToken;
 
@@ -75,14 +73,14 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private static void register(BinaryMessenger messenger, FlutterTwilioVoicePlugin plugin, Context context) {
-        final MethodChannel methodChannel = new MethodChannel(messenger, CHANNEL_NAME + "/messages");
-        methodChannel.setMethodCallHandler(plugin);
+        plugin.methodChannel = new MethodChannel(messenger, CHANNEL_NAME + "/messages");
+        plugin.methodChannel.setMethodCallHandler(plugin);
 
-        final EventChannel eventChannel = new EventChannel(messenger, CHANNEL_NAME + "/events");
-        eventChannel.setStreamHandler(plugin);
+        plugin.eventChannel = new EventChannel(messenger, CHANNEL_NAME + "/events");
+        plugin.eventChannel.setStreamHandler(plugin);
 
         plugin.context = context;
-        plugin.soundPoolManager = SoundPoolManager.getInstance(context);
+        //plugin.soundPoolManager = SoundPoolManager.getInstance(context);
 
         plugin.notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         plugin.voiceBroadcastReceiver = new VoiceBroadcastReceiver(plugin);
@@ -116,6 +114,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private void handleIncomingCallIntent(Intent intent) {
         if (intent != null && intent.getAction() != null) {
             String action = intent.getAction();
+            Log.d(TAG, "Handling incoming call intent for action " + action);
             activeCallInvite = intent.getParcelableExtra(Constants.INCOMING_CALL_INVITE);
             activeCallNotificationId = intent.getIntExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, 0);
 
@@ -147,6 +146,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void handleIncomingCall() {
         this.eventSink.success("Ringing");
+        //soundPoolManager.playRinging();
         /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             showIncomingCallDialog();
         } else {
@@ -158,8 +158,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void handleCancel() {
         //if (alertDialog != null && alertDialog.isShowing()) {
-            soundPoolManager.stopRinging();
-        this.eventSink.success("Canceled");
+        this.eventSink.success("Call Ended");
+        //soundPoolManager.stopRinging();
             //alertDialog.cancel();
         //}
     }
@@ -168,6 +168,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         if (!isReceiverRegistered) {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Constants.ACTION_INCOMING_CALL);
+            intentFilter.addAction(Constants.ACTION_INCOMING_CALL_NOTIFICATION);
             intentFilter.addAction(Constants.ACTION_CANCEL_CALL);
             intentFilter.addAction(Constants.ACTION_FCM_TOKEN);
             LocalBroadcastManager.getInstance(this.activity).registerReceiver(
@@ -224,7 +225,9 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(Constants.ACTION_INCOMING_CALL) || action.equals(Constants.ACTION_CANCEL_CALL)) {
+            Log.d(TAG, "Received broadcast for action " + action);
+            if (action != null && (action.equals(Constants.ACTION_INCOMING_CALL) || action.equals(Constants.ACTION_CANCEL_CALL)
+              || action.equals(Constants.ACTION_INCOMING_CALL_NOTIFICATION))) {
                 /*
                  * Handle the incoming or cancelled call invite
                  */
@@ -245,22 +248,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
      *
      */
     private void registerForCallInvites() {
-        /*FirebaseInstanceId.getInstance()
-          .getInstanceId()
-          .addOnCompleteListener(
-            new OnCompleteListener<InstanceIdResult>() {
-                @Override
-                public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "getToken, error fetching instanceID: ", task.getException());
-                        result.success(null);
-                        return;
-                    }
-
-                    Log.i(TAG, "Registering with FCM");
-                    Voice.register(accessToken, Voice.RegistrationChannel.FCM, task.getResult().getToken(), registrationListener);
-                }
-            });*/
         if (this.accessToken != null && this.fcmToken != null) {
             Log.i(TAG, "Registering with FCM");
             Voice.register(this.accessToken, Voice.RegistrationChannel.FCM, this.fcmToken, registrationListener);
@@ -276,22 +263,26 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     @Override
     public void onDetachedFromEngine(FlutterPluginBinding flutterPluginBinding) {
-        soundPoolManager.release();
+        Log.d(TAG, "Detatched from Flutter engine");
+        //soundPoolManager.release();
     }
 
     @Override
     public void onListen(Object o, EventChannel.EventSink eventSink) {
+        Log.i(TAG, "Setting event sink");
         this.eventSink = eventSink;
     }
 
     @Override
     public void onCancel(Object o) {
+        Log.i(TAG, "Removing event sink");
         this.eventSink = null;
     }
 
     @Override
     public void onMethodCall(MethodCall call, MethodChannel.Result result) {
         if (call.method.equals("tokens")) {
+            Log.d(TAG, "Setting up tokens");
             this.accessToken = call.argument("accessToken");
             this.fcmToken = call.argument("fcmToken");
             this.registerForCallInvites();
@@ -299,30 +290,37 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         } else if (call.method.equals("sendDigits")) {
             String digits = call.argument("digits");
             if (this.activeCall != null) {
+                Log.d(TAG, "Sending digits " + digits);
                 this.activeCall.sendDigits(digits);
             }
             result.success(true);
         } else if (call.method.equals("hangUp")) {
+            Log.d(TAG, "Hanging up");
             this.disconnect();
             result.success(true);
         } else if (call.method.equals("toggleSpeaker")) {
             // nuthin
             result.success(true);
         } else if (call.method.equals("muteCall")) {
+            Log.d(TAG, "Muting call");
             this.mute();
             result.success(true);
         } else if (call.method.equals("isOnCall")) {
+            Log.d(TAG, "Is on call invoked");
             result.success(this.activeCall != null);
         } else if (call.method.equals("holdCall")) {
+            Log.d(TAG, "Hold call invoked");
             this.hold();
             result.success(true);
         } else if (call.method.equals("answer")) {
+            Log.d(TAG, "Answering call");
             this.answer();
             result.success(true);
         } else if (call.method.equals("unregister")) {
             this.unregisterForCallInvites();
             result.success(true);
         } else if (call.method.equals("makeCall")) {
+            Log.d(TAG, "Making new call");
             final HashMap<String, String> params = new HashMap<>();
             params.put("To", call.argument("to").toString());
             params.put("From", call.argument("from").toString());
@@ -340,7 +338,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
      * Accept an incoming Call
      */
     private void answer() {
-        soundPoolManager.getInstance(this.context).stopRinging();
+        Log.d(TAG, "Answering call");
+        SoundPoolManager.getInstance(this.context).stopRinging();
         activeCallInvite.accept(this.activity, callListener);
         notificationManager.cancel(activeCallNotificationId);
     }
@@ -550,93 +549,4 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         }
     }
 */
-}
-
-
-class SoundPoolManager {
-
-    private boolean playing = false;
-    private boolean loaded = false;
-    private boolean playingCalled = false;
-    private float actualVolume;
-    private float maxVolume;
-    private float volume;
-    private AudioManager audioManager;
-    private SoundPool soundPool;
-    private int ringingSoundId;
-    private int ringingStreamId;
-    private int disconnectSoundId;
-    private static SoundPoolManager instance;
-
-    private SoundPoolManager(Context context) {
-        // AudioManager audio settings for adjusting the volume
-        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        actualVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        volume = actualVolume / maxVolume;
-
-        // Load the sounds
-        int maxStreams = 1;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            soundPool = new SoundPool.Builder()
-              .setMaxStreams(maxStreams)
-              .build();
-        } else {
-            soundPool = new SoundPool(maxStreams, AudioManager.STREAM_MUSIC, 0);
-        }
-
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                loaded = true;
-                if (playingCalled) {
-                    playRinging();
-                    playingCalled = false;
-                }
-            }
-
-        });
-        ringingSoundId = soundPool.load(context, R.raw.incoming, 1);
-        disconnectSoundId = soundPool.load(context, R.raw.disconnect, 1);
-    }
-
-    public static SoundPoolManager getInstance(Context context) {
-        if (instance == null) {
-            instance = new SoundPoolManager(context);
-        }
-        return instance;
-    }
-
-    public void playRinging() {
-        if (loaded && !playing) {
-            ringingStreamId = soundPool.play(ringingSoundId, volume, volume, 1, -1, 1f);
-            playing = true;
-        } else {
-            playingCalled = true;
-        }
-    }
-
-    public void stopRinging() {
-        if (playing) {
-            soundPool.stop(ringingStreamId);
-            playing = false;
-        }
-    }
-
-    public void playDisconnect() {
-        if (loaded && !playing) {
-            soundPool.play(disconnectSoundId, volume, volume, 1, 0, 1f);
-            playing = false;
-        }
-    }
-
-    public void release() {
-        if (soundPool != null) {
-            soundPool.unload(ringingSoundId);
-            soundPool.unload(disconnectSoundId);
-            soundPool.release();
-            soundPool = null;
-        }
-        instance = null;
-    }
 }

@@ -3,9 +3,108 @@
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
+    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="Turn off speaker phone by default">
+      <change afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_annotation_annotation_1_1_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_appcompat_appcompat_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_arch_core_core_common_2_1_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_arch_core_core_runtime_2_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_asynclayoutinflater_asynclayoutinflater_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_cardview_cardview_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_collection_collection_1_0_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_coordinatorlayout_coordinatorlayout_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_cursoradapter_cursoradapter_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_customview_customview_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_documentfile_documentfile_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_drawerlayout_drawerlayout_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_fragment_fragment_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_interpolator_interpolator_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_legacy_legacy_support_core_ui_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_legacy_legacy_support_core_utils_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_legacy_legacy_support_v4_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_common_2_1_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_extensions_2_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_livedata_2_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_livedata_core_2_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_process_2_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_runtime_2_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_service_2_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_viewmodel_2_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_loader_loader_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_localbroadcastmanager_localbroadcastmanager_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_media_media_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_print_print_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_recyclerview_recyclerview_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_slidingpanelayout_slidingpanelayout_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_swiperefreshlayout_swiperefreshlayout_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_1_0_alpha3_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_1_0_alpha3_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_1_0_alpha3_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_1_0_alpha3_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_transition_transition_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_animated_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_versionedparcelable_versionedparcelable_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_viewpager_viewpager_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_getkeepsafe_relinker_relinker_1_2_2_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_base_16_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_16_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_stats_16_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_tasks_16_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_material_material_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_auto_value_auto_value_annotations_1_6_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_findbugs_jsr305_2_0_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_common_16_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_iid_17_1_2_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_iid_interop_16_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_measurement_connector_17_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_messaging_17_6_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_javawriter_2_1_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_twilio_voice_android_5_1_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__javax_inject_javax_inject_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_sf_kxml_kxml2_2_3_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_integration_1_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_library_1_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/IncomingCallNotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/SoundPoolManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/fcm/VoiceFirebaseMessagingService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/ic_call_end_white_24dp.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_twilio_voice.iml" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_twilio_voice.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,19 +112,50 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ComposerSettings">
-    <execution>
-      <executable />
-    </execution>
+    <execution />
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_5X_API_28_x86" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/android">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/android">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="flutter_twilio_voice" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="flutter_twilio_voice" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Dart File" />
         <option value="Class" />
+        <option value="valueResourceFile" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -39,7 +169,6 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -49,19 +178,23 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../boxview-integration-server" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.13623977" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="project.structure.last.edited" value="Dependencies" />
+    <property name="project.structure.proportion" value="0.1631579" />
+    <property name="project.structure.side.proportion" value="0.39549437" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
     <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -102,18 +235,6 @@
       <method v="2" />
     </configuration>
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -131,6 +252,12 @@
       <workItem from="1577806708206" duration="4887000" />
       <workItem from="1578429252171" duration="21876000" />
       <workItem from="1578604709266" duration="21813000" />
+      <workItem from="1585929353629" duration="1336000" />
+      <workItem from="1586258533741" duration="1507000" />
+      <workItem from="1586533721943" duration="5340000" />
+      <workItem from="1586616730209" duration="2517000" />
+      <workItem from="1586791350158" duration="1202000" />
+      <workItem from="1586871011055" duration="1287000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -426,17 +553,35 @@
       <option name="project" value="LOCAL" />
       <updated>1578781931372</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Turn off speaker phone by default">
+      <created>1586547511489</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1586547511489</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_twilio_voice" />
     </ignored-roots>
-    <MESSAGE value="Change accessToken method to tokens to allow sending a FCM token in as well" />
     <MESSAGE value="Simplify call handling to only one call.&#10;Get Swift code compiling" />
     <MESSAGE value="Return bool from SwiftFlutterTwilioVoicePlugin.swift for method handler calls" />
     <MESSAGE value="Add unregister method call" />
@@ -461,21 +606,14 @@
     <MESSAGE value="Stupid Swift syntax fixes" />
     <MESSAGE value="Prevent null arguments dictionary" />
     <MESSAGE value="Send notification when remote side ended call" />
-    <option name="LAST_COMMIT_MESSAGE" value="Send notification when remote side ended call" />
+    <MESSAGE value="Turn off speaker phone by default" />
+    <option name="LAST_COMMIT_MESSAGE" value="Turn off speaker phone by default" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2475" y="201" width="836" height="684" key="#Project_Structure" timestamp="1577641622733">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="4676" y="402" width="238" height="283" key="#Notifications" timestamp="1586267271688">
+      <screen x="3840" y="0" width="1920" height="1080" />
     </state>
-    <state x="2475" y="201" width="836" height="684" key="#Project_Structure/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577641622733" />
-    <state x="2724" y="432" width="301" height="230" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1577641048863">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2724" y="432" width="301" height="230" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577641048863" />
-    <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1577725996488">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2563" y="265" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577725996488" />
+    <state x="4676" y="402" width="238" height="283" key="#Notifications/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586267271688" />
     <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578781931278">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
@@ -484,74 +622,33 @@
     <state x="3940" y="104" width="1720" height="876" key="DiffContextDialog" timestamp="1578781027335">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
-    <state x="2020" y="104" width="1720" height="876" key="DiffContextDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577746836932" />
     <state x="3940" y="104" width="1720" height="876" key="DiffContextDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578781027335" />
-    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl" timestamp="1578692883021">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="4583" y="298" width="424" height="491" key="FileChooserDialogImpl" timestamp="1586874968526">
+      <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578692883021" />
-    <state width="1872" height="273" key="GridCell.Tab.0.bottom" timestamp="1577726004078">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1872" height="273" key="GridCell.Tab.0.bottom/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577726004078" />
-    <state width="1872" height="273" key="GridCell.Tab.0.center" timestamp="1577726004077">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1872" height="273" key="GridCell.Tab.0.center/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577726004077" />
-    <state width="1872" height="273" key="GridCell.Tab.0.left" timestamp="1577726004077">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1872" height="273" key="GridCell.Tab.0.left/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577726004077" />
-    <state width="1872" height="273" key="GridCell.Tab.0.right" timestamp="1577726004077">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1872" height="273" key="GridCell.Tab.0.right/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577726004077" />
+    <state x="4583" y="298" width="424" height="491" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586874968526" />
     <state x="4451" y="251" width="688" height="585" key="RollbackChangesDialog" timestamp="1578623242519">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
-    <state x="2531" y="251" width="688" height="585" key="RollbackChangesDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577760216362" />
     <state x="4451" y="251" key="RollbackChangesDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578623242519" />
-    <state x="2363" y="117" width="1024" height="852" key="SettingsEditor" timestamp="1577806733830">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="4296" y="175" width="1075" height="817" key="SettingsEditor" timestamp="1586533744649">
+      <screen x="3840" y="0" width="1920" height="1080" />
     </state>
-    <state x="2363" y="117" width="1024" height="852" key="SettingsEditor/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577806733830" />
-    <state x="2609" y="270" width="645" height="524" key="StructurePopup" timestamp="1577660011101">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2609" y="270" width="645" height="524" key="StructurePopup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577660011101" />
+    <state x="4296" y="175" width="1075" height="817" key="SettingsEditor/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586533744649" />
     <state x="4579" y="243" width="432" height="600" key="VCS.ChangeListViewerDialog" timestamp="1578766834164">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="4579" y="243" width="432" height="600" key="VCS.ChangeListViewerDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578766834164" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1578781939534">
+    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1586547513820">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543552766" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578781939534" />
-    <state x="2486" y="154" width="778" height="779" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577802733323">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2486" y="154" width="778" height="779" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577802733323" />
-    <state x="2532" y="256" width="848" height="642" key="find.popup" timestamp="1577807613426">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2532" y="256" width="848" height="642" key="find.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577807613426" />
-    <state width="465" height="93" key="javadoc.popup.new" timestamp="1577757608720">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="465" height="93" key="javadoc.popup.new/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577757608720" />
-    <state x="2625" y="154" width="500" height="778" key="refactoring.ChangeSignatureDialog" timestamp="1577659638695">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2625" y="154" width="500" height="778" key="refactoring.ChangeSignatureDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577659638695" />
+    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586547513820" />
     <state x="4464" y="245" width="672" height="677" key="run.anything.popup" timestamp="1578727857970">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="2544" y="245" width="672" height="677" key="run.anything.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578433750887" />
     <state x="4464" y="245" width="672" height="677" key="run.anything.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578727857970" />
-    <state x="2543" y="239" width="672" height="678" key="search.everywhere.popup" timestamp="1577758617494">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2543" y="239" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1577758617494" />
   </component>
 </project>

@@ -19,6 +19,7 @@ class FlutterTwilioVoice {
 
   static Stream<CallState> _onCallStateChanged;
   static String callFrom = "SafeNSound";
+  static String callTo = "SafeNSound";
 
   static Stream<CallState> get onCallStateChanged {
     if (_onCallStateChanged == null) {
@@ -44,6 +45,7 @@ class FlutterTwilioVoice {
     extraOptions['to'] = to;
     extraOptions['toDisplayName'] = toDisplayName;
     callFrom = from;
+    callTo = to;
     return _channel.invokeMethod('makeCall', extraOptions);
   }
 
@@ -79,6 +81,10 @@ class FlutterTwilioVoice {
 
   static String getFrom() {
     return callFrom;
+  }
+
+  static String getTo() {
+    return callTo;
   }
 
   static CallState _parseCallState(String state) {
