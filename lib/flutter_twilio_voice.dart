@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute, speaker_on, speaker_off }
+enum CallDirection { incoming, outgoing }
 
 class FlutterTwilioVoice {
   static final String ACTION_ACCEPT = "ACTION_ACCEPT";
@@ -20,6 +21,8 @@ class FlutterTwilioVoice {
   static Stream<CallState> _onCallStateChanged;
   static String callFrom = "SafeNSound";
   static String callTo = "SafeNSound";
+  static int callStartedOn;
+  static CallDirection callDirection = CallDirection.incoming;
 
   static Stream<CallState> get onCallStateChanged {
     if (_onCallStateChanged == null) {
@@ -46,6 +49,7 @@ class FlutterTwilioVoice {
     extraOptions['toDisplayName'] = toDisplayName;
     callFrom = from;
     callTo = to;
+    callDirection = CallDirection.outgoing;
     return _channel.invokeMethod('makeCall', extraOptions);
   }
 
@@ -87,11 +91,33 @@ class FlutterTwilioVoice {
     return callTo;
   }
 
+  static int getCallStartedOn() {
+    return callStartedOn;
+  }
+
+  static CallDirection getCallDirection() {
+    return callDirection;
+  }
+
   static CallState _parseCallState(String state) {
     if (state.startsWith("Connected|")) {
       List<String> tokens = state.split('|');
       callFrom = _prettyPrintNumber(tokens[1]);
+      callTo = _prettyPrintNumber(tokens[2]);
+      callDirection = ("Incoming" == tokens[3] ? CallDirection.incoming : CallDirection.outgoing);
+      if (callStartedOn == null) {
+        callStartedOn = DateTime.now().millisecondsSinceEpoch;
+      }
+      print('Connected - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
       return CallState.connected;
+    } else if (state.startsWith("Ringing|")) {
+      List<String> tokens = state.split('|');
+      callFrom = _prettyPrintNumber(tokens[1]);
+      callTo = _prettyPrintNumber(tokens[2]);
+      callDirection = ("Incoming" == tokens[3] ? CallDirection.incoming : CallDirection.outgoing);
+      callStartedOn = DateTime.now().millisecondsSinceEpoch;
+      print('Ringing - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
+      return CallState.ringing;
     }
     switch (state) {
       case 'Ringing':
@@ -99,6 +125,10 @@ class FlutterTwilioVoice {
       case 'Connected':
         return CallState.connected;
       case 'Call Ended':
+        callStartedOn = null;
+        callFrom = "SafeNSound";
+        callTo = "SafeNSound";
+        callDirection = CallDirection.incoming;
         return CallState.call_ended;
       case 'Unhold':
         return CallState.unhold;

@@ -31,6 +31,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
    var callKitProvider: CXProvider
    var callKitCallController: CXCallController
    var userInitiatedDisconnect: Bool = false
+   var callOutgoing: Bool = false
 
     public override init() {
 
@@ -110,6 +111,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         guard let callFrom = arguments["from"] as? String else {return}
         let callToDisplayName:String = arguments["toDisplayName"] as? String ?? callTo
         self.callArgs = arguments
+        self.callOutgoing = true
         //guard let accessTokenUrl = arguments["accessTokenUrl"] as? String else {return}
         //self.accessTokenEndpoint = accessTokenUrl
         self.callTo = callTo
@@ -394,13 +396,19 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
         // MARK: TVOCallDelegate
     public func callDidStartRinging(_ call: TVOCall) {
-        sendPhoneCallEvents(description: "Ringing", isError: false)
+        var direction = (self.callOutgoing ? "Outgoing" : "Incoming")
+        var from = (call.from ?? self.identity)
+        var to = (call.to ?? self.callTo)
+        sendPhoneCallEvents(description: "Ringing|\(from)|\(to)|\(direction)", isError: false)
 
             //self.placeCallButton.setTitle("Ringing", for: .normal)
         }
 
     public func callDidConnect(_ call: TVOCall) {
-            sendPhoneCallEvents(description: "Connected|" + (call.from ?? "client:SafeNSound"), isError: false)
+            var direction = (self.callOutgoing ? "Outgoing" : "Incoming")
+            var from = (call.from ?? self.identity)
+            var to = (call.to ?? self.callTo)
+            sendPhoneCallEvents(description: "Connected|\(from)|\(to)|\(direction)", isError: false)
 
             self.callKitCompletionCallback!(true)
 
@@ -465,6 +473,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 self.callInvite = nil
             }
 
+            self.callOutgoing = false
             self.userInitiatedDisconnect = false
 
             //stopSpin()

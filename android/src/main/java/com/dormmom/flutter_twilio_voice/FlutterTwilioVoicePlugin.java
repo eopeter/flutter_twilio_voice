@@ -66,6 +66,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private EventChannel eventChannel;
     private EventChannel.EventSink eventSink;
     private String fcmToken;
+    private boolean callOutgoing;
 
     @Override
     public void onAttachedToEngine(FlutterPluginBinding flutterPluginBinding) {
@@ -117,13 +118,14 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             Log.d(TAG, "Handling incoming call intent for action " + action);
             activeCallInvite = intent.getParcelableExtra(Constants.INCOMING_CALL_INVITE);
             activeCallNotificationId = intent.getIntExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, 0);
+            callOutgoing = false;
 
             switch (action) {
             case Constants.ACTION_INCOMING_CALL:
-                handleIncomingCall();
+                handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
                 break;
             case Constants.ACTION_INCOMING_CALL_NOTIFICATION:
-                showIncomingCallDialog();
+                handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
                 break;
             case Constants.ACTION_CANCEL_CALL:
                 handleCancel();
@@ -141,12 +143,12 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private void showIncomingCallDialog() {
-        this.handleIncomingCall();
+        this.handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
     }
 
-    private void handleIncomingCall() {
-        this.eventSink.success("Ringing");
-        //soundPoolManager.playRinging();
+    private void handleIncomingCall(String from, String to) {
+        eventSink.success("Ringing|" + from + "|" + to + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
+        SoundPoolManager.getInstance(activity).playRinging();
         /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             showIncomingCallDialog();
         } else {
@@ -158,8 +160,9 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void handleCancel() {
         //if (alertDialog != null && alertDialog.isShowing()) {
+        callOutgoing = false;
         this.eventSink.success("Call Ended");
-        //soundPoolManager.stopRinging();
+        SoundPoolManager.getInstance(activity).stopRinging();
             //alertDialog.cancel();
         //}
     }
@@ -324,6 +327,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             final HashMap<String, String> params = new HashMap<>();
             params.put("To", call.argument("to").toString());
             params.put("From", call.argument("from").toString());
+            this.callOutgoing = true;
             final ConnectOptions connectOptions = new ConnectOptions.Builder(this.accessToken)
               .params(params)
               .build();
@@ -400,7 +404,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             @Override
             public void onRinging(Call call) {
                 Log.d(TAG, "Ringing");
-                eventSink.success("Ringing");
+                eventSink.success("Ringing|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
             }
 
             @Override
@@ -417,7 +421,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 setAudioFocus(true);
                 Log.d(TAG, "Connected");
                 activeCall = call;
-                eventSink.success("Connected|" + call.getFrom());
+                eventSink.success("Connected|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
             }
 
             @Override
