@@ -32,16 +32,21 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
    var callKitCallController: CXCallController
    var userInitiatedDisconnect: Bool = false
    var callOutgoing: Bool = false
+    
+    static var appName: String {
+        get {
+            return (Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String) ?? "Define CFBundleDisplayName"
+        }
+    }
 
     public override init() {
 
         //isSpinning = false
         voipRegistry = PKPushRegistry.init(queue: DispatchQueue.main)
-        let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as! String
-        let configuration = CXProviderConfiguration(localizedName: appName)
+        let configuration = CXProviderConfiguration(localizedName: SwiftFlutterTwilioVoicePlugin.appName)
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
-        if let callKitIcon = UIImage(named: "iconMask80") {
+        if let callKitIcon = UIImage(named: "AppIcon") {
             configuration.iconTemplateImageData = callKitIcon.pngData()
         }
 
@@ -194,13 +199,12 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             performEndCallAction(uuid: self.call!.uuid)
             //self.toggleUIState(isEnabled: false, showCallControl: false)
         } else {
-            let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as! String
             let uuid = UUID()
             let handle = displayName
 
             self.checkRecordPermission { (permissionGranted) in
                 if (!permissionGranted) {
-                    let alertController: UIAlertController = UIAlertController(title: appName + " Permission",
+                    let alertController: UIAlertController = UIAlertController(title: SwiftFlutterTwilioVoicePlugin.appName + " Permission",
                                                                                message: "Microphone permission not granted",
                                                                                preferredStyle: .alert)
 
