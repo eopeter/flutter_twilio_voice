@@ -14,7 +14,6 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     // If your token server is written in PHP, accessTokenEndpoint needs .php extension at the end. For example : /accessToken.php
     //var accessTokenEndpoint = "/accessToken"
     var accessToken = ""
-    var fcmToken = ""
     var identity = "alice"
     var callTo: String = "error"
     var deviceTokenString: String?
@@ -97,9 +96,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
     if flutterCall.method == "tokens" {
         guard let token = arguments["accessToken"] as? String else {return}
-        guard let fcmToken = arguments["fcmToken"] as? String else {return}
         self.accessToken = token
-        self.fcmToken = fcmToken
         if self.deviceTokenString != nil {
             NSLog("pushRegistry:attempting to register with twilio")
             TwilioVoice.register(withAccessToken: self.accessToken, deviceToken: self.deviceTokenString!) { (error) in
