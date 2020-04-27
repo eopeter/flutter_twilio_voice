@@ -397,18 +397,18 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
         // MARK: TVOCallDelegate
     public func callDidStartRinging(_ call: TVOCall) {
-        var direction = (self.callOutgoing ? "Outgoing" : "Incoming")
-        var from = (call.from ?? self.identity)
-        var to = (call.to ?? self.callTo)
+        let direction = (self.callOutgoing ? "Outgoing" : "Incoming")
+        let from = (call.from ?? self.identity)
+        let to = (call.to ?? self.callTo)
         sendPhoneCallEvents(description: "Ringing|\(from)|\(to)|\(direction)", isError: false)
 
             //self.placeCallButton.setTitle("Ringing", for: .normal)
         }
 
     public func callDidConnect(_ call: TVOCall) {
-            var direction = (self.callOutgoing ? "Outgoing" : "Incoming")
-            var from = (call.from ?? self.identity)
-            var to = (call.to ?? self.callTo)
+            let direction = (self.callOutgoing ? "Outgoing" : "Incoming")
+            let from = (call.from ?? self.identity)
+            let to = (call.to ?? self.callTo)
             sendPhoneCallEvents(description: "Connected|\(from)|\(to)|\(direction)", isError: false)
 
             self.callKitCompletionCallback!(true)
