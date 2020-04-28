@@ -13,7 +13,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     //var baseURLString = ""
     // If your token server is written in PHP, accessTokenEndpoint needs .php extension at the end. For example : /accessToken.php
     //var accessTokenEndpoint = "/accessToken"
-    var accessToken = ""
+    var accessToken:String?
     var identity = "alice"
     var callTo: String = "error"
     var deviceTokenString: String?
@@ -97,9 +97,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     if flutterCall.method == "tokens" {
         guard let token = arguments["accessToken"] as? String else {return}
         self.accessToken = token
-        if self.deviceTokenString != nil {
+        if let deviceToken = deviceTokenString, let token = accessToken {
             NSLog("pushRegistry:attempting to register with twilio")
-            TwilioVoice.register(withAccessToken: self.accessToken, deviceToken: self.deviceTokenString!) { (error) in
+            TwilioVoice.register(withAccessToken: token, deviceToken: deviceToken) { (error) in
                 if let error = error {
                     NSLog("An error occurred while registering: \(error.localizedDescription)")
                 }
@@ -288,15 +288,16 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
           let deviceToken = credentials.token.map { String(format: "%02x", $0) }.joined()
 
           NSLog("pushRegistry:attempting to register with twilio")
-          TwilioVoice.register(withAccessToken: accessToken, deviceToken: deviceToken) { (error) in
-              if let error = error {
-                  NSLog("An error occurred while registering: \(error.localizedDescription)")
-              }
-              else {
-                  NSLog("Successfully registered for VoIP push notifications.")
-              }
-          }
-
+        if let token = accessToken {
+            TwilioVoice.register(withAccessToken: token, deviceToken: deviceToken) { (error) in
+                if let error = error {
+                    NSLog("An error occurred while registering: \(error.localizedDescription)")
+                }
+                else {
+                    NSLog("Successfully registered for VoIP push notifications.")
+                }
+            }
+        }
           self.deviceTokenString = deviceToken
       }
 
@@ -312,11 +313,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
       func unregister() {
 
-          guard let deviceToken = deviceTokenString/* , let accessToken = fetchAccessToken() */ else {
+          guard let deviceToken = deviceTokenString, let token = accessToken else {
               return
           }
 
-          TwilioVoice.unregister(withAccessToken: accessToken, deviceToken: deviceToken) { (error) in
+          TwilioVoice.unregister(withAccessToken: token, deviceToken: deviceToken) { (error) in
               if let error = error {
                   NSLog("An error occurred while unregistering: \(error.localizedDescription)")
               } else {
@@ -670,12 +671,12 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
 
         func performVoiceCall(uuid: UUID, client: String?, completionHandler: @escaping (Bool) -> Swift.Void) {
-            /* guard let accessToken = fetchAccessToken() else {
+            guard let token = accessToken else {
                 completionHandler(false)
                 return
-            } */
+            }
 
-            let connectOptions: TVOConnectOptions = TVOConnectOptions(accessToken: accessToken) { (builder) in
+            let connectOptions: TVOConnectOptions = TVOConnectOptions(accessToken: token) { (builder) in
                 builder.params = ["PhoneNumber": self.callTo, "From": self.identity]
                 for (key, value) in self.callArgs {
                     if (key != "to" && key != "toDisplayName" && key != "from") {
