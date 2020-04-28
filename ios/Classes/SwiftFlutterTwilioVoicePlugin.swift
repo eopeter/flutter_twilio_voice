@@ -14,7 +14,6 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     // If your token server is written in PHP, accessTokenEndpoint needs .php extension at the end. For example : /accessToken.php
     //var accessTokenEndpoint = "/accessToken"
     var accessToken = ""
-    var fcmToken = ""
     var identity = "alice"
     var callTo: String = "error"
     var deviceTokenString: String?
@@ -32,16 +31,21 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
    var callKitCallController: CXCallController
    var userInitiatedDisconnect: Bool = false
    var callOutgoing: Bool = false
+    
+    static var appName: String {
+        get {
+            return (Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String) ?? "Define CFBundleDisplayName"
+        }
+    }
 
     public override init() {
 
         //isSpinning = false
         voipRegistry = PKPushRegistry.init(queue: DispatchQueue.main)
-        let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as! String
-        let configuration = CXProviderConfiguration(localizedName: appName)
+        let configuration = CXProviderConfiguration(localizedName: SwiftFlutterTwilioVoicePlugin.appName)
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
-        if let callKitIcon = UIImage(named: "iconMask80") {
+        if let callKitIcon = UIImage(named: "AppIcon") {
             configuration.iconTemplateImageData = callKitIcon.pngData()
         }
 
@@ -92,9 +96,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
     if flutterCall.method == "tokens" {
         guard let token = arguments["accessToken"] as? String else {return}
-        guard let fcmToken = arguments["fcmToken"] as? String else {return}
         self.accessToken = token
-        self.fcmToken = fcmToken
         if self.deviceTokenString != nil {
             NSLog("pushRegistry:attempting to register with twilio")
             TwilioVoice.register(withAccessToken: self.accessToken, deviceToken: self.deviceTokenString!) { (error) in
@@ -194,13 +196,12 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             performEndCallAction(uuid: self.call!.uuid)
             //self.toggleUIState(isEnabled: false, showCallControl: false)
         } else {
-            let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as! String
             let uuid = UUID()
             let handle = displayName
 
             self.checkRecordPermission { (permissionGranted) in
                 if (!permissionGranted) {
-                    let alertController: UIAlertController = UIAlertController(title: appName + " Permission",
+                    let alertController: UIAlertController = UIAlertController(title: SwiftFlutterTwilioVoicePlugin.appName + " Permission",
                                                                                message: "Microphone permission not granted",
                                                                                preferredStyle: .alert)
 
@@ -396,18 +397,18 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
         // MARK: TVOCallDelegate
     public func callDidStartRinging(_ call: TVOCall) {
-        var direction = (self.callOutgoing ? "Outgoing" : "Incoming")
-        var from = (call.from ?? self.identity)
-        var to = (call.to ?? self.callTo)
+        let direction = (self.callOutgoing ? "Outgoing" : "Incoming")
+        let from = (call.from ?? self.identity)
+        let to = (call.to ?? self.callTo)
         sendPhoneCallEvents(description: "Ringing|\(from)|\(to)|\(direction)", isError: false)
 
             //self.placeCallButton.setTitle("Ringing", for: .normal)
         }
 
     public func callDidConnect(_ call: TVOCall) {
-            var direction = (self.callOutgoing ? "Outgoing" : "Incoming")
-            var from = (call.from ?? self.identity)
-            var to = (call.to ?? self.callTo)
+            let direction = (self.callOutgoing ? "Outgoing" : "Incoming")
+            let from = (call.from ?? self.identity)
+            let to = (call.to ?? self.callTo)
             sendPhoneCallEvents(description: "Connected|\(from)|\(to)|\(direction)", isError: false)
 
             self.callKitCompletionCallback!(true)
