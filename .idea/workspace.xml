@@ -25,16 +25,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="Turn off speaker phone by default">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -209,7 +200,7 @@
       <workItem from="1587041143714" duration="1242000" />
       <workItem from="1591385553277" duration="1640000" />
       <workItem from="1597505112607" duration="2933000" />
-      <workItem from="1597700806667" duration="2817000" />
+      <workItem from="1597700806667" duration="3350000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -512,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586547511489</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Add explicit voice token to unregister function.  Pass logging up to flutter">
+      <created>1597704386850</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1597704386850</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -534,7 +532,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_twilio_voice" />
     </ignored-roots>
-    <MESSAGE value="Simplify call handling to only one call.&#10;Get Swift code compiling" />
     <MESSAGE value="Return bool from SwiftFlutterTwilioVoicePlugin.swift for method handler calls" />
     <MESSAGE value="Add unregister method call" />
     <MESSAGE value="Set localized app name" />
@@ -559,17 +556,34 @@
     <MESSAGE value="Prevent null arguments dictionary" />
     <MESSAGE value="Send notification when remote side ended call" />
     <MESSAGE value="Turn off speaker phone by default" />
-    <option name="LAST_COMMIT_MESSAGE" value="Turn off speaker phone by default" />
+    <MESSAGE value="Add explicit voice token to unregister function.  Pass logging up to flutter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add explicit voice token to unregister function.  Pass logging up to flutter" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="2474" y="102" width="802" height="883" key="CommitChangelistDialog2" timestamp="1597704386783">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2474" y="102" width="802" height="883" key="CommitChangelistDialog2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704386783" />
     <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl" timestamp="1597703023819">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597703023819" />
+    <state x="2102" y="107" width="1536" height="879" key="MergeDialog" timestamp="1597704793799">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2102" y="107" width="1536" height="879" key="MergeDialog/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704793799" />
+    <state x="2517" y="303" width="715" height="480" key="MultipleFileMergeDialog" timestamp="1597704793800">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2517" y="303" width="715" height="480" key="MultipleFileMergeDialog/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704793800" />
     <state x="5270" y="878" width="480" height="194" key="ProcessPopupWindow" timestamp="1591385697574">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="5270" y="878" width="480" height="194" key="ProcessPopupWindow/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1591385697574" />
+    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1597704388822">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704388822" />
     <state x="2589" y="255" width="581" height="570" key="find.popup" timestamp="1597702264044">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
