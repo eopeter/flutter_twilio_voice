@@ -13,8 +13,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     //var baseURLString = ""
     // If your token server is written in PHP, accessTokenEndpoint needs .php extension at the end. For example : /accessToken.php
     //var accessTokenEndpoint = "/accessToken"
-    var accessToken = ""
-    var fcmToken = ""
+    var accessToken:String?
     var identity = "alice"
     var callTo: String = "error"
     var deviceTokenString: String?
@@ -33,15 +32,20 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
    var userInitiatedDisconnect: Bool = false
    var callOutgoing: Bool = false
 
+    static var appName: String {
+        get {
+            return (Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String) ?? "Define CFBundleDisplayName"
+        }
+    }
+
     public override init() {
 
         //isSpinning = false
         voipRegistry = PKPushRegistry.init(queue: DispatchQueue.main)
-        let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as! String
-        let configuration = CXProviderConfiguration(localizedName: appName)
+        let configuration = CXProviderConfiguration(localizedName: SwiftFlutterTwilioVoicePlugin.appName)
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
-        if let callKitIcon = UIImage(named: "iconMask80") {
+        if let callKitIcon = UIImage(named: "AppIcon") {
             configuration.iconTemplateImageData = callKitIcon.pngData()
         }
 
@@ -92,12 +96,10 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
     if flutterCall.method == "tokens" {
         guard let token = arguments["accessToken"] as? String else {return}
-        guard let fcmToken = arguments["fcmToken"] as? String else {return}
         self.accessToken = token
-        self.fcmToken = fcmToken
-        if self.deviceTokenString != nil {
+        if let deviceToken = deviceTokenString, let token = accessToken {
             self.sendPhoneCallEvents(description: "LOG|pushRegistry:attempting to register with twilio", isError: false)
-            TwilioVoice.register(withAccessToken: self.accessToken, deviceToken: self.deviceTokenString!) { (error) in
+            TwilioVoice.register(withAccessToken: token, deviceToken: deviceToken) { (error) in
                 if let error = error {
                     self.sendPhoneCallEvents(description: "LOG|An error occurred while registering: \(error.localizedDescription)", isError: false)
                 }
@@ -198,13 +200,12 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             performEndCallAction(uuid: self.call!.uuid)
             //self.toggleUIState(isEnabled: false, showCallControl: false)
         } else {
-            let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as! String
             let uuid = UUID()
             let handle = displayName
 
             self.checkRecordPermission { (permissionGranted) in
                 if (!permissionGranted) {
-                    let alertController: UIAlertController = UIAlertController(title: appName + " Permission",
+                    let alertController: UIAlertController = UIAlertController(title: SwiftFlutterTwilioVoicePlugin.appName + " Permission",
                                                                                message: "Microphone permission not granted",
                                                                                preferredStyle: .alert)
 
@@ -291,12 +292,14 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
           let deviceToken = credentials.token.map { String(format: "%02x", $0) }.joined()
 
           self.sendPhoneCallEvents(description: "LOG|pushRegistry:attempting to register with twilio", isError: false)
-          TwilioVoice.register(withAccessToken: accessToken, deviceToken: deviceToken) { (error) in
-              if let error = error {
-                  self.sendPhoneCallEvents(description: "LOG|An error occurred while registering: \(error.localizedDescription)", isError: false)
-              }
-              else {
-                  self.sendPhoneCallEvents(description: "LOG|Successfully registered for VoIP push notifications.", isError: false)
+          if let token = accessToken {
+              TwilioVoice.register(withAccessToken: token, deviceToken: deviceToken) { (error) in
+                  if let error = error {
+                      self.sendPhoneCallEvents(description: "LOG|An error occurred while registering: \(error.localizedDescription)", isError: false)
+                  }
+                  else {
+                      self.sendPhoneCallEvents(description: "LOG|Successfully registered for VoIP push notifications.", isError: false)
+                  }
               }
           }
 
@@ -315,11 +318,11 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 
       func unregister() {
 
-          guard let deviceToken = deviceTokenString else {
+          guard let deviceToken = deviceTokenString, let token = accessToken else {
               return
           }
 
-          self.unregisterTokens(token: self.accessToken, deviceToken: deviceToken)
+          self.unregisterTokens(token: token, deviceToken: deviceToken)
       }
 
       func unregisterTokens(token: String, deviceToken: String) {
@@ -677,12 +680,12 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }
 
         func performVoiceCall(uuid: UUID, client: String?, completionHandler: @escaping (Bool) -> Swift.Void) {
-            /* guard let accessToken = fetchAccessToken() else {
+            guard let token = accessToken else {
                 completionHandler(false)
                 return
-            } */
+            }
 
-            let connectOptions: TVOConnectOptions = TVOConnectOptions(accessToken: accessToken) { (builder) in
+            let connectOptions: TVOConnectOptions = TVOConnectOptions(accessToken: token) { (builder) in
                 builder.params = ["PhoneNumber": self.callTo, "From": self.identity]
                 for (key, value) in self.callArgs {
                     if (key != "to" && key != "toDisplayName" && key != "from") {

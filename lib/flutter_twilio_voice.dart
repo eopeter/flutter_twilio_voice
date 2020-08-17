@@ -44,13 +44,14 @@ class FlutterTwilioVoice {
       {@required String from, @required String to, String toDisplayName, Map<String, dynamic> extraOptions}) {
     assert(to != null);
     assert(from != null);
-    extraOptions['from'] = from;
-    extraOptions['to'] = to;
-    extraOptions['toDisplayName'] = toDisplayName;
+    var options = extraOptions != null ? extraOptions : Map<String, dynamic>();
+    options['from'] = from;
+    options['to'] = to;
+    options['toDisplayName'] = toDisplayName;
     callFrom = from;
     callTo = to;
     callDirection = CallDirection.outgoing;
-    return _channel.invokeMethod('makeCall', extraOptions);
+    return _channel.invokeMethod('makeCall', options);
   }
 
   static Future<bool> hangUp() {
