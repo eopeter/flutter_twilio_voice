@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute, speaker_on, speaker_off }
+enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute, speaker_on, speaker_off, log }
 enum CallDirection { incoming, outgoing }
 
 class FlutterTwilioVoice {
@@ -36,8 +36,8 @@ class FlutterTwilioVoice {
     return _channel.invokeMethod('tokens', <String, dynamic>{"accessToken": accessToken, "fcmToken": fcmToken});
   }
 
-  static Future<bool> unregister() {
-    return _channel.invokeMethod('unregister', <String, dynamic>{});
+  static Future<bool> unregister(String accessToken) {
+    return _channel.invokeMethod('unregister', <String, dynamic>{"accessToken": accessToken});
   }
 
   static Future<bool> makeCall(
@@ -100,7 +100,11 @@ class FlutterTwilioVoice {
   }
 
   static CallState _parseCallState(String state) {
-    if (state.startsWith("Connected|")) {
+    if (state.startsWith("LOG|")) {
+      List<String> tokens = state.split('|');
+      print(tokens[1]);
+      return CallState.log;
+    } else if (state.startsWith("Connected|")) {
       List<String> tokens = state.split('|');
       callFrom = _prettyPrintNumber(tokens[1]);
       callTo = _prettyPrintNumber(tokens[2]);

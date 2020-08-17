@@ -3,6 +3,9 @@
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -23,8 +26,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="Turn off speaker phone by default">
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
@@ -34,6 +40,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
   <component name="ComposerSettings">
     <execution />
   </component>
@@ -41,7 +50,6 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="RF8N20CJQCT" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/android">
       <ProjectState />
@@ -85,6 +93,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
   <component name="ProjectId" id="1VfKwtgP6oAoCuptzXqAGZ6xcNk" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
@@ -96,6 +107,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="TF_FMT" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -103,13 +115,14 @@
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../solution-studios-java-repository" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.1631579" />
     <property name="project.structure.side.proportion" value="0.39549437" />
@@ -140,6 +153,17 @@
     <option name="showLabels" value="true" />
   </component>
   <component name="RunManager" selected="Gradle./data/git/flutter_twilio_voice/android/build.gradle">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="/data/git/flutter_twilio_voice/android/build.gradle" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -158,6 +182,7 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -181,7 +206,10 @@
       <workItem from="1586616730209" duration="2517000" />
       <workItem from="1586791350158" duration="1202000" />
       <workItem from="1586871011055" duration="6489000" />
-      <workItem from="1587041143714" duration="20000" />
+      <workItem from="1587041143714" duration="1242000" />
+      <workItem from="1591385553277" duration="1640000" />
+      <workItem from="1597505112607" duration="2933000" />
+      <workItem from="1597700806667" duration="2817000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -488,7 +516,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -534,53 +562,17 @@
     <option name="LAST_COMMIT_MESSAGE" value="Turn off speaker phone by default" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="4676" y="402" width="238" height="283" key="#Notifications" timestamp="1586267271688">
+    <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl" timestamp="1597703023819">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597703023819" />
+    <state x="5270" y="878" width="480" height="194" key="ProcessPopupWindow" timestamp="1591385697574">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
-    <state x="4676" y="402" width="238" height="283" key="#Notifications/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586267271688" />
-    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2" timestamp="1578781931278">
-      <screen x="3840" y="0" width="1920" height="1080" />
+    <state x="5270" y="878" width="480" height="194" key="ProcessPopupWindow/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1591385697574" />
+    <state x="2589" y="255" width="581" height="570" key="find.popup" timestamp="1597702264044">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2454" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543551269" />
-    <state x="4374" y="77" width="841" height="932" key="CommitChangelistDialog2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578781931278" />
-    <state x="3940" y="104" width="1720" height="876" key="DiffContextDialog" timestamp="1578781027335">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="3940" y="104" width="1720" height="876" key="DiffContextDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578781027335" />
-    <state x="4583" y="298" width="424" height="491" key="FileChooserDialogImpl" timestamp="1586874968526">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2663" y="298" width="471" height="498" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578692883021" />
-    <state x="4583" y="298" width="424" height="491" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586874968526" />
-    <state x="4451" y="251" width="688" height="585" key="RollbackChangesDialog" timestamp="1578623242519">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="4451" y="251" key="RollbackChangesDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578623242519" />
-    <state x="4296" y="175" width="1075" height="817" key="SettingsEditor" timestamp="1586533744649">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="4296" y="175" width="1075" height="817" key="SettingsEditor/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586533744649" />
-    <state x="4579" y="243" width="432" height="600" key="VCS.ChangeListViewerDialog" timestamp="1578766834164">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="4579" y="243" width="432" height="600" key="VCS.ChangeListViewerDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578766834164" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1586547513820">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578543552766" />
-    <state x="4395" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586547513820" />
-    <state width="465" height="36" key="javadoc.popup.new" timestamp="1586931151725">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state width="465" height="36" key="javadoc.popup.new/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586931151725" />
-    <state x="4499" y="293" width="591" height="500" key="refactoring.ChangeSignatureDialog" timestamp="1586954396609">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="4499" y="293" width="591" height="500" key="refactoring.ChangeSignatureDialog/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1586954396609" />
-    <state x="4464" y="245" width="672" height="677" key="run.anything.popup" timestamp="1578727857970">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2544" y="245" width="672" height="677" key="run.anything.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@1920.0.1920.1080" timestamp="1578433750887" />
-    <state x="4464" y="245" width="672" height="677" key="run.anything.popup/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1578727857970" />
+    <state x="2589" y="255" width="581" height="570" key="find.popup/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597702264044" />
   </component>
 </project>

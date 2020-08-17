@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/android/android.flutter_twilio_voice.iml" filepath="$PROJECT_DIR$/android/android.flutter_twilio_voice.iml" group="flutter_twilio_voice" />
+      <module fileurl="file://$PROJECT_DIR$/android/android.flutter_twilio_voice.iml" filepath="$PROJECT_DIR$/android/android.flutter_twilio_voice.iml" />
       <module fileurl="file://$PROJECT_DIR$/flutter_twilio_voice.iml" filepath="$PROJECT_DIR$/flutter_twilio_voice.iml" />
       <module fileurl="file://$PROJECT_DIR$/android/flutter_twilio_voice_android.iml" filepath="$PROJECT_DIR$/android/flutter_twilio_voice_android.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/android/flutter_twilio_voice_example_android.iml" filepath="$PROJECT_DIR$/example/android/flutter_twilio_voice_example_android.iml" />
