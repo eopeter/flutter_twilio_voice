@@ -107,6 +107,16 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                     self.sendPhoneCallEvents(description: "LOG|Successfully registered for VoIP push notifications.", isError: false)
                 }
             }
+        } else if let deviceToken = arguments["deviceToken"] as? String, let token = accessToken {
+            self.sendPhoneCallEvents(description: "LOG|pushRegistry:attempting to register with twilio", isError: false)
+            TwilioVoice.register(withAccessToken: token, deviceToken: deviceToken) { (error) in
+                if let error = error {
+                    self.sendPhoneCallEvents(description: "LOG|An error occurred while registering: \(error.localizedDescription)", isError: false)
+                }
+                else {
+                    self.sendPhoneCallEvents(description: "LOG|Successfully registered for VoIP push notifications.", isError: false)
+                }
+            }
         }
     } else if flutterCall.method == "makeCall" {
         guard let callTo = arguments["to"] as? String else {return}
@@ -242,16 +252,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 }
             }
         }
-  }
-
-    /* func fetchAccessToken() -> String? {
-        let endpointWithIdentity = String(format: "%@?identity=%@", accessTokenEndpoint, identity)
-        guard let accessTokenURL = URL(string: baseURLString + endpointWithIdentity) else {
-            return nil
-        }
-
-        return try? String.init(contentsOf: accessTokenURL, encoding: .utf8)
-    } */
+    }
 
     func checkRecordPermission(completion: @escaping (_ permissionGranted: Bool) -> Void) {
         switch AVAudioSession.sharedInstance().recordPermission {
@@ -304,6 +305,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
           }
 
           self.deviceTokenString = deviceToken
+          self.sendPhoneCallEvents(description: "DEVICETOKEN|\(deviceToken)", isError: false)
       }
 
       public func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
@@ -333,8 +335,6 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                   self.sendPhoneCallEvents(description: "LOG|Successfully unregistered from VoIP push notifications.", isError: false)
               }
           }
-
-          self.deviceTokenString = nil
       }
 
     /**

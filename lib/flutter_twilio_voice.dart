@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute, speaker_on, speaker_off, log }
 enum CallDirection { incoming, outgoing }
 
+typedef OnDeviceTokenChanged = Function(String deviceToken);
+
 class FlutterTwilioVoice {
   static final String ACTION_ACCEPT = "ACTION_ACCEPT";
   static final String ACTION_REJECT = "ACTION_REJECT";
@@ -21,8 +23,10 @@ class FlutterTwilioVoice {
   static Stream<CallState> _onCallStateChanged;
   static String callFrom = "SafeNSound";
   static String callTo = "SafeNSound";
+  static String deviceToken;
   static int callStartedOn;
   static CallDirection callDirection = CallDirection.incoming;
+  static OnDeviceTokenChanged deviceTokenChanged;
 
   static Stream<CallState> get onCallStateChanged {
     if (_onCallStateChanged == null) {
@@ -31,9 +35,13 @@ class FlutterTwilioVoice {
     return _onCallStateChanged;
   }
 
-  static Future<bool> tokens({@required String accessToken, @required String fcmToken}) {
+  static void setOnDeviceTokenChanged(OnDeviceTokenChanged deviceTokenChanged) {
+    FlutterTwilioVoice.deviceTokenChanged = deviceTokenChanged;
+  }
+
+  static Future<bool> tokens({@required String accessToken, String deviceToken}) {
     assert(accessToken != null);
-    return _channel.invokeMethod('tokens', <String, dynamic>{"accessToken": accessToken, "fcmToken": fcmToken});
+    return _channel.invokeMethod('tokens', <String, dynamic>{"accessToken": accessToken, "deviceToken": deviceToken});
   }
 
   static Future<bool> unregister(String accessToken) {
@@ -101,7 +109,14 @@ class FlutterTwilioVoice {
   }
 
   static CallState _parseCallState(String state) {
-    if (state.startsWith("LOG|")) {
+    if (state.startsWith("DEVICETOKEN|")) {
+      List<String> tokens = state.split('|');
+      deviceToken = tokens[1];
+      if (deviceTokenChanged != null) {
+        deviceTokenChanged(deviceToken);
+      }
+      return CallState.log;
+    } else if (state.startsWith("LOG|")) {
       List<String> tokens = state.split('|');
       print(tokens[1]);
       return CallState.log;
