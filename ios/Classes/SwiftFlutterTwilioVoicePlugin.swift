@@ -705,6 +705,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                     builder.uuid = ci.uuid
                 }
                 self.sendPhoneCallEvents(description: "LOG|performAnswerVoiceCall: answering call", isError: false)
+                eventSink?("Answer")
                 let theCall = ci.accept(with: acceptOptions, delegate: self)
                 self.call = theCall
                 self.callKitCompletionCallback = completionHandler
