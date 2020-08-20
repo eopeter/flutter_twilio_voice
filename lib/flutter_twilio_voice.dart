@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute, speaker_on, speaker_off, log }
+enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute, speaker_on, speaker_off, log, answer }
 enum CallDirection { incoming, outgoing }
 
 typedef OnDeviceTokenChanged = Function(String deviceToken);
@@ -162,6 +162,8 @@ class FlutterTwilioVoice {
         return CallState.speaker_on;
       case 'Speaker Off':
         return CallState.speaker_off;
+      case 'Answer':
+        return CallState.answer;
       default:
         print('$state is not a valid CallState.');
         throw ArgumentError('$state is not a valid CallState.');
@@ -172,24 +174,5 @@ class FlutterTwilioVoice {
     if (phoneNumber.indexOf('client:') > -1) {
       return phoneNumber.split(':')[1];
     }
-    if (phoneNumber.substring(0, 1) == '+') {
-      phoneNumber = phoneNumber.substring(1);
-    }
-    if (phoneNumber.length == 7) {
-      return phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3);
-    }
-    if (phoneNumber.length < 10) {
-      return phoneNumber;
-    }
-    int start = 0;
-    if (phoneNumber.length == 11) {
-      start = 1;
-    }
-    return "(" +
-        phoneNumber.substring(start, start + 3) +
-        ") " +
-        phoneNumber.substring(start + 3, start + 6) +
-        "-" +
-        phoneNumber.substring(start + 6);
-  }
+    return phoneNumber;
 }
