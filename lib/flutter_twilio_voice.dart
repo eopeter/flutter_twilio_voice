@@ -175,4 +175,5 @@ class FlutterTwilioVoice {
       return phoneNumber.split(':')[1];
     }
     return phoneNumber;
+  }
 }
