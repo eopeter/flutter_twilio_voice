@@ -16,6 +16,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     var accessToken:String?
     var identity = "alice"
     var callTo: String = "error"
+    var defaultCaller = "Unknown Caller"
     var deviceTokenString: String?
     var callArgs: Dictionary<String, AnyObject> = [String: AnyObject]()
     
@@ -34,7 +35,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     
     static var appName: String {
         get {
-            return (Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String) ?? "Define CFBundleDisplayName"
+            return (Bundle.main.infoDictionary!["CFBundleName"] as? String) ?? "Define CFBundleName"
         }
     }
     
@@ -211,6 +212,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             clients.removeValue(forKey: clientId)
             UserDefaults.standard.set(clients, forKey: kClientList)
             
+        }else if flutterCall.method == "defaultCaller"{
+            guard let caller = arguments["defaultCaller"] as? String else {return}
+            defaultCaller = caller
         }
         result(true)
     }
@@ -645,7 +649,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             
             let callUpdate = CXCallUpdate()
             callUpdate.remoteHandle = callHandle
-            callUpdate.localizedCallerName = self.clients[handle] ?? "Cliente HomeTask"
+            callUpdate.localizedCallerName = self.clients[handle] ?? self.defaultCaller
             callUpdate.supportsDTMF = false
             callUpdate.supportsHolding = true
             callUpdate.supportsGrouping = false
@@ -661,7 +665,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         
         let callUpdate = CXCallUpdate()
         callUpdate.remoteHandle = callHandle
-        callUpdate.localizedCallerName = clients[from] ?? "Cliente HomeTask"
+        callUpdate.localizedCallerName = self.clients[handle] ?? self.defaultCaller
         callUpdate.supportsDTMF = true
         callUpdate.supportsHolding = true
         callUpdate.supportsGrouping = false
@@ -719,8 +723,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 builder.uuid = ci.uuid
             }
             self.sendPhoneCallEvents(description: "LOG|performAnswerVoiceCall: answering call", isError: false)
-            eventSink?("Answer")
             let theCall = ci.accept(with: acceptOptions, delegate: self)
+            eventSink?("Answer|\(theCall.from ?? self.defaultCaller)")
             self.call = theCall
             self.callKitCompletionCallback = completionHandler
             
