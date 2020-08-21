@@ -326,13 +326,17 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             Log.d(TAG, "Making new call");
             final HashMap<String, String> params = new HashMap<>();
             params.put("To", call.argument("to").toString());
-            params.put("From", call.argument("from").toString());
+//             params.put("From", call.argument("from").toString());
             this.callOutgoing = true;
             final ConnectOptions connectOptions = new ConnectOptions.Builder(this.accessToken)
               .params(params)
               .build();
             this.activeCall = Voice.connect(this.activity, connectOptions, this.callListener);
             result.success(true);
+        } else if (call.method.equals("registerClient")) {
+          //todo add to map
+        } else if (call.method.equals("unregisterClient")) {
+          //todo: remove from map
         } else {
             result.notImplemented();
         }
@@ -344,6 +348,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private void answer() {
         Log.d(TAG, "Answering call");
         SoundPoolManager.getInstance(this.context).stopRinging();
+        eventSink.success("Answer");
         activeCallInvite.accept(this.activity, callListener);
         notificationManager.cancel(activeCallNotificationId);
     }
