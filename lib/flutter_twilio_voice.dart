@@ -128,6 +128,11 @@ class FlutterTwilioVoice {
     return _channel
         .invokeMethod('unregisterClient', <String, dynamic>{"id": clientId});
   }
+  
+  static Furute<bool> setDefaultCallerName(String callerName) {
+    return _channel.invokeMethod(
+        'defaultCaller', <String, dynamic>{"defaultCaller": callerName});
+  }
 
   static String getFrom() {
     return callFrom;
