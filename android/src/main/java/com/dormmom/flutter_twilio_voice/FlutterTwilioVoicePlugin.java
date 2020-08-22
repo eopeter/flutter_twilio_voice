@@ -10,6 +10,8 @@ import com.twilio.voice.UnregistrationListener;
 import com.twilio.voice.Voice;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import android.Manifest;
 import android.app.Activity;
@@ -18,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
@@ -28,6 +31,9 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import org.json.JSONObject;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
@@ -42,6 +48,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private static final String CHANNEL_NAME = "flutter_twilio_voice";
     private static final String TAG = "TwilioVoicePlugin";
+    public static final String TwilioPreferences = "mx.mxtask.TwilioPreferences";
     private static final int MIC_PERMISSION_REQUEST_CODE = 1;
 
     private String accessToken;
@@ -50,6 +57,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private boolean isReceiverRegistered = false;
     private VoiceBroadcastReceiver voiceBroadcastReceiver;
+
 
     private NotificationManager notificationManager;
     //private SoundPoolManager soundPoolManager;
@@ -68,9 +76,12 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private String fcmToken;
     private boolean callOutgoing;
 
+    private SharedPreferences pSharedPref;
+
     @Override
     public void onAttachedToEngine(FlutterPluginBinding flutterPluginBinding) {
         register(flutterPluginBinding.getFlutterEngine().getDartExecutor(), this, flutterPluginBinding.getApplicationContext());
+
     }
 
     private static void register(BinaryMessenger messenger, FlutterTwilioVoicePlugin plugin, Context context) {
@@ -92,6 +103,9 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
          */
         plugin.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         plugin.audioManager.setSpeakerphoneOn(true);
+
+        plugin.pSharedPref = context.getSharedPreferences(TwilioPreferences, Context.MODE_PRIVATE);
+
 
         /*
          * Enable changing the volume using the up/down keys during a conversation
@@ -334,9 +348,27 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             this.activeCall = Voice.connect(this.activity, connectOptions, this.callListener);
             result.success(true);
         } else if (call.method.equals("registerClient")) {
-          //todo add to map
+            String id = call.argument("id");
+            String name = call.argument("name");
+            if(id != null && name != null){
+                SharedPreferences.Editor edit = pSharedPref.edit();
+                edit.putString(id, name);
+                edit.apply();
+            }
         } else if (call.method.equals("unregisterClient")) {
-          //todo: remove from map
+            String id = call.argument("id");
+            if(id != null) {
+                SharedPreferences.Editor edit = pSharedPref.edit();
+                edit.remove(id);
+                edit.apply();
+            }
+        } else if (call.method.equals("defaultCaller")){
+            String caller = call.argument("defaultCaller");
+            if(caller != null){
+                SharedPreferences.Editor edit = pSharedPref.edit();
+                edit.putString("defaultCaller", caller);
+                edit.apply();
+            }
         } else {
             result.notImplemented();
         }
@@ -348,8 +380,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private void answer() {
         Log.d(TAG, "Answering call");
         SoundPoolManager.getInstance(this.context).stopRinging();
-        eventSink.success("Answer");
         activeCallInvite.accept(this.activity, callListener);
+        eventSink.success("Answer|"+ activeCallInvite.getFrom());
         notificationManager.cancel(activeCallNotificationId);
     }
 
