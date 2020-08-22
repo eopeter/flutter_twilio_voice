@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.twilio.voice.CallInvite;
 public class IncomingCallNotificationService extends Service {
 
     private static final String TAG = IncomingCallNotificationService.class.getSimpleName();
+    public static final String TwilioPreferences = "mx.mxtask.TwilioPreferences";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -72,8 +74,13 @@ public class IncomingCallNotificationService extends Service {
         Bundle extras = new Bundle();
         extras.putString(Constants.CALL_SID_KEY, callInvite.getCallSid());
 
+        Context context = getApplicationContext();
+        SharedPreferences preferences = context.getSharedPreferences(TwilioPreferences, Context.MODE_PRIVATE);
+        Log.i(TAG, "Setting notification from, "+ callInvite.getFrom());
+        String caller = preferences.getString(callInvite.getFrom(), preferences.getString("defaultCaller", callInvite.getFrom()));
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return buildNotification(callInvite.getFrom() + " is calling.",
+            return buildNotification("Llamada de " + caller,
               pendingIntent,
               extras,
               callInvite,
@@ -84,7 +91,7 @@ public class IncomingCallNotificationService extends Service {
             return new NotificationCompat.Builder(this)
               .setSmallIcon(R.drawable.ic_call_end_white_24dp)
               .setContentTitle(getString(R.string.app_name))
-              .setContentText(callInvite.getFrom() + " is calling.")
+              .setContentText("Llamada de " + caller)
               .setAutoCancel(true)
               .setExtras(extras)
               .setContentIntent(pendingIntent)
