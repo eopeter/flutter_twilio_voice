@@ -46,7 +46,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         let configuration = CXProviderConfiguration(localizedName: SwiftFlutterTwilioVoicePlugin.appName)
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
-        if let callKitIcon = UIImage(named: "AppIcon") {
+        if let callKitIcon = UIImage(named: "logo_white") {
             configuration.iconTemplateImageData = callKitIcon.pngData()
         }
         
