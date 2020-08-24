@@ -10,9 +10,6 @@ import com.twilio.voice.UnregistrationListener;
 import com.twilio.voice.Voice;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -31,8 +28,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import org.json.JSONObject;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -148,7 +143,11 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 //retrieveAccessToken();
                 break;
             case Constants.ACTION_ACCEPT:
-                answer();
+                if(checkPermissionForMicrophone()) {
+                    answer();
+                }else{
+                    requestPermissionForMicrophone();
+                }
                 break;
             default:
                 break;
@@ -161,7 +160,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private void handleIncomingCall(String from, String to) {
-        eventSink.success("Ringing|" + from + "|" + to + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
+        sendPhoneCallEvents("Ringing|" + from + "|" + to + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
         SoundPoolManager.getInstance(activity).playRinging();
         /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             showIncomingCallDialog();
@@ -175,7 +174,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private void handleCancel() {
         //if (alertDialog != null && alertDialog.isShowing()) {
         callOutgoing = false;
-        this.eventSink.success("Call Ended");
+        sendPhoneCallEvents("Call Ended");
         SoundPoolManager.getInstance(activity).stopRinging();
             //alertDialog.cancel();
         //}
@@ -183,11 +182,13 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void registerReceiver() {
         if (!isReceiverRegistered) {
+            Log.d(TAG, "registerReceiver");
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Constants.ACTION_INCOMING_CALL);
             intentFilter.addAction(Constants.ACTION_INCOMING_CALL_NOTIFICATION);
             intentFilter.addAction(Constants.ACTION_CANCEL_CALL);
             intentFilter.addAction(Constants.ACTION_FCM_TOKEN);
+            intentFilter.addAction(Constants.ACTION_ACCEPT);
             LocalBroadcastManager.getInstance(this.activity).registerReceiver(
               voiceBroadcastReceiver, intentFilter);
             isReceiverRegistered = true;
@@ -244,7 +245,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             String action = intent.getAction();
             Log.d(TAG, "Received broadcast for action " + action);
             if (action != null && (action.equals(Constants.ACTION_INCOMING_CALL) || action.equals(Constants.ACTION_CANCEL_CALL)
-              || action.equals(Constants.ACTION_INCOMING_CALL_NOTIFICATION))) {
+              || action.equals(Constants.ACTION_INCOMING_CALL_NOTIFICATION) || action.equals(Constants.ACTION_ACCEPT))) {
                 /*
                  * Handle the incoming or cancelled call invite
                  */
@@ -301,7 +302,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         if (call.method.equals("tokens")) {
             Log.d(TAG, "Setting up tokens");
             this.accessToken = call.argument("accessToken");
-            this.fcmToken = call.argument("fcmToken");
+            this.fcmToken = call.argument("deviceToken");
             this.registerForCallInvites();
             result.success(true);
         } else if (call.method.equals("sendDigits")) {
@@ -338,6 +339,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             result.success(true);
         } else if (call.method.equals("makeCall")) {
             Log.d(TAG, "Making new call");
+            sendPhoneCallEvents("LOG|Making new call");
             final HashMap<String, String> params = new HashMap<>();
             params.put("To", call.argument("to").toString());
 //             params.put("From", call.argument("from").toString());
@@ -350,7 +352,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         } else if (call.method.equals("registerClient")) {
             String id = call.argument("id");
             String name = call.argument("name");
-            if(id != null && name != null){
+            if(id != null && name != null && !pSharedPref.contains(id)  ){
+                sendPhoneCallEvents("LOG|Registering client " +id +":"+ name);
                 SharedPreferences.Editor edit = pSharedPref.edit();
                 edit.putString(id, name);
                 edit.apply();
@@ -358,6 +361,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         } else if (call.method.equals("unregisterClient")) {
             String id = call.argument("id");
             if(id != null) {
+                sendPhoneCallEvents("LOG|Unegistering" + id);
                 SharedPreferences.Editor edit = pSharedPref.edit();
                 edit.remove(id);
                 edit.apply();
@@ -365,11 +369,23 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         } else if (call.method.equals("defaultCaller")){
             String caller = call.argument("defaultCaller");
             if(caller != null){
+                sendPhoneCallEvents("LOG|defaultCaller is "+ caller);
                 SharedPreferences.Editor edit = pSharedPref.edit();
                 edit.putString("defaultCaller", caller);
                 edit.apply();
             }
-        } else {
+        } else if (call.method.equals("hasMicPermission")) {
+            result.success(this.checkPermissionForMicrophone());
+        }else if (call.method.equals("requestMicPermission")){
+            sendPhoneCallEvents("requesting mic permission");
+            if (!this.checkPermissionForMicrophone()) {
+                boolean hasAccess = this.requestPermissionForMicrophone();
+                sendPhoneCallEvents(("has access" + (hasAccess ? "yes":"no")));
+                result.success(hasAccess);
+            }else {
+                result.success(true);
+            }
+        }else {
             result.notImplemented();
         }
     }
@@ -385,8 +401,14 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         notificationManager.cancel(activeCallNotificationId);
     }
 
+    private void sendPhoneCallEvents(String description){
+        if(eventSink == null){ return;}
+        eventSink.success(description);
+    }
+
     @Override
     public boolean onNewIntent(Intent intent) {
+        Log.d(TAG, "onNewIntent");
         this.handleIncomingCallIntent(intent);
         return false;
     }
@@ -399,9 +421,9 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         /*
          * Ensure the microphone permission is enabled
          */
-        if (!this.checkPermissionForMicrophone()) {
-            this.requestPermissionForMicrophone();
-        }
+//        if (!this.checkPermissionForMicrophone()) {
+//            this.requestPermissionForMicrophone();
+//        }
     }
 
     @Override
@@ -450,6 +472,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 Log.d(TAG, "Connect failure");
                 String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                 Log.e(TAG, message);
+                eventSink.success("LOG|"+message);
 
             }
 
@@ -457,6 +480,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             public void onConnected(Call call) {
                 setAudioFocus(true);
                 Log.d(TAG, "Connected");
+                eventSink.success("LOG|Connected");
                 activeCall = call;
                 eventSink.success("Connected|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
             }
@@ -556,17 +580,21 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private boolean checkPermissionForMicrophone() {
+        eventSink.success("LOG|checkPermissionForMicrophone");
         int resultMic = ContextCompat.checkSelfPermission(this.context, Manifest.permission.RECORD_AUDIO);
         return resultMic == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void requestPermissionForMicrophone() {
+    private boolean requestPermissionForMicrophone() {
+        eventSink.success("LOG|requestPermissionForMicrophone");
         if (ActivityCompat.shouldShowRequestPermissionRationale(this.activity, Manifest.permission.RECORD_AUDIO)) {
-
+            eventSink.success("RequestMicrophoneAccess");
+            return false;
         } else {
             ActivityCompat.requestPermissions(this.activity,
               new String[]{Manifest.permission.RECORD_AUDIO},
               MIC_PERMISSION_REQUEST_CODE);
+            return true;
         }
     }
 /*
@@ -582,12 +610,16 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
 
                 Log.d(TAG, "Microphone permissions needed. Please allow in your application settings.");
-            }*/
-/* else {
-                retrieveAccessToken();
-            }*//*
+            }
+            else {
+                Log.d(TAG, "Microphone permissions granted.");
+                if(activeCallInvite != null){
+                    answer();
+                }
+//                retrieveAccessToken();
+            }
 
         }
-    }
-*/
+            }*/
+
 }

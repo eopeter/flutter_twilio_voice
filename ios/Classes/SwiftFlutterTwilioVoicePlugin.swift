@@ -126,8 +126,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             let callToDisplayName:String = arguments["toDisplayName"] as? String ?? callTo
             self.callArgs = arguments
             self.callOutgoing = true
-            //guard let accessTokenUrl = arguments["accessTokenUrl"] as? String else {return}
-            //self.accessTokenEndpoint = accessTokenUrl
+            if let accessToken = arguments["accessToken"] as? String{
+                self.accessToken = accessToken
+            }
             self.callTo = callTo
             self.identity = callFrom
             makeCall(to: callTo, displayName: callToDisplayName)
@@ -215,6 +216,12 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         }else if flutterCall.method == "defaultCaller"{
             guard let caller = arguments["defaultCaller"] as? String else {return}
             defaultCaller = caller
+        }else if flutterCall.method == "hasMicPermission" {
+            result(true) ///do nuthin
+            return
+        }else if flutterCall.method == "requestMicPermission"{
+            result(true)///do nuthin
+            return
         }
         result(true)
     }
@@ -231,18 +238,18 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             
             self.checkRecordPermission { (permissionGranted) in
                 if (!permissionGranted) {
-                    let alertController: UIAlertController = UIAlertController(title: SwiftFlutterTwilioVoicePlugin.appName + " Permission",
-                                                                               message: "Microphone permission not granted",
+                    let alertController: UIAlertController = UIAlertController(title: SwiftFlutterTwilioVoicePlugin.appName + "necesita permiso",
+                                                                               message: "Es necesario acceso a tu microfono",
                                                                                preferredStyle: .alert)
                     
-                    let continueWithMic: UIAlertAction = UIAlertAction(title: "Continue without microphone",
+                    let continueWithMic: UIAlertAction = UIAlertAction(title: "Continuar sin microfono",
                                                                        style: .default,
                                                                        handler: { (action) in
                                                                         self.performStartCallAction(uuid: uuid, handle: handle)
                                                                        })
                     alertController.addAction(continueWithMic)
                     
-                    let goToSettings: UIAlertAction = UIAlertAction(title: "Settings",
+                    let goToSettings: UIAlertAction = UIAlertAction(title: "Ajustes",
                                                                     style: .default,
                                                                     handler: { (action) in
                                                                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!,
@@ -251,7 +258,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                                                                     })
                     alertController.addAction(goToSettings)
                     
-                    let cancel: UIAlertAction = UIAlertAction(title: "Cancel",
+                    let cancel: UIAlertAction = UIAlertAction(title: "Cancelar",
                                                               style: .cancel,
                                                               handler: { (action) in
                                                                 //self.toggleUIState(isEnabled: true, showCallControl: false)
@@ -665,7 +672,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         
         let callUpdate = CXCallUpdate()
         callUpdate.remoteHandle = callHandle
-        callUpdate.localizedCallerName = self.clients[handle] ?? self.defaultCaller
+        callUpdate.localizedCallerName = clients[from] ?? defaultCaller
         callUpdate.supportsDTMF = true
         callUpdate.supportsHolding = true
         callUpdate.supportsGrouping = false
