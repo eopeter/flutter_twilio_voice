@@ -59,7 +59,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
          fatalError("rootViewController is not type FlutterViewController")
          }
          let registrar = controller.registrar(forPlugin: "flutter_twilio_voice");
-         let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice", binaryMessenger: registrar.messenger())
+        let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice", binaryMessenger: registrar!.messenger())
          
          eventChannel.setStreamHandler(self)
 
@@ -91,12 +91,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         guard let callTo = arguments?["to"] as? String else {return}
         let callToDisplayName = arguments?["toDisplayName"] as? String
         guard let accessTokenUrl = arguments?["accessTokenUrl"] as? String else {return}
+        guard let callFrom = arguments?["from"] as? String else {return}
 
-        if(arguments?["from"] != nil)
-        {
-            self.identity = "16072164340";// arguments?["from"] as? String ?? self.identity
-        }
-        
+        self.identity = callFrom
         self.accessTokenEndpoint = accessTokenUrl
         self.callTo = callTo;
         makeCall(to: callTo, displayName: callToDisplayName ?? callTo)
@@ -159,7 +156,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                         let goToSettings: UIAlertAction = UIAlertAction(title: "Settings",
                                                                         style: .default,
                                                                         handler: { (action) in
-                            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!,
+                                                                            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!,
                                                       options: [UIApplicationOpenURLOptionUniversalLinksOnly: false],
                                                       completionHandler: nil)
                         })
@@ -194,7 +191,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     }
     
     func checkRecordPermission(completion: @escaping (_ permissionGranted: Bool) -> Void) {
-        let permissionStatus: AVAudioSessionRecordPermission = AVAudioSession.sharedInstance().recordPermission()
+        let permissionStatus: AVAudioSession.RecordPermission = AVAudioSession.sharedInstance().recordPermission()
         
         switch permissionStatus {
         case AVAudioSessionRecordPermission.granted:
@@ -306,7 +303,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             NSLog("callInviteReceived:")
 
             if (self.callInvite != nil) {
-                NSLog("A CallInvite is already in progress. Ignoring the incoming CallInvite from \(callInvite.from)")
+                NSLog("A CallInvite is already in progress. Ignoring the incoming CallInvite from \(callInvite.from ?? "Unknown Caller")")
                 self.incomingPushHandled()
                 return;
             } else if (self.call != nil) {

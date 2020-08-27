@@ -23,7 +23,8 @@ class FlutterTwilioVoice {
   static Future<void> makeCall({ @required String accessTokenUrl, String from, @required String to, String toDisplayName}) async
   {
     assert(accessTokenUrl != null);
-    assert(to != null);
+    assert(from != null && from.trim() != "");
+    assert(to != null && to.trim() != "");
     final Map<String, Object> args = <String, dynamic>{"accessTokenUrl" : accessTokenUrl, "from" : from, "to" : to, "toDisplayName" : toDisplayName};
     await _channel.invokeMethod('makeCall', args);
   }

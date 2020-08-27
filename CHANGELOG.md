@@ -1,3 +1,6 @@
+## 0.0.4
+* update ios library
+
 ## 0.0.3
 * metadata changes and display Name for call to
 
