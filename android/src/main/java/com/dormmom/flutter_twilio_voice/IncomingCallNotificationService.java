@@ -26,7 +26,7 @@ import com.twilio.voice.CallInvite;
 public class IncomingCallNotificationService extends Service {
 
     private static final String TAG = IncomingCallNotificationService.class.getSimpleName();
-    public static final String TwilioPreferences = "mx.mxtask.TwilioPreferences";
+    public static final String TwilioPreferences = "mx.TwilioPreferences";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
