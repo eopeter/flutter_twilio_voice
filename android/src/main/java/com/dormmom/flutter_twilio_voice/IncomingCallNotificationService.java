@@ -62,7 +62,7 @@ public class IncomingCallNotificationService extends Service {
 
     private Notification createNotification(CallInvite callInvite, int notificationId, int channelImportance) {
         Log.i(TAG, "createNotification");
-        Intent intent = new Intent(this);
+        Intent intent = new Intent();
         intent.setAction(Constants.ACTION_INCOMING_CALL_NOTIFICATION);
         intent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         intent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
@@ -221,14 +221,14 @@ public class IncomingCallNotificationService extends Service {
 
     private void handleIncomingCall(CallInvite callInvite, int notificationId) {
         Log.i(TAG, "handle incomming call");
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            Log.i(TAG, "version match, setcallinprogressnotification");
-        setCallInProgressNotification(callInvite, notificationId);
-//        }else{
-//            Log.i(TAG, "no version match, testing creating notification");
-//            startForeground(notificationId, createNotification(callInvite, notificationId, NotificationManager.IMPORTANCE_HIGH));
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+           Log.i(TAG, "version match, setcallinprogressnotification");
+        
+       }else{
+           Log.i(TAG, "no version match, testing creating notification");
+           startForeground(notificationId, createNotification(callInvite, notificationId, NotificationManager.IMPORTANCE_HIGH));
 
-//        }
+       }
         sendCallInviteToActivity(callInvite, notificationId);
 //        startForeground(notificationId, createNotification(callInvite, notificationId, 4));
     }

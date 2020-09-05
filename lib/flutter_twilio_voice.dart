@@ -128,10 +128,18 @@ class FlutterTwilioVoice {
     return _channel
         .invokeMethod('unregisterClient', <String, dynamic>{"id": clientId});
   }
-  
+
   static Future<bool> setDefaultCallerName(String callerName) {
     return _channel.invokeMethod(
         'defaultCaller', <String, dynamic>{"defaultCaller": callerName});
+  }
+
+  static Future<bool> hasMicAccess() {
+    return _channel.invokeMethod('hasMicPermission');
+  }
+
+  static Future<bool> requestMicAccess() {
+    return _channel.invokeMethod('requestMicPermission');
   }
 
   static String getFrom() {

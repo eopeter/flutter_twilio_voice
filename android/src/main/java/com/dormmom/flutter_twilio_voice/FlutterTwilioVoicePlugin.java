@@ -142,12 +142,16 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             case Constants.ACTION_FCM_TOKEN:
                 //retrieveAccessToken();
                 break;
+            case Constants.ACTION_REJECT:
+                //do somethinng????
+                break;
             case Constants.ACTION_ACCEPT:
-                if(checkPermissionForMicrophone()) {
-                    answer();
-                }else{
-                    requestPermissionForMicrophone();
-                }
+                answer();
+                // do in receive call activty
+                // if(checkPermissionForMicrophone()) {
+                // }else{
+                //     requestPermissionForMicrophone();
+                // }
                 break;
             default:
                 break;
@@ -189,6 +193,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             intentFilter.addAction(Constants.ACTION_CANCEL_CALL);
             intentFilter.addAction(Constants.ACTION_FCM_TOKEN);
             intentFilter.addAction(Constants.ACTION_ACCEPT);
+            intentFilter.addAction(Constants.ACTION_REJECT);
             LocalBroadcastManager.getInstance(this.activity).registerReceiver(
               voiceBroadcastReceiver, intentFilter);
             isReceiverRegistered = true;
@@ -380,7 +385,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             sendPhoneCallEvents("requesting mic permission");
             if (!this.checkPermissionForMicrophone()) {
                 boolean hasAccess = this.requestPermissionForMicrophone();
-                sendPhoneCallEvents(("has access" + (hasAccess ? "yes":"no")));
                 result.success(hasAccess);
             }else {
                 result.success(true);
