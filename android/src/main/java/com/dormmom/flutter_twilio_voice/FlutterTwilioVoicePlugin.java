@@ -43,7 +43,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private static final String CHANNEL_NAME = "flutter_twilio_voice";
     private static final String TAG = "TwilioVoicePlugin";
-    public static final String TwilioPreferences = "mx.mxtask.TwilioPreferences";
+    public static final String TwilioPreferences = "mx.TwilioPreferences";
     private static final int MIC_PERMISSION_REQUEST_CODE = 1;
 
     private String accessToken;
