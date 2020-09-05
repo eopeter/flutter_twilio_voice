@@ -23,6 +23,7 @@ class _MyAppState extends State<MyApp> {
 
   TextEditingController _controller;
   String _eventMessage;
+  String userId;
 
   registerUser() {
     print("voip- service init");
@@ -70,6 +71,7 @@ class _MyAppState extends State<MyApp> {
         auth.signInAnonymously();
       } else if (!registered) {
         registered = true;
+        this.userId = user.uid;
         print("registering user");
         registerUser();
       }
@@ -81,6 +83,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     waitForLogin();
     FlutterTwilioVoice.onCallStateChanged.listen(_onEvent, onError: _onError);
+
+    // registra el nombre con el clientId del otro usuario para identificador de llamadas
+    // FlutterTwilioVoice.registerClient(clientId, clientName)
     _controller = TextEditingController();
   }
 
@@ -135,7 +140,7 @@ class _MyAppState extends State<MyApp> {
 
                   FlutterTwilioVoice.makeCall(
                       to: _controller.text,
-                      from: "userA",
+                      from: userId,
                       toDisplayName: "James Bond");
                 },
               )
