@@ -66,7 +66,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
          fatalError("rootViewController is not type FlutterViewController")
          }
          let registrar = controller.registrar(forPlugin: "flutter_twilio_voice")
-         let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice/events", binaryMessenger: registrar.messenger())
+         let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice/events", binaryMessenger: registrar!.messenger())
 
          eventChannel.setStreamHandler(self)
 
