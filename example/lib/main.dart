@@ -71,15 +71,10 @@ class _MyAppState extends State<MyApp> {
       } else if (!registered) {
         registered = true;
         this.userId = user.uid;
-<<<<<<< HEAD
         setState(() {
           _platformVersion = user.uid;
         });
         print("registering user ${user.uid}");
-=======
-        print(user.uid);
-        print("registering user");
->>>>>>> 26e754212b7098ccd6d17a044ae365e6bf85d1cc
         registerUser();
       }
     });
