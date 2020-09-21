@@ -21,13 +21,13 @@ enum CallDirection { incoming, outgoing }
 typedef OnDeviceTokenChanged = Function(String deviceToken);
 
 class FlutterTwilioVoice {
-  static final String ACTION_ACCEPT = "ACTION_ACCEPT";
-  static final String ACTION_REJECT = "ACTION_REJECT";
-  static final String ACTION_INCOMING_CALL_NOTIFICATION =
+  static final String actionAccept = "ACTION_ACCEPT";
+  static final String actionReject = "ACTION_REJECT";
+  static final String actionIncommingCallNotification =
       "ACTION_INCOMING_CALL_NOTIFICATION";
-  static final String ACTION_INCOMING_CALL = "ACTION_INCOMING_CALL";
-  static final String ACTION_CANCEL_CALL = "ACTION_CANCEL_CALL";
-  static final String ACTION_FCM_TOKEN = "ACTION_FCM_TOKEN";
+  static final String actionIncomingCall = "ACTION_INCOMING_CALL";
+  static final String actionCancelCall = "ACTION_CANCEL_CALL";
+  static final String actionFcmToken = "ACTION_FCM_TOKEN";
 
   static const MethodChannel _channel =
       const MethodChannel('flutter_twilio_voice/messages');

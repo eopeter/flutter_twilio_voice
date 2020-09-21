@@ -202,7 +202,7 @@ public class IncomingCallNotificationService extends Service {
     private void accept(CallInvite callInvite, int notificationId) {
         endForeground();
         Log.i(TAG, "accept call invite!");
-        Intent activeCallIntent = new Intent();
+        Intent activeCallIntent = new Intent(this, com.dormmom.flutter_twilio_voice.FlutterTwilioVoicePlugin.class);
         activeCallIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
         activeCallIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         activeCallIntent.setAction(Constants.ACTION_ACCEPT);
@@ -256,10 +256,12 @@ public class IncomingCallNotificationService extends Service {
         if (Build.VERSION.SDK_INT >= 29 && !isAppVisible()) {
             return;
         }
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, com.dormmom.flutter_twilio_voice.AnswerJavaActivity.class);
         intent.setAction(Constants.ACTION_INCOMING_CALL);
         intent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         intent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

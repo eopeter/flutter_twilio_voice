@@ -22,7 +22,6 @@ class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
 
   TextEditingController _controller;
-  String _eventMessage;
   String userId;
 
   registerUser() {
@@ -72,6 +71,7 @@ class _MyAppState extends State<MyApp> {
       } else if (!registered) {
         registered = true;
         this.userId = user.uid;
+        print(user.uid);
         print("registering user");
         registerUser();
       }
@@ -91,16 +91,12 @@ class _MyAppState extends State<MyApp> {
 
   void _onEvent(Object event) {
     print(event);
-    setState(() {
-      _eventMessage = "Plugin status: $event";
-    });
+    setState(() {});
   }
 
   void _onError(Object error) {
     print(error);
-    setState(() {
-      _eventMessage = 'Plugin status: unknown.';
-    });
+    setState(() {});
   }
 
   @override
