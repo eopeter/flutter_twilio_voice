@@ -64,15 +64,18 @@ class _MyAppState extends State<MyApp> {
   var registered = false;
   waitForLogin() {
     final auth = FirebaseAuth.instance;
-    auth.authStateChanges().listen((user) {
-      print("authStateChanges $user");
+    auth.authStateChanges().listen((user) async {
+      // print("authStateChanges $user");
       if (user == null) {
         print("user is anonomous");
-        auth.signInAnonymously();
+        await auth.signInAnonymously();
       } else if (!registered) {
         registered = true;
         this.userId = user.uid;
-        print("registering user");
+        setState(() {
+          _platformVersion = user.uid;
+        });
+        print("registering user ${user.uid}");
         registerUser();
       }
     });
@@ -86,7 +89,7 @@ class _MyAppState extends State<MyApp> {
 
     // registra el nombre con el clientId del otro usuario para identificador de llamadas
     // FlutterTwilioVoice.registerClient(clientId, clientName)
-    _controller = TextEditingController();
+    _controller = TextEditingController(text: "OwicvyDkHlR1ggI4R0k8ecYhWLt2");
   }
 
   void _onEvent(Object event) {
