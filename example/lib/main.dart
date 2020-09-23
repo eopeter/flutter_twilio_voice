@@ -32,15 +32,14 @@ class _MyAppState extends State<MyApp> {
 
     register();
 
-    FlutterTwilioVoice.setOnDeviceTokenChanged((deviceToken) {
+    FlutterTwilioVoice.setOnDeviceTokenChanged(() {
       print("voip-device token changed");
-      register(deviceToken: deviceToken);
+      register();
     });
   }
 
-  register({String deviceToken}) async {
-    var devToken = deviceToken;
-    print("voip-registtering with token $deviceToken");
+  register() async {
+    print("voip-registtering with token ");
     print("voip-calling voice-accessToken");
     final function = CloudFunctions.instance
         // .useFunctionsEmulator(origin: "http://192.168.1.9:5000")
@@ -53,11 +52,13 @@ class _MyAppState extends State<MyApp> {
     final result = await function.call(data);
     print("voip-result");
     print(result.data);
-    if (devToken == null && Platform.isAndroid) {
-      devToken = await FirebaseMessaging().getToken();
-      print("dev token is " + devToken);
+    String androidToken;
+    if (Platform.isAndroid) {
+      androidToken = await FirebaseMessaging().getToken();
+      print("androidToken is " + androidToken);
     }
-    FlutterTwilioVoice.tokens(accessToken: result.data, deviceToken: devToken);
+    FlutterTwilioVoice.tokens(
+        accessToken: result.data, deviceToken: androidToken);
   }
 
   var registered = false;
