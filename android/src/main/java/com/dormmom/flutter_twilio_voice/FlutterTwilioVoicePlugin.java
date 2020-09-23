@@ -400,7 +400,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         Log.d(TAG, "Answering call");
         SoundPoolManager.getInstance(this.context).stopRinging();
         activeCallInvite.accept(this.activity, callListener);
-        eventSink.success("Answer|"+ activeCallInvite.getFrom());
+        eventSink.success("Answer");
         notificationManager.cancel(activeCallNotificationId);
     }
 

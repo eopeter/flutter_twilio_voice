@@ -18,7 +18,7 @@ enum CallState {
 }
 enum CallDirection { incoming, outgoing }
 
-typedef OnDeviceTokenChanged = Function(String deviceToken);
+typedef OnDeviceTokenChanged = Function();
 
 class FlutterTwilioVoice {
   static final String actionAccept = "ACTION_ACCEPT";
@@ -38,7 +38,6 @@ class FlutterTwilioVoice {
   static Stream<CallState> _onCallStateChanged;
   static String callFrom = "SafeNSound";
   static String callTo = "SafeNSound";
-  static String deviceToken;
   static int callStartedOn;
   static CallDirection callDirection = CallDirection.incoming;
   static OnDeviceTokenChanged deviceTokenChanged;
@@ -135,11 +134,11 @@ class FlutterTwilioVoice {
   }
 
   static Future<bool> hasMicAccess() {
-    return _channel.invokeMethod('hasMicPermission');
+    return _channel.invokeMethod('hasMicPermission', {});
   }
 
   static Future<bool> requestMicAccess() {
-    return _channel.invokeMethod('requestMicPermission');
+    return _channel.invokeMethod('requestMicPermission', {});
   }
 
   static String getFrom() {
@@ -160,10 +159,8 @@ class FlutterTwilioVoice {
 
   static CallState _parseCallState(String state) {
     if (state.startsWith("DEVICETOKEN|")) {
-      List<String> tokens = state.split('|');
-      deviceToken = tokens[1];
       if (deviceTokenChanged != null) {
-        deviceTokenChanged(deviceToken);
+        deviceTokenChanged();
       }
       return CallState.log;
     } else if (state.startsWith("LOG|")) {
