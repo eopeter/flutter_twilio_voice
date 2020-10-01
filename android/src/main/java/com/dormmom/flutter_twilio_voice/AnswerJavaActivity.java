@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,8 +44,8 @@ public class AnswerJavaActivity extends AppCompatActivity{
     private static final int MIC_PERMISSION_REQUEST_CODE = 17893;
     private PowerManager.WakeLock wakeLock;
     private TextView tvCallStatus;
-    private TextView btnAnswer;
-    private TextView btnReject;
+    private ImageView btnAnswer;
+    private ImageView btnReject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,8 @@ public class AnswerJavaActivity extends AppCompatActivity{
         setContentView(R.layout.activity_answer);
 
         tvCallStatus = (TextView) findViewById(R.id.tvCallStatus) ;
-        btnAnswer = (TextView) findViewById(R.id.btnAnswer);
-        btnReject = (TextView) findViewById(R.id.btnReject);
+        btnAnswer = (ImageView) findViewById(R.id.btnAnswer);
+        btnReject = (ImageView) findViewById(R.id.btnReject);
 
         KeyguardManager kgm = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         Boolean isKeyguardUp = kgm.inKeyguardRestrictedInputMode();

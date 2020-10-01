@@ -67,11 +67,7 @@ public class IncomingCallNotificationService extends Service {
         intent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         intent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(this, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         /*
          * Pass the notification id and call sid to use as an identifier to cancel the
          * notification later
@@ -95,14 +91,14 @@ public class IncomingCallNotificationService extends Service {
         } else {
 
             // Logic to turn on the screen
-            PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
+            /*PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
 
             if (!powerManager.isInteractive()){ // if screen is not already on, turn it on (get wake_lock for 10 seconds)
                 PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK |PowerManager.ACQUIRE_CAUSES_WAKEUP |PowerManager.ON_AFTER_RELEASE,"MH24_SCREENLOCK");
                 wl.acquire(10000);
                 PowerManager.WakeLock wl_cpu = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"MH24_SCREENLOCK");
                 wl_cpu.acquire(10000);
-            }
+            }*/
 
             //noinspection deprecation
             Intent acceptIntent = new Intent(getApplicationContext(), com.dormmom.flutter_twilio_voice.IncomingCallNotificationService.class);
@@ -202,7 +198,9 @@ public class IncomingCallNotificationService extends Service {
     private void accept(CallInvite callInvite, int notificationId) {
         endForeground();
         Log.i(TAG, "accept call invite!");
-        Intent activeCallIntent = new Intent(this, com.dormmom.flutter_twilio_voice.FlutterTwilioVoicePlugin.class);
+        Intent activeCallIntent = new Intent();
+        activeCallIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        activeCallIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activeCallIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
         activeCallIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         activeCallIntent.setAction(Constants.ACTION_ACCEPT);
@@ -221,16 +219,10 @@ public class IncomingCallNotificationService extends Service {
 
     private void handleIncomingCall(CallInvite callInvite, int notificationId) {
         Log.i(TAG, "handle incomming call");
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-           Log.i(TAG, "version match, setcallinprogressnotification");
-        
-       }else{
-           Log.i(TAG, "no version match, testing creating notification");
-           startForeground(notificationId, createNotification(callInvite, notificationId, NotificationManager.IMPORTANCE_HIGH));
-
-       }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setCallInProgressNotification(callInvite, notificationId);
+        }
         sendCallInviteToActivity(callInvite, notificationId);
-//        startForeground(notificationId, createNotification(callInvite, notificationId, 4));
     }
 
     private void endForeground() {
@@ -245,7 +237,7 @@ public class IncomingCallNotificationService extends Service {
         } else {
             Log.i(TAG, "setCallInProgressNotification - app is NOT visible.");
             startForeground(notificationId, createNotification(callInvite, notificationId, NotificationManager.IMPORTANCE_HIGH));
-
+            sendCallInviteToActivity(callInvite, notificationId);
         }
     }
 
@@ -253,16 +245,17 @@ public class IncomingCallNotificationService extends Service {
      * Send the CallInvite to the VoiceActivity. Start the activity if it is not running already.
      */
     private void sendCallInviteToActivity(CallInvite callInvite, int notificationId) {
-        if (Build.VERSION.SDK_INT >= 29 && !isAppVisible()) {
+        /*if (Build.VERSION.SDK_INT >= 29 && !isAppVisible()) {
             return;
-        }
+        }*/
         Intent intent = new Intent(this, com.dormmom.flutter_twilio_voice.AnswerJavaActivity.class);
         intent.setAction(Constants.ACTION_INCOMING_CALL);
         intent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         intent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        startActivity(intent);
+        //LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private boolean isAppVisible() {
