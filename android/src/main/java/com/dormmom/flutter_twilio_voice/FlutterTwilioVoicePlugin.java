@@ -381,7 +381,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         } else if (call.method.equals("hasMicPermission")) {
             result.success(this.checkPermissionForMicrophone());
         }else if (call.method.equals("requestMicPermission")){
-            sendPhoneCallEvents("requesting mic permission");
+            sendPhoneCallEvents("LOG|requesting mic permission");
             if (!this.checkPermissionForMicrophone()) {
                 boolean hasAccess = this.requestPermissionForMicrophone();
                 result.success(hasAccess);
