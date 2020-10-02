@@ -50,6 +50,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private String accessToken;
     private AudioManager audioManager;
     private int savedAudioMode = AudioManager.MODE_INVALID;
+    private int savedVolumeControlStream;
 
     private boolean isReceiverRegistered = false;
     private VoiceBroadcastReceiver voiceBroadcastReceiver;
@@ -97,15 +98,12 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
          * Needed for setting/abandoning audio focus during a call
          */
         plugin.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        plugin.audioManager.setSpeakerphoneOn(true);
+        plugin.audioManager.setSpeakerphoneOn(false);
 
         plugin.pSharedPref = context.getSharedPreferences(TwilioPreferences, Context.MODE_PRIVATE);
 
 
-        /*
-         * Enable changing the volume using the up/down keys during a conversation
-         */
-        //setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+        
     }
 
     /** Plugin registration. */
@@ -142,7 +140,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 handleCancel();
                 break;
             case Constants.ACTION_REJECT:
-                //do somethinng????
+                handleReject()
                 break;
             case Constants.ACTION_ACCEPT:
                 answer();
@@ -171,6 +169,10 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     private void handleIncomingCall(String from, String to) {
         sendPhoneCallEvents("Ringing|" + from + "|" + to + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
         SoundPoolManager.getInstance(activity).playRinging();
+    }
+
+    private void handleReject(){
+        SoundPoolManager.getInstance(activity).stopRinging();
     }
 
     private void handleCancel() {
@@ -323,7 +325,12 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             this.disconnect();
             result.success(true);
         } else if (call.method.equals("toggleSpeaker")) {
-            // nuthin
+
+            boolean speakerIsOn = call.argument("speakerIsOn");
+            // if(speakerIsOn == null) return;
+            audioManager.setSpeakerphoneOn(speakerIsOn);            
+            sendPhoneCallEvents(speakerIsOn ? "Speaker On" : "Speaker Off");
+
             result.success(true);
         } else if (call.method.equals("muteCall")) {
             Log.d(TAG, "Muting call");
@@ -400,7 +407,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
      */
     private void answer() {
         Log.d(TAG, "Answering call");
-        SoundPoolManager.getInstance(this.context).stopRinging();
+        SoundPoolManager.getInstance(activity).stopRinging();
         activeCallInvite.accept(this.activity, callListener);
         eventSink.success("Answer");
         notificationManager.cancel(activeCallNotificationId);
@@ -473,7 +480,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
             @Override
             public void onConnectFailure(Call call, CallException error) {
-                setAudioFocus(false);
+                // setAudioFocus(false);
                 Log.d(TAG, "Connect failure");
                 String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                 Log.e(TAG, message);
@@ -483,10 +490,15 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
             @Override
             public void onConnected(Call call) {
-                setAudioFocus(true);
+                // setAudioFocus(true);
                 Log.d(TAG, "Connected");
                 eventSink.success("LOG|Connected");
                 activeCall = call;
+                /*
+                * Enable changing the volume using the up/down keys during a conversation
+                */
+                savedVolumeControlStream = activity.getVolumeControlStream();
+                activity.setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
                 eventSink.success("Connected|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
             }
 
@@ -502,12 +514,13 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
             @Override
             public void onDisconnected(Call call, CallException error) {
-                setAudioFocus(false);
+                // setAudioFocus(false);
                 Log.d(TAG, "Disconnected");
                 if (error != null) {
                     String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                     Log.e(TAG, message);
                 }
+                activity.setVolumeControlStream(savedVolumeControlStream);
                 eventSink.success("Call Ended");
             }
         };
@@ -602,29 +615,5 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             return true;
         }
     }
-/*
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        */
-/*
-         * Check if microphone permissions is granted
-         *//*
-
-        if (requestCode == MIC_PERMISSION_REQUEST_CODE && permissions.length > 0) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-
-                Log.d(TAG, "Microphone permissions needed. Please allow in your application settings.");
-            }
-            else {
-                Log.d(TAG, "Microphone permissions granted.");
-                if(activeCallInvite != null){
-                    answer();
-                }
-//                retrieveAccessToken();
-            }
-
-        }
-            }*/
 
 }
