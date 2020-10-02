@@ -27,10 +27,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/example/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/AnswerJavaActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/AnswerJavaActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/IncomingCallNotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/IncomingCallNotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/res/layout/activity_answer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/res/layout/activity_answer.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +48,6 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="4200df3ec4518300" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/android">
       <ProjectState />
@@ -106,6 +106,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="TF_FMT" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -591,14 +592,14 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2517" y="303" width="715" height="480" key="MultipleFileMergeDialog/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704793800" />
-    <state x="5270" y="878" width="480" height="194" key="ProcessPopupWindow" timestamp="1591385697574">
-      <screen x="3840" y="0" width="1920" height="1080" />
-    </state>
-    <state x="5270" y="878" width="480" height="194" key="ProcessPopupWindow/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1591385697574" />
     <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1597704807357">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704807357" />
+    <state x="1003" y="438" key="com.intellij.ide.util.TipDialog" timestamp="1601602451604">
+      <screen x="0" y="23" width="2560" height="1417" />
+    </state>
+    <state x="1003" y="438" key="com.intellij.ide.util.TipDialog/0.23.2560.1417@0.23.2560.1417" timestamp="1601602451604" />
     <state x="2589" y="255" width="581" height="570" key="find.popup" timestamp="1597702264044">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

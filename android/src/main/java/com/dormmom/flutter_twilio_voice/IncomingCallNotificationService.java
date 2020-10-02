@@ -245,17 +245,12 @@ public class IncomingCallNotificationService extends Service {
      * Send the CallInvite to the VoiceActivity. Start the activity if it is not running already.
      */
     private void sendCallInviteToActivity(CallInvite callInvite, int notificationId) {
-        /*if (Build.VERSION.SDK_INT >= 29 && !isAppVisible()) {
-            return;
-        }*/
-        Intent intent = new Intent(this, com.dormmom.flutter_twilio_voice.AnswerJavaActivity.class);
-        intent.setAction(Constants.ACTION_INCOMING_CALL);
-        intent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
-        intent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        //LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+        Intent pluginIntent = new Intent();
+        pluginIntent.setAction(Constants.ACTION_INCOMING_CALL);
+        pluginIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
+        pluginIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(pluginIntent);
     }
 
     private boolean isAppVisible() {

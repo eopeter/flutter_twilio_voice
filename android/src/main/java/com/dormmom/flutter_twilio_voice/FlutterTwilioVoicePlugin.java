@@ -8,6 +8,7 @@ import com.twilio.voice.RegistrationException;
 import com.twilio.voice.RegistrationListener;
 import com.twilio.voice.UnregistrationListener;
 import com.twilio.voice.Voice;
+import com.dormmom.flutter_twilio_voice.AnswerJavaActivity;
 
 import java.util.HashMap;
 import android.Manifest;
@@ -131,26 +132,20 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             switch (action) {
             case Constants.ACTION_INCOMING_CALL:
                 handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
+                startAnswerActivity(activeCallInvite, activeCallNotificationId);
                 break;
             case Constants.ACTION_INCOMING_CALL_NOTIFICATION:
                 handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
+                startAnswerActivity(activeCallInvite, activeCallNotificationId);
                 break;
             case Constants.ACTION_CANCEL_CALL:
                 handleCancel();
-                break;
-            case Constants.ACTION_FCM_TOKEN:
-                //retrieveAccessToken();
                 break;
             case Constants.ACTION_REJECT:
                 //do somethinng????
                 break;
             case Constants.ACTION_ACCEPT:
                 answer();
-                // do in receive call activty
-                // if(checkPermissionForMicrophone()) {
-                // }else{
-                //     requestPermissionForMicrophone();
-                // }
                 break;
             default:
                 break;
@@ -162,25 +157,33 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         this.handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
     }
 
+    
+    private void startAnswerActivity(CallInvite callInvite, int notificationId){
+        Intent intent = new Intent(activity, AnswerJavaActivity.class);
+        intent.setAction(Constants.ACTION_INCOMING_CALL);
+        intent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
+        intent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+    }
+
     private void handleIncomingCall(String from, String to) {
         sendPhoneCallEvents("Ringing|" + from + "|" + to + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
         SoundPoolManager.getInstance(activity).playRinging();
-        /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            showIncomingCallDialog();
-        } else {
-            if (isAppVisible()) {
-                showIncomingCallDialog();
-            }
-        }*/
     }
 
     private void handleCancel() {
-        //if (alertDialog != null && alertDialog.isShowing()) {
         callOutgoing = false;
         sendPhoneCallEvents("Call Ended");
         SoundPoolManager.getInstance(activity).stopRinging();
-            //alertDialog.cancel();
-        //}
+        
+        Intent intent = new Intent(activity, AnswerJavaActivity.class);
+        intent.setAction(Constants.ACTION_CANCEL_CALL);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+
     }
 
     private void registerReceiver() {
@@ -190,7 +193,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             intentFilter.addAction(Constants.ACTION_INCOMING_CALL);
             intentFilter.addAction(Constants.ACTION_INCOMING_CALL_NOTIFICATION);
             intentFilter.addAction(Constants.ACTION_CANCEL_CALL);
-            intentFilter.addAction(Constants.ACTION_FCM_TOKEN);
             intentFilter.addAction(Constants.ACTION_ACCEPT);
             intentFilter.addAction(Constants.ACTION_REJECT);
             LocalBroadcastManager.getInstance(this.activity).registerReceiver(
