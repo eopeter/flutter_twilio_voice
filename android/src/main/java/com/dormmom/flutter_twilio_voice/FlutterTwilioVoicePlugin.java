@@ -77,7 +77,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     @Override
     public void onAttachedToEngine(FlutterPluginBinding flutterPluginBinding) {
-        register(flutterPluginBinding.getFlutterEngine().getDartExecutor(), this, flutterPluginBinding.getApplicationContext());
+        register(flutterPluginBinding.getBinaryMessenger(), this, flutterPluginBinding.getApplicationContext());
     }
 
     private static void register(BinaryMessenger messenger, FlutterTwilioVoicePlugin plugin, Context context) {
@@ -92,7 +92,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
         plugin.notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         plugin.voiceBroadcastReceiver = new VoiceBroadcastReceiver(plugin);
-        plugin.registerReceiver();
+        // plugin.registerReceiver();
 
         /*
          * Needed for setting/abandoning audio focus during a call
@@ -140,7 +140,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 handleCancel();
                 break;
             case Constants.ACTION_REJECT:
-                handleReject()
+                handleReject();
                 break;
             case Constants.ACTION_ACCEPT:
                 answer();
@@ -167,7 +167,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private void handleIncomingCall(String from, String to) {
-        sendPhoneCallEvents("Ringing|" + from + "|" + to + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
+        sendPhoneCallEvents("Ringing|" + from + "|" + to + "|" + "Incoming");
         SoundPoolManager.getInstance(activity).playRinging();
     }
 
@@ -290,6 +290,11 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     @Override
     public void onDetachedFromEngine(FlutterPluginBinding flutterPluginBinding) {
         Log.d(TAG, "Detatched from Flutter engine");
+        context = null;
+        methodChannel.setMethodCallHandler(null);
+        methodChannel = null;
+        eventChannel.setStreamHandler(null);
+        eventChannel = null;
         //soundPoolManager.release();
     }
 
@@ -522,6 +527,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 }
                 activity.setVolumeControlStream(savedVolumeControlStream);
                 eventSink.success("Call Ended");
+                activeCall = null;
+                callOutgoing = false;
             }
         };
 

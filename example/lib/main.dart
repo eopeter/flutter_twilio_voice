@@ -142,7 +142,15 @@ class _MyAppState extends State<MyApp> {
                       from: userId,
                       toDisplayName: "James Bond");
                 },
-              )
+              ),
+              RaisedButton(
+                child: Text("Hang Up"),
+                onPressed: () async {
+                  if (await FlutterTwilioVoice.isOnCall()) {
+                    FlutterTwilioVoice.hangUp();
+                  }
+                },
+              ),
             ],
           ),
         )),

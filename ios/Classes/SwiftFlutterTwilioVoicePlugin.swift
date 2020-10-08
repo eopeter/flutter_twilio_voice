@@ -243,7 +243,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             //self.toggleUIState(isEnabled: false, showCallControl: false)
         } else {
             let uuid = UUID()
-            let handle = displayName
+//            let handle = displayName
             
             self.checkRecordPermission { (permissionGranted) in
                 if (!permissionGranted) {
@@ -254,7 +254,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                     let continueWithMic: UIAlertAction = UIAlertAction(title: "Continuar sin microfono",
                                                                        style: .default,
                                                                        handler: { (action) in
-                                                                        self.performStartCallAction(uuid: uuid, handle: handle)
+                                                                        self.performStartCallAction(uuid: uuid, handle: to)
                                                                        })
                     alertController.addAction(continueWithMic)
                     
@@ -280,7 +280,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                     currentViewController.present(alertController, animated: true, completion: nil)
                     
                 } else {
-                    self.performStartCallAction(uuid: uuid, handle: handle)
+                    self.performStartCallAction(uuid: uuid, handle: to)
                 }
             }
         }
@@ -419,6 +419,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         var from:String = callInvite.from ?? defaultCaller
         from = from.replacingOccurrences(of: "client:", with: "")
         
+        self.sendPhoneCallEvents(description: "Ringing|\(from)|\(callInvite.to)|Incoming", isError: false)
         reportIncomingCall(from: from, uuid: callInvite.uuid)
         self.callInvite = callInvite
     }
@@ -470,7 +471,10 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     
     public func callDidFailToConnect(call: Call, error: Error) {
         self.sendPhoneCallEvents(description: "LOG|Call failed to connect: \(error.localizedDescription)", isError: false)
-        
+        self.sendPhoneCallEvents(description: "Call Ended", isError: false)
+        if(error.localizedDescription.contains("Access Token expired")){
+            self.sendPhoneCallEvents(description: "DEVICETOKEN", isError: false)
+        }
         if let completion = self.callKitCompletionCallback {
             completion(false)
         }
@@ -488,7 +492,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         
         if !self.userInitiatedDisconnect {
             var reason = CXCallEndedReason.remoteEnded
-            
+            self.sendPhoneCallEvents(description: "LOG|User initiated disconnect", isError: false)
             if error != nil {
                 reason = .failed
             }
@@ -500,7 +504,10 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     }
     
     func callDisconnected() {
+        self.sendPhoneCallEvents(description: "LOG|Call Disconnected", isError: false)
         if (self.call != nil) {
+            
+            self.sendPhoneCallEvents(description: "LOG|Setting call to nil", isError: false)
             self.call = nil
         }
         if (self.callInvite != nil) {

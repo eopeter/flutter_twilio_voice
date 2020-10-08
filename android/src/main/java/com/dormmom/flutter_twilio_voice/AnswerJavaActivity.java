@@ -61,16 +61,30 @@ public class AnswerJavaActivity extends AppCompatActivity{
 
         KeyguardManager kgm = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         Boolean isKeyguardUp = kgm.inKeyguardRestrictedInputMode();
-        KeyguardManager.KeyguardLock kgl = kgm.newKeyguardLock("OnCallActivityNew");
 
-        if (isKeyguardUp){
-            kgl.disableKeyguard();
-            isKeyguardUp = false;
+        Log.d(TAG, "isKeyguardUp $isKeyguardUp");
+        if (isKeyguardUp) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                Log.d(TAG, "ohh shiny phone!");
+                setTurnScreenOn(true);
+                setShowWhenLocked(true);
+                kgm.requestDismissKeyguard(this, null);
+
+            }else{
+                Log.d(TAG, "diego's old phone!");
+                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, TAG);
+                wakeLock.acquire();
+
+                getWindow().addFlags(
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                );
+            }
         }
-
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, TAG);
-        wakeLock.acquire();
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -131,13 +145,13 @@ public class AnswerJavaActivity extends AppCompatActivity{
 
     private void handleIncomingCall(){
         Log.d(TAG, "handleIncomingCall");
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             configCallUI();
-        } else {
-            if (isAppVisible()) {
-                configCallUI();
-            }
-        }
+        // if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        // } else {
+        //     if (isAppVisible()) {
+        //         configCallUI();
+        //     }
+        // }
     }
 
 
