@@ -145,13 +145,7 @@ public class AnswerJavaActivity extends AppCompatActivity{
 
     private void handleIncomingCall(){
         Log.d(TAG, "handleIncomingCall");
-            configCallUI();
-        // if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-        // } else {
-        //     if (isAppVisible()) {
-        //         configCallUI();
-        //     }
-        // }
+        configCallUI();
     }
 
 
@@ -205,13 +199,7 @@ public class AnswerJavaActivity extends AppCompatActivity{
 
     private void newCancelCallClickListener(){
         //SoundPoolManager.getInstance(this@AnswerJavaActivity).stopRinging();
-        if (activeCallInvite != null) {
-            // Intent cancelIntent = new Intent(this, IncomingCallNotificationService.class);
-            // cancelIntent.setAction(Constants.ACTION_CANCEL_CALL);
-            // cancelIntent.putExtra(Constants.INCOMING_CALL_INVITE, activeCallInvite);
-            // startService(cancelIntent);
-            finish();
-        }
+        finish();
     }
 
     private void rejectCallClickListener(){

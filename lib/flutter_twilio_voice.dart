@@ -141,6 +141,10 @@ class FlutterTwilioVoice {
     return _channel.invokeMethod('requestMicPermission', {});
   }
 
+  static Future showBackgroundCallUI() {
+    return _channel.invokeMethod("backgroundCallUI", {});
+  }
+
   static String getFrom() {
     return callFrom;
   }

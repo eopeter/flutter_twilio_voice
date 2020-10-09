@@ -38,6 +38,11 @@
         android:turnScreenOn="true" 
         android:showWhenLocked="true"
         />
+        <activity android:name="com.dormmom.flutter_twilio_voice.BackgroundCallJavaActivity"
+        android:theme="@style/Theme.AppCompat"
+        android:turnScreenOn="true" 
+        android:showWhenLocked="true"
+        />
         <service
             android:enabled="true"
             android:name="com.dormmom.flutter_twilio_voice.IncomingCallNotificationService">

@@ -210,6 +210,12 @@ public class IncomingCallNotificationService extends Service {
     private void reject(CallInvite callInvite) {
         endForeground();
         callInvite.reject(getApplicationContext());
+        Intent rejectCallIntent = new Intent();
+        rejectCallIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        rejectCallIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        rejectCallIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
+        rejectCallIntent.setAction(Constants.ACTION_REJECT);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(rejectCallIntent);
     }
 
     private void handleCancelledCall(Intent intent) {
