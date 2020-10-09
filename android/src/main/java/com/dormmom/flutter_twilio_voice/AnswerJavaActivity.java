@@ -93,17 +93,20 @@ public class AnswerJavaActivity extends AppCompatActivity{
 
     private void handleIncomingCallIntent(Intent intent){
         if (intent != null && intent.getAction() != null){
+            Log.d(TAG, "handleIncomingCallIntent-");
             String action = intent.getAction();
             activeCallInvite = intent.getParcelableExtra(Constants.INCOMING_CALL_INVITE);
-        
-            String fromId = activeCallInvite.getFrom().replace("client:","");
-            SharedPreferences preferences = getApplicationContext().getSharedPreferences(TwilioPreferences, Context.MODE_PRIVATE);
-            String caller = preferences.getString(fromId, preferences.getString("defaultCaller", "Desconocido"));
+            
+            if(activeCallInvite != null){
+
+                String fromId = activeCallInvite.getFrom().replace("client:","");
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(TwilioPreferences, Context.MODE_PRIVATE);
+                String caller = preferences.getString(fromId, preferences.getString("defaultCaller", "Desconocido"));
+                tvUserName.setText(caller);
+            }
 
             activeCallNotificationId = intent.getIntExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, 0);
-            tvUserName.setText(caller);
             tvCallStatus.setText("Llamada entrante...");
-            Log.d(TAG, "handleIncomingCallIntent-");
             Log.d(TAG, action);
             switch (action){
                 case Constants.ACTION_INCOMING_CALL: 

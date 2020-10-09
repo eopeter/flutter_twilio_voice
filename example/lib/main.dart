@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_twilio_voice/flutter_twilio_voice.dart';
+import 'package:flutter_twilio_voice_example/call_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,14 +14,19 @@ void main() async {
   return runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(home: DialScreen());
+  }
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+class DialScreen extends StatefulWidget {
+  @override
+  _DialScreenState createState() => _DialScreenState();
+}
 
+class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
   TextEditingController _controller;
   String userId;
 
@@ -72,9 +78,6 @@ class _MyAppState extends State<MyApp> {
       } else if (!registered) {
         registered = true;
         this.userId = user.uid;
-        setState(() {
-          _platformVersion = user.uid;
-        });
         print("registering user ${user.uid}");
         registerUser();
       }
@@ -85,76 +88,115 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     waitForLogin();
-    FlutterTwilioVoice.onCallStateChanged.listen(_onEvent, onError: _onError);
 
-    // registra el nombre con el clientId del otro usuario para identificador de llamadas
-    // FlutterTwilioVoice.registerClient(clientId, clientName)
-    _controller = TextEditingController(text: "OwicvyDkHlR1ggI4R0k8ecYhWLt2");
+    super.initState();
+    waitForCall();
+    WidgetsBinding.instance.addObserver(this);
+
+    final partnerId = "alicesId";
+    FlutterTwilioVoice.registerClient(partnerId, "Alice");
+
+    final a4 = "p32GLAC6CEfBz3mOJHQJdqR3ReE2";
+    final other = "OwicvyDkHlR1ggI4R0k8ecYhWLt2";
+    _controller = TextEditingController(text: a4);
   }
 
-  void _onEvent(Object event) {
-    print(event);
-    setState(() {});
+  checkActiveCall() async {
+    final isOnCall = await FlutterTwilioVoice.isOnCall();
+    print("checkActiveCall $isOnCall");
+    if (isOnCall) {
+      print("user is on call");
+      pushToCallScreen();
+    }
   }
 
-  void _onError(Object error) {
-    print(error);
-    setState(() {});
+  void waitForCall() {
+    checkActiveCall();
+    FlutterTwilioVoice.onCallStateChanged.listen((event) {
+      print("voip-onCallStateChanged $event");
+
+      switch (event) {
+        case CallState.answer:
+          if (Platform.isAndroid ||
+              state == null ||
+              state == AppLifecycleState.resumed) {
+            pushToCallScreen();
+          }
+          break;
+        case CallState.connected:
+          if (Platform.isAndroid && state != AppLifecycleState.resumed) {
+            FlutterTwilioVoice.showBackgroundCallUI();
+          }
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  AppLifecycleState state;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    this.state = state;
+    print("didChangeAppLifecycleState");
+    if (state == AppLifecycleState.resumed) {
+      checkActiveCall();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: SafeArea(
-            child: Center(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Text('Running on: $_platformVersion\n'),
-              ),
-              TextFormField(
-                controller: _controller,
-                decoration: InputDecoration(
-                    labelText: 'Client Identifier or Phone Number'),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              RaisedButton(
-                child: Text("Make Call"),
-                onPressed: () async {
-                  FlutterTwilioVoice.onCallStateChanged
-                      .listen(_onEvent, onError: _onError);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plugin example app'),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                TextFormField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                      labelText: 'Client Identifier or Phone Number'),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                RaisedButton(
+                  child: Text("Make Call"),
+                  onPressed: () async {
+                    if (!await FlutterTwilioVoice.hasMicAccess()) {
+                      print("request mic access");
+                      FlutterTwilioVoice.requestMicAccess();
+                      return;
+                    }
 
-                  if (!await FlutterTwilioVoice.hasMicAccess()) {
-                    print("request mic access");
-                    FlutterTwilioVoice.requestMicAccess();
-                    return;
-                  }
-
-                  FlutterTwilioVoice.makeCall(
-                      to: _controller.text,
-                      from: userId,
-                      toDisplayName: "James Bond");
-                },
-              ),
-              RaisedButton(
-                child: Text("Hang Up"),
-                onPressed: () async {
-                  if (await FlutterTwilioVoice.isOnCall()) {
-                    FlutterTwilioVoice.hangUp();
-                  }
-                },
-              ),
-            ],
+                    FlutterTwilioVoice.makeCall(
+                        to: _controller.text,
+                        from: userId,
+                        toDisplayName: "James Bond");
+                    pushToCallScreen();
+                  },
+                ),
+              ],
+            ),
           ),
-        )),
+        ),
       ),
     );
+  }
+
+  void pushToCallScreen() {
+    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+        fullscreenDialog: true, builder: (context) => CallScreen()));
   }
 }
