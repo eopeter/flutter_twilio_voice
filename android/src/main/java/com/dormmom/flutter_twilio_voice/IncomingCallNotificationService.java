@@ -80,7 +80,7 @@ public class IncomingCallNotificationService extends Service {
         SharedPreferences preferences = context.getSharedPreferences(TwilioPreferences, Context.MODE_PRIVATE);
         Log.i(TAG, "Setting notification from, "+ callInvite.getFrom());
         String fromId = callInvite.getFrom().replace("client:","");
-        String caller = preferences.getString(fromId, preferences.getString("defaultCaller", "Desconocido"));
+        String caller = preferences.getString(fromId, preferences.getString("defaultCaller", "Unknown caller"));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return buildNotification(getApplicationName(context),getString(R.string.new_call,caller),
@@ -91,19 +91,6 @@ public class IncomingCallNotificationService extends Service {
                     createChannel(channelImportance));
         } else {
 
-            //noinspection deprecation
-            Intent acceptIntent = new Intent(getApplicationContext(), com.dormmom.flutter_twilio_voice.IncomingCallNotificationService.class);
-            acceptIntent.setAction(Constants.ACTION_ACCEPT);
-            acceptIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
-            acceptIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
-            PendingIntent piAcceptIntent = PendingIntent.getService(getApplicationContext(), 0, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            Intent rejectIntent = new Intent(getApplicationContext(), com.dormmom.flutter_twilio_voice.IncomingCallNotificationService.class);
-            rejectIntent.setAction(Constants.ACTION_REJECT);
-            rejectIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
-            rejectIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
-            PendingIntent piRejectIntent = PendingIntent.getService(getApplicationContext(), 0, rejectIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
             return new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_call_end_white_24dp)
                     .setContentTitle(getApplicationName(context))
@@ -112,14 +99,11 @@ public class IncomingCallNotificationService extends Service {
                     .setOngoing(true)
                     .setExtras(extras)
                     .setContentIntent(pendingIntent)
-                    .setGroup("HomeTask")
                     .setFullScreenIntent(pendingIntent,true)
                     .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000, 1000, 1000 })
                     .setLights(Color.RED, 3000, 3000)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .addAction(android.R.drawable.ic_menu_delete, getString(R.string.decline), piRejectIntent)
-                    .addAction(android.R.drawable.ic_menu_call, getString(R.string.answer), piAcceptIntent)
                     .setColor(Color.rgb(20, 10, 200)).build();
         }
     }
@@ -142,6 +126,7 @@ public class IncomingCallNotificationService extends Service {
                                            final CallInvite callInvite,
                                            int notificationId,
                                            String channelId) {
+        Log.d(TAG, "Building notification");
         Intent rejectIntent = new Intent(getApplicationContext(), IncomingCallNotificationService.class);
         rejectIntent.setAction(Constants.ACTION_REJECT);
         rejectIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
@@ -179,6 +164,7 @@ public class IncomingCallNotificationService extends Service {
         String channelId = Constants.VOICE_CHANNEL_HIGH_IMPORTANCE;
 
         if (channelImportance == NotificationManager.IMPORTANCE_LOW) {
+            Log.i(TAG, "channel is low importance");
             callInviteChannel = new NotificationChannel(Constants.VOICE_CHANNEL_LOW_IMPORTANCE,
                     "Primary Voice Channel", NotificationManager.IMPORTANCE_LOW);
             channelId = Constants.VOICE_CHANNEL_LOW_IMPORTANCE;
