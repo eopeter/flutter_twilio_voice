@@ -32,33 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name="com.dormmom.flutter_twilio_voice.AnswerJavaActivity"
-        android:theme="@style/Theme.AppCompat"
-        android:turnScreenOn="true" 
-        android:showWhenLocked="true"
-        />
-        <activity android:name="com.dormmom.flutter_twilio_voice.BackgroundCallJavaActivity"
-        android:theme="@style/Theme.AppCompat"
-        android:turnScreenOn="true" 
-        android:showWhenLocked="true"
-        />
-        <service
-            android:enabled="true"
-            android:name="com.dormmom.flutter_twilio_voice.IncomingCallNotificationService">
-            <intent-filter>
-                <action android:name="ACTION_ACCEPT" />
-                <action android:name="ACTION_REJECT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.dormmom.flutter_twilio_voice.fcm.VoiceFirebaseMessagingService"
-            android:stopWithTask="false">
-            <intent-filter>
-
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

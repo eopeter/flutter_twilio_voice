@@ -72,14 +72,12 @@ class FlutterTwilioVoice {
   static Future<bool> makeCall(
       {@required String from,
       @required String to,
-      String toDisplayName,
       Map<String, dynamic> extraOptions}) {
     assert(to != null);
     assert(from != null);
     var options = extraOptions != null ? extraOptions : Map<String, dynamic>();
     options['from'] = from;
     options['to'] = to;
-    options['toDisplayName'] = toDisplayName;
     callFrom = from;
     callTo = to;
     callDirection = CallDirection.outgoing;
@@ -112,6 +110,10 @@ class FlutterTwilioVoice {
     assert(digits != null);
     return _channel
         .invokeMethod('sendDigits', <String, dynamic>{"digits": digits});
+  }
+
+  static Future<bool> requestBackgroundPermissions() {
+    return _channel.invokeMethod('requestBackgroundPermissions', {});
   }
 
   static Future<bool> isOnCall() {

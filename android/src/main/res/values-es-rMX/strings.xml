@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="answer">Contestar</string>
+    <string name="decline">Rechazar</string>
+    <string name="new_call">Llamada de %s</string>
+</resources>

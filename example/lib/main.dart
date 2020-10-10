@@ -179,11 +179,8 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
                       FlutterTwilioVoice.requestMicAccess();
                       return;
                     }
-
                     FlutterTwilioVoice.makeCall(
-                        to: _controller.text,
-                        from: userId,
-                        toDisplayName: "James Bond");
+                        to: _controller.text, from: userId);
                     pushToCallScreen();
                   },
                 ),

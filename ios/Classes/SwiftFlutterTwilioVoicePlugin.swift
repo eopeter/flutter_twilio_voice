@@ -128,7 +128,6 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         } else if flutterCall.method == "makeCall" {
             guard let callTo = arguments["to"] as? String else {return}
             guard let callFrom = arguments["from"] as? String else {return}
-            let callToDisplayName:String = arguments["toDisplayName"] as? String ?? callTo
             self.callArgs = arguments
             self.callOutgoing = true
             if let accessToken = arguments["accessToken"] as? String{
@@ -136,7 +135,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             }
             self.callTo = callTo
             self.identity = callFrom
-            makeCall(to: callTo, displayName: callToDisplayName)
+            makeCall(to: callTo)
         }
         else if flutterCall.method == "muteCall"
         {
@@ -235,30 +234,28 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         result(true)
     }
     
-    func makeCall(to: String, displayName: String)
+    func makeCall(to: String)
     {
         if (self.call != nil && self.call?.state == .connected) {
             self.userInitiatedDisconnect = true
-            performEndCallAction(uuid: self.call!.uuid!)
-            //self.toggleUIState(isEnabled: false, showCallControl: false)
+            performEndCallAction(uuid: self.call!.uuid!)            
         } else {
             let uuid = UUID()
-//            let handle = displayName
             
             self.checkRecordPermission { (permissionGranted) in
                 if (!permissionGranted) {
-                    let alertController: UIAlertController = UIAlertController(title: SwiftFlutterTwilioVoicePlugin.appName + "necesita permiso",
-                                                                               message: "Es necesario acceso a tu microfono",
+                    let alertController: UIAlertController = UIAlertController(title: String(format:  NSLocalizedString("mic_permission_title", comment: "") , SwiftFlutterTwilioVoicePlugin.appName),
+                                                                               message: NSLocalizedString( "mic_permission_subtitle", comment: ""),
                                                                                preferredStyle: .alert)
                     
-                    let continueWithMic: UIAlertAction = UIAlertAction(title: "Continuar sin microfono",
+                    let continueWithMic: UIAlertAction = UIAlertAction(title: NSLocalizedString("btn_continue_no_mic", comment: ""),
                                                                        style: .default,
                                                                        handler: { (action) in
                                                                         self.performStartCallAction(uuid: uuid, handle: to)
                                                                        })
                     alertController.addAction(continueWithMic)
                     
-                    let goToSettings: UIAlertAction = UIAlertAction(title: "Ajustes",
+                    let goToSettings: UIAlertAction = UIAlertAction(title:NSLocalizedString("btn_settings", comment: ""),
                                                                     style: .default,
                                                                     handler: { (action) in
                                                                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!,
@@ -267,7 +264,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                                                                     })
                     alertController.addAction(goToSettings)
                     
-                    let cancel: UIAlertAction = UIAlertAction(title: "Cancelar",
+                    let cancel: UIAlertAction = UIAlertAction(title: NSLocalizedString("btn_cancel", comment: ""),
                                                               style: .cancel,
                                                               handler: { (action) in
                                                                 //self.toggleUIState(isEnabled: true, showCallControl: false)
@@ -703,7 +700,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         let connectOptions: ConnectOptions = ConnectOptions(accessToken: token) { (builder) in
             builder.params = ["To": self.callTo]
             for (key, value) in self.callArgs {
-                if (key != "to" && key != "toDisplayName" && key != "from") {
+                if (key != "to" && key != "from") {
                     builder.params[key] = "\(value)"
                 }
             }

@@ -11,6 +11,7 @@ import com.twilio.voice.Voice;
 import com.dormmom.flutter_twilio_voice.AnswerJavaActivity;
 
 import java.util.HashMap;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -25,6 +26,7 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,7 +42,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
 
 public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.MethodCallHandler, EventChannel.StreamHandler,
-  ActivityAware, PluginRegistry.NewIntentListener {
+        ActivityAware, PluginRegistry.NewIntentListener {
 
     private static final String CHANNEL_NAME = "flutter_twilio_voice";
     private static final String TAG = "TwilioVoicePlugin";
@@ -104,10 +106,11 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         plugin.pSharedPref = context.getSharedPreferences(TwilioPreferences, Context.MODE_PRIVATE);
 
 
-        
     }
 
-    /** Plugin registration. */
+    /**
+     * Plugin registration.
+     */
     public static void registerWith(PluginRegistry.Registrar registrar) {
         // Detect if we've been launched in background
         if (registrar.activity() == null) {
@@ -129,37 +132,37 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             callOutgoing = false;
 
             switch (action) {
-            case Constants.ACTION_INCOMING_CALL:
-                handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
-                startAnswerActivity(activeCallInvite, activeCallNotificationId);
-                break;
-            case Constants.ACTION_INCOMING_CALL_NOTIFICATION:
-                handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
-                startAnswerActivity(activeCallInvite, activeCallNotificationId);
-                break;
-            case Constants.ACTION_CANCEL_CALL:
-                handleCancel();
-                break;
-            case Constants.ACTION_REJECT:
-                handleReject();
-                break;
-            case Constants.ACTION_ACCEPT:
-                answer();
-                break;
-            case Constants.ACTION_TOGGLE_MUTE:
-                mute();
-                break;
+                case Constants.ACTION_INCOMING_CALL:
+                    handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
+                    startAnswerActivity(activeCallInvite, activeCallNotificationId);
+                    break;
+                case Constants.ACTION_INCOMING_CALL_NOTIFICATION:
+                    handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
+                    startAnswerActivity(activeCallInvite, activeCallNotificationId);
+                    break;
+                case Constants.ACTION_CANCEL_CALL:
+                    handleCancel();
+                    break;
+                case Constants.ACTION_REJECT:
+                    handleReject();
+                    break;
+                case Constants.ACTION_ACCEPT:
+                    answer();
+                    break;
+                case Constants.ACTION_TOGGLE_MUTE:
+                    mute();
+                    break;
 //            case Constants.ACTION_TOGGLE_SPEAKER:
 //                boolean speakerIsOn =  !audioManager.isSpeakerphoneOn();
 //                audioManager.setSpeakerphoneOn(speakerIsOn);
 //                sendPhoneCallEvents(speakerIsOn ? "Speaker On" : "Speaker Off");
 //                break;
-            case Constants.ACTION_END_CALL:
-                backgroundCallUI = false;
-                disconnect();
-                break;
-            default:
-                break;
+                case Constants.ACTION_END_CALL:
+                    backgroundCallUI = false;
+                    disconnect();
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -168,8 +171,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         this.handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
     }
 
-    
-    private void startAnswerActivity(CallInvite callInvite, int notificationId){
+
+    private void startAnswerActivity(CallInvite callInvite, int notificationId) {
         Intent intent = new Intent(activity, AnswerJavaActivity.class);
         intent.setAction(Constants.ACTION_INCOMING_CALL);
         intent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
@@ -184,7 +187,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         SoundPoolManager.getInstance(activity).playRinging();
     }
 
-    private void handleReject(){
+    private void handleReject() {
         sendPhoneCallEvents("LOG|Call Rejected");
         SoundPoolManager.getInstance(activity).stopRinging();
         SoundPoolManager.getInstance(activity).playDisconnect();
@@ -194,7 +197,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         callOutgoing = false;
         sendPhoneCallEvents("Call Ended");
         SoundPoolManager.getInstance(activity).stopRinging();
-        
+
         Intent intent = new Intent(activity, AnswerJavaActivity.class);
         intent.setAction(Constants.ACTION_CANCEL_CALL);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -215,7 +218,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             intentFilter.addAction(Constants.ACTION_END_CALL);
             intentFilter.addAction(Constants.ACTION_TOGGLE_MUTE);
             LocalBroadcastManager.getInstance(this.activity).registerReceiver(
-              voiceBroadcastReceiver, intentFilter);
+                    voiceBroadcastReceiver, intentFilter);
             isReceiverRegistered = true;
         }
     }
@@ -349,7 +352,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
             boolean speakerIsOn = call.argument("speakerIsOn");
             // if(speakerIsOn == null) return;
-            audioManager.setSpeakerphoneOn(speakerIsOn);            
+            audioManager.setSpeakerphoneOn(speakerIsOn);
             sendPhoneCallEvents(speakerIsOn ? "Speaker On" : "Speaker Off");
 
             result.success(true);
@@ -379,38 +382,38 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 //             params.put("From", call.argument("from").toString());
             this.callOutgoing = true;
             final ConnectOptions connectOptions = new ConnectOptions.Builder(this.accessToken)
-              .params(params)
-              .build();
+                    .params(params)
+                    .build();
             this.activeCall = Voice.connect(this.activity, connectOptions, this.callListener);
             result.success(true);
         } else if (call.method.equals("registerClient")) {
             String id = call.argument("id");
             String name = call.argument("name");
-            if(id != null && name != null && !pSharedPref.contains(id)  ){
-                sendPhoneCallEvents("LOG|Registering client " +id +":"+ name);
+            if (id != null && name != null && !pSharedPref.contains(id)) {
+                sendPhoneCallEvents("LOG|Registering client " + id + ":" + name);
                 SharedPreferences.Editor edit = pSharedPref.edit();
                 edit.putString(id, name);
                 edit.apply();
             }
         } else if (call.method.equals("unregisterClient")) {
             String id = call.argument("id");
-            if(id != null) {
+            if (id != null) {
                 sendPhoneCallEvents("LOG|Unegistering" + id);
                 SharedPreferences.Editor edit = pSharedPref.edit();
                 edit.remove(id);
                 edit.apply();
             }
-        } else if (call.method.equals("defaultCaller")){
+        } else if (call.method.equals("defaultCaller")) {
             String caller = call.argument("defaultCaller");
-            if(caller != null){
-                sendPhoneCallEvents("LOG|defaultCaller is "+ caller);
+            if (caller != null) {
+                sendPhoneCallEvents("LOG|defaultCaller is " + caller);
                 SharedPreferences.Editor edit = pSharedPref.edit();
                 edit.putString("defaultCaller", caller);
                 edit.apply();
             }
         } else if (call.method.equals("hasMicPermission")) {
             result.success(this.checkPermissionForMicrophone());
-        }else if (call.method.equals("requestMicPermission")) {
+        } else if (call.method.equals("requestMicPermission")) {
             sendPhoneCallEvents("LOG|requesting mic permission");
             if (!this.checkPermissionForMicrophone()) {
                 boolean hasAccess = this.requestPermissionForMicrophone();
@@ -418,16 +421,35 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             } else {
                 result.success(true);
             }
-        }else if (call.method.equals("backgroundCallUI")){
-                if(activeCall != null){
-                    Intent intent = new Intent(activity, BackgroundCallJavaActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(Constants.CALL_FROM, activeCall.getFrom());
-                    activity.startActivity(intent);
-                    backgroundCallUI = true;
-                }
-        }else {
+        } else if (call.method.equals("backgroundCallUI")) {
+            if (activeCall != null) {
+                Intent intent = new Intent(activity, BackgroundCallJavaActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(Constants.CALL_FROM, activeCall.getFrom());
+                activity.startActivity(intent);
+                backgroundCallUI = true;
+            }
+
+
+        } else if (call.method.equals("requiresBackgroundPermissions")){
+            String manufacturer = "xiaomi";
+            if (manufacturer.equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
+                result.success(true);
+                return;
+            }
+            result.success(false);
+        } else if (call.method.equals("requestBackgroundPermissions")){
+            String manufacturer = "xiaomi";
+            if (manufacturer.equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
+
+                Intent localIntent = new Intent("miui.intent.action.APP_PERM_EDITOR");
+                localIntent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
+                localIntent.putExtra("extra_pkgname", activity.getPackageName());
+                activity.startActivity(localIntent);
+            }
+            result.success(true);
+        }else{
             result.notImplemented();
         }
     }
@@ -443,8 +465,10 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         notificationManager.cancel(activeCallNotificationId);
     }
 
-    private void sendPhoneCallEvents(String description){
-        if(eventSink == null){ return;}
+    private void sendPhoneCallEvents(String description) {
+        if (eventSink == null) {
+            return;
+        }
         eventSink.success(description);
     }
 
@@ -514,7 +538,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 Log.d(TAG, "Connect failure");
                 String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                 Log.e(TAG, message);
-                eventSink.success("LOG|"+message);
+                eventSink.success("LOG|" + message);
 
             }
 
@@ -525,8 +549,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 eventSink.success("LOG|Connected");
                 activeCall = call;
                 /*
-                * Enable changing the volume using the up/down keys during a conversation
-                */
+                 * Enable changing the volume using the up/down keys during a conversation
+                 */
                 savedVolumeControlStream = activity.getVolumeControlStream();
                 activity.setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
                 eventSink.success("Connected|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
@@ -565,19 +589,19 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         }
     }
 
-    private void disconnected(){
-            if(backgroundCallUI){
-                Intent intent = new Intent(activity, BackgroundCallJavaActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setAction(Constants.ACTION_CANCEL_CALL);
+    private void disconnected() {
+        if (backgroundCallUI) {
+            Intent intent = new Intent(activity, BackgroundCallJavaActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction(Constants.ACTION_CANCEL_CALL);
 
-                activity.startActivity(intent);
-            }
-            SoundPoolManager.getInstance(activity).playDisconnect();
-            backgroundCallUI = false;
-            callOutgoing = false;
-            activeCall = null;
+            activity.startActivity(intent);
+        }
+        SoundPoolManager.getInstance(activity).playDisconnect();
+        backgroundCallUI = false;
+        callOutgoing = false;
+        activeCall = null;
 
     }
 
@@ -604,30 +628,29 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 // Request audio focus before making any device switch.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     AudioAttributes playbackAttributes = new AudioAttributes.Builder()
-                      .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
-                      .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                      .build();
+                            .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                            .build();
                     AudioFocusRequest focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
-                      .setAudioAttributes(playbackAttributes)
-                      .setAcceptsDelayedFocusGain(true)
-                      .setOnAudioFocusChangeListener(new AudioManager.OnAudioFocusChangeListener() {
-                          @Override
-                          public void onAudioFocusChange(int i) {
-                          }
-                      })
-                      .build();
+                            .setAudioAttributes(playbackAttributes)
+                            .setAcceptsDelayedFocusGain(true)
+                            .setOnAudioFocusChangeListener(new AudioManager.OnAudioFocusChangeListener() {
+                                @Override
+                                public void onAudioFocusChange(int i) {
+                                }
+                            })
+                            .build();
                     audioManager.requestAudioFocus(focusRequest);
                 } else {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO) {
                         int focusRequestResult = audioManager.requestAudioFocus(
-                          new AudioManager.OnAudioFocusChangeListener() {
+                                new AudioManager.OnAudioFocusChangeListener() {
 
-                              @Override
-                              public void onAudioFocusChange(int focusChange)
-                              {
-                              }
-                          }, AudioManager.STREAM_VOICE_CALL,
-                          AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+                                    @Override
+                                    public void onAudioFocusChange(int focusChange) {
+                                    }
+                                }, AudioManager.STREAM_VOICE_CALL,
+                                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
                     }
                 }
                 /*
@@ -657,8 +680,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             return false;
         } else {
             ActivityCompat.requestPermissions(this.activity,
-              new String[]{Manifest.permission.RECORD_AUDIO},
-              MIC_PERMISSION_REQUEST_CODE);
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    MIC_PERMISSION_REQUEST_CODE);
             return true;
         }
     }
