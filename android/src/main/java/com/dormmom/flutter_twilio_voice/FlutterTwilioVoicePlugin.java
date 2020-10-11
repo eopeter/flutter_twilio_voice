@@ -170,19 +170,15 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void handleIncomingCall(String from, String to) {
         sendPhoneCallEvents("Ringing|" + from + "|" + to + "|" + "Incoming");
-//        SoundPoolManager.getInstance(activity).playRinging();
     }
 
     private void handleReject() {
         sendPhoneCallEvents("LOG|Call Rejected");
-//        SoundPoolManager.getInstance(activity).stopRinging();
-//        SoundPoolManager.getInstance(activity).playDisconnect();
     }
 
     private void handleCancel() {
         callOutgoing = false;
         sendPhoneCallEvents("Call Ended");
-//        SoundPoolManager.getInstance(activity).stopRinging();
 
         Intent intent = new Intent(activity, AnswerJavaActivity.class);
         intent.setAction(Constants.ACTION_CANCEL_CALL);
@@ -584,7 +580,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
             activity.startActivity(intent);
         }
-//        SoundPoolManager.getInstance(activity).playDisconnect();
+        SoundPoolManager.getInstance(activity).playDisconnect();
         backgroundCallUI = false;
         callOutgoing = false;
         activeCall = null;

@@ -3,4 +3,6 @@
     <string name="answer">Contestar</string>
     <string name="decline">Rechazar</string>
     <string name="new_call">Llamada de %s</string>
+    <string name="incomming_call_title">Llamada entrante...</string>
+    <string name="unknown_caller">Numero desconocido</string>
 </resources>
