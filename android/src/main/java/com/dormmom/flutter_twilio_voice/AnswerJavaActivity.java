@@ -153,7 +153,7 @@ public class AnswerJavaActivity extends AppCompatActivity{
 
 
     private void configCallUI() {
-        // SoundPoolManager.getInstance(this).playRinging();
+        SoundPoolManager.getInstance(this).playRinging();
         Log.d(TAG, "configCallUI");
         if (activeCallInvite != null){
             btnAnswer.setOnClickListener(new View.OnClickListener() {
@@ -174,7 +174,6 @@ public class AnswerJavaActivity extends AppCompatActivity{
                 @Override
                 public void onClick(View v) {
                     rejectCallClickListener();
-                    //SoundPoolManager.getInstance(this@AnswerJavaActivity).playDisconnect();
                     disconnect();
                     finish();
                 }
@@ -191,6 +190,7 @@ public class AnswerJavaActivity extends AppCompatActivity{
 
     private void newAnswerCallClickListener(){
         Log.d(TAG, "Clicked accept");
+        SoundPoolManager.getInstance(this).stopRinging();
         Intent acceptIntent = new Intent(this, IncomingCallNotificationService.class);
         acceptIntent.setAction(Constants.ACTION_ACCEPT);
         acceptIntent.putExtra(Constants.INCOMING_CALL_INVITE, activeCallInvite);
@@ -201,12 +201,14 @@ public class AnswerJavaActivity extends AppCompatActivity{
     }
 
     private void newCancelCallClickListener(){
-        //SoundPoolManager.getInstance(this@AnswerJavaActivity).stopRinging();
+        SoundPoolManager.getInstance(this).stopRinging();
+        SoundPoolManager.getInstance(this).playDisconnect();
         finish();
     }
 
     private void rejectCallClickListener(){
-        //SoundPoolManager.getInstance(this@AnswerJavaActivity).stopRinging();
+        SoundPoolManager.getInstance(this).stopRinging();
+        SoundPoolManager.getInstance(this).playDisconnect();
         if (activeCallInvite != null) {
             Intent rejectIntent = new Intent(this, IncomingCallNotificationService.class);
             rejectIntent.setAction(Constants.ACTION_REJECT);
@@ -262,6 +264,7 @@ public class AnswerJavaActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SoundPoolManager.getInstance(this).release();
         if (wakeLock != null){
             wakeLock.release();
         }

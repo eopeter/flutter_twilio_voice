@@ -21,14 +21,6 @@ enum CallDirection { incoming, outgoing }
 typedef OnDeviceTokenChanged = Function();
 
 class FlutterTwilioVoice {
-  static final String actionAccept = "ACTION_ACCEPT";
-  static final String actionReject = "ACTION_REJECT";
-  static final String actionIncommingCallNotification =
-      "ACTION_INCOMING_CALL_NOTIFICATION";
-  static final String actionIncomingCall = "ACTION_INCOMING_CALL";
-  static final String actionCancelCall = "ACTION_CANCEL_CALL";
-  static final String actionFcmToken = "ACTION_FCM_TOKEN";
-
   static const MethodChannel _channel =
       const MethodChannel('flutter_twilio_voice/messages');
 
@@ -197,6 +189,14 @@ class FlutterTwilioVoice {
       print(
           'Ringing - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
       return CallState.ringing;
+    } else if (state.startsWith("Answer")) {
+      List<String> tokens = state.split('|');
+      callFrom = _prettyPrintNumber(tokens[1]);
+      callTo = _prettyPrintNumber(tokens[2]);
+      callDirection = CallDirection.incoming;
+      print(
+          'Answer - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
+      return CallState.answer;
     }
     switch (state) {
       case 'Ringing':
@@ -221,8 +221,6 @@ class FlutterTwilioVoice {
         return CallState.speaker_on;
       case 'Speaker Off':
         return CallState.speaker_off;
-      case 'Answer':
-        return CallState.answer;
       default:
         print('$state is not a valid CallState.');
         throw ArgumentError('$state is not a valid CallState.');

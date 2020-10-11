@@ -48,7 +48,6 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
     print("voip-registtering with token ");
     print("voip-calling voice-accessToken");
     final function = CloudFunctions.instance
-        // .useFunctionsEmulator(origin: "http://192.168.1.9:5000")
         .getHttpsCallable(functionName: "voice-accessToken");
 
     final data = {

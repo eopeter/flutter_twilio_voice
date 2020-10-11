@@ -136,10 +136,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                     handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
                     startAnswerActivity(activeCallInvite, activeCallNotificationId);
                     break;
-                case Constants.ACTION_INCOMING_CALL_NOTIFICATION:
-                    handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
-                    startAnswerActivity(activeCallInvite, activeCallNotificationId);
-                    break;
                 case Constants.ACTION_CANCEL_CALL:
                     handleCancel();
                     break;
@@ -152,11 +148,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 case Constants.ACTION_TOGGLE_MUTE:
                     mute();
                     break;
-//            case Constants.ACTION_TOGGLE_SPEAKER:
-//                boolean speakerIsOn =  !audioManager.isSpeakerphoneOn();
-//                audioManager.setSpeakerphoneOn(speakerIsOn);
-//                sendPhoneCallEvents(speakerIsOn ? "Speaker On" : "Speaker Off");
-//                break;
                 case Constants.ACTION_END_CALL:
                     backgroundCallUI = false;
                     disconnect();
@@ -166,11 +157,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             }
         }
     }
-
-    private void showIncomingCallDialog() {
-        this.handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
-    }
-
 
     private void startAnswerActivity(CallInvite callInvite, int notificationId) {
         Intent intent = new Intent(activity, AnswerJavaActivity.class);
@@ -184,19 +170,19 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void handleIncomingCall(String from, String to) {
         sendPhoneCallEvents("Ringing|" + from + "|" + to + "|" + "Incoming");
-        SoundPoolManager.getInstance(activity).playRinging();
+//        SoundPoolManager.getInstance(activity).playRinging();
     }
 
     private void handleReject() {
         sendPhoneCallEvents("LOG|Call Rejected");
-        SoundPoolManager.getInstance(activity).stopRinging();
-        SoundPoolManager.getInstance(activity).playDisconnect();
+//        SoundPoolManager.getInstance(activity).stopRinging();
+//        SoundPoolManager.getInstance(activity).playDisconnect();
     }
 
     private void handleCancel() {
         callOutgoing = false;
         sendPhoneCallEvents("Call Ended");
-        SoundPoolManager.getInstance(activity).stopRinging();
+//        SoundPoolManager.getInstance(activity).stopRinging();
 
         Intent intent = new Intent(activity, AnswerJavaActivity.class);
         intent.setAction(Constants.ACTION_CANCEL_CALL);
@@ -211,7 +197,6 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             Log.d(TAG, "registerReceiver");
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Constants.ACTION_INCOMING_CALL);
-            intentFilter.addAction(Constants.ACTION_INCOMING_CALL_NOTIFICATION);
             intentFilter.addAction(Constants.ACTION_CANCEL_CALL);
             intentFilter.addAction(Constants.ACTION_ACCEPT);
             intentFilter.addAction(Constants.ACTION_REJECT);
@@ -459,9 +444,10 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
      */
     private void answer() {
         Log.d(TAG, "Answering call");
-        SoundPoolManager.getInstance(activity).stopRinging();
+//        SoundPoolManager.getInstance(activity).stopRinging();
+
         activeCallInvite.accept(this.activity, callListener);
-        eventSink.success("Answer");
+        eventSink.success("Answer|"+activeCallInvite.getFrom() + "|" + activeCallInvite.getTo());
         notificationManager.cancel(activeCallNotificationId);
     }
 
@@ -598,7 +584,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
             activity.startActivity(intent);
         }
-        SoundPoolManager.getInstance(activity).playDisconnect();
+//        SoundPoolManager.getInstance(activity).playDisconnect();
         backgroundCallUI = false;
         callOutgoing = false;
         activeCall = null;
