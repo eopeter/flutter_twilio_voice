@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -139,6 +138,7 @@ public class IncomingCallNotificationService extends Service {
         acceptIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         PendingIntent piAcceptIntent = PendingIntent.getService(getApplicationContext(), 0, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        long[] mVibratePattern = new long[]{0, 400, 400, 400, 400, 400, 400, 400};
         Notification.Builder builder =
                 new Notification.Builder(getApplicationContext(), channelId)
                         .setSmallIcon(R.drawable.ic_call_end_white_24dp)
@@ -147,6 +147,7 @@ public class IncomingCallNotificationService extends Service {
                         .setCategory(Notification.CATEGORY_CALL)
                         .setFullScreenIntent(pendingIntent, true)
                         .setExtras(extras)
+                        .setVibrate(mVibratePattern)
                         .setAutoCancel(true)
                         .setVisibility(Notification.VISIBILITY_PUBLIC)
                         .addAction(android.R.drawable.ic_menu_delete, getString(R.string.decline), piRejectIntent)
@@ -232,9 +233,9 @@ public class IncomingCallNotificationService extends Service {
      * Send the CallInvite to the VoiceActivity. Start the activity if it is not running already.
      */
     private void sendCallInviteToActivity(CallInvite callInvite, int notificationId) {
-        if (Build.VERSION.SDK_INT >= 29 && !isAppVisible()) {
-            return;
-        }
+//        if (Build.VERSION.SDK_INT >= 29 && !isAppVisible()) {
+//            return;
+//        }
         Intent pluginIntent = new Intent();
         pluginIntent.setAction(Constants.ACTION_INCOMING_CALL);
         pluginIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);

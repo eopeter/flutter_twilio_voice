@@ -6,6 +6,7 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 
 import static android.content.Context.AUDIO_SERVICE;
 
@@ -43,7 +44,7 @@ public class SoundPoolManager {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 loaded = true;
-                if (playingCalled) {
+               if (playingCalled && sampleId == ringingSoundId) {
                     playRinging();
                     playingCalled = false;
                 }
@@ -85,7 +86,6 @@ public class SoundPoolManager {
     private void vibrate(){
         long[] mVibratePattern = new long[]{0, 400, 400, 400, 400, 400, 400, 400};
         final int[] mAmplitudes = new int[]{0, 128, 0, 128, 0, 128, 0, 128};
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createWaveform(mVibratePattern, mAmplitudes, 0));
         } else {

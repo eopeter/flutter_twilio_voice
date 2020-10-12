@@ -108,6 +108,10 @@ class FlutterTwilioVoice {
     return _channel.invokeMethod('requestBackgroundPermissions', {});
   }
 
+  static Future<bool> requiresBackgroundPermissions() {
+    return _channel.invokeMethod('requiresBackgroundPermissions', {});
+  }
+
   static Future<bool> isOnCall() {
     return _channel.invokeMethod('isOnCall', <String, dynamic>{});
   }
@@ -182,20 +186,16 @@ class FlutterTwilioVoice {
       List<String> tokens = state.split('|');
       callFrom = _prettyPrintNumber(tokens[1]);
       callTo = _prettyPrintNumber(tokens[2]);
-      callDirection = ("Incoming" == tokens[3]
-          ? CallDirection.incoming
-          : CallDirection.outgoing);
-      callStartedOn = DateTime.now().millisecondsSinceEpoch;
+
       print(
-          'Ringing - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
+          'Ringing - From: $callFrom, To: $callTo, Direction: $callDirection');
       return CallState.ringing;
     } else if (state.startsWith("Answer")) {
       List<String> tokens = state.split('|');
       callFrom = _prettyPrintNumber(tokens[1]);
       callTo = _prettyPrintNumber(tokens[2]);
       callDirection = CallDirection.incoming;
-      print(
-          'Answer - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
+      print('Answer - From: $callFrom, To: $callTo, Direction: $callDirection');
       return CallState.answer;
     }
     switch (state) {

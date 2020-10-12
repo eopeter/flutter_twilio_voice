@@ -30,6 +30,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -134,6 +136,9 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             switch (action) {
                 case Constants.ACTION_INCOMING_CALL:
                     handleIncomingCall(activeCallInvite.getFrom(), activeCallInvite.getTo());
+                    if (Build.VERSION.SDK_INT >= 29 && !isAppVisible()) {
+                        break;
+                    }
                     startAnswerActivity(activeCallInvite, activeCallNotificationId);
                     break;
                 case Constants.ACTION_CANCEL_CALL:
@@ -170,16 +175,19 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
 
     private void handleIncomingCall(String from, String to) {
         sendPhoneCallEvents("Ringing|" + from + "|" + to + "|" + "Incoming");
+        SoundPoolManager.getInstance(activity).playRinging();
     }
 
     private void handleReject() {
         sendPhoneCallEvents("LOG|Call Rejected");
+        SoundPoolManager.getInstance(activity).stopRinging();
+        SoundPoolManager.getInstance(activity).playDisconnect();
     }
 
     private void handleCancel() {
         callOutgoing = false;
         sendPhoneCallEvents("Call Ended");
-
+        SoundPoolManager.getInstance(activity).stopRinging();
         Intent intent = new Intent(activity, AnswerJavaActivity.class);
         intent.setAction(Constants.ACTION_CANCEL_CALL);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -290,12 +298,12 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     @Override
     public void onDetachedFromEngine(FlutterPluginBinding flutterPluginBinding) {
         Log.d(TAG, "Detatched from Flutter engine");
+        SoundPoolManager.getInstance(activity).release();
         context = null;
         methodChannel.setMethodCallHandler(null);
         methodChannel = null;
         eventChannel.setStreamHandler(null);
         eventChannel = null;
-        //soundPoolManager.release();
     }
 
     @Override
@@ -440,7 +448,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
      */
     private void answer() {
         Log.d(TAG, "Answering call");
-//        SoundPoolManager.getInstance(activity).stopRinging();
+        SoundPoolManager.getInstance(activity).stopRinging();
 
         activeCallInvite.accept(this.activity, callListener);
         eventSink.success("Answer|"+activeCallInvite.getFrom() + "|" + activeCallInvite.getTo());
@@ -528,7 +536,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             public void onConnected(Call call) {
                 // setAudioFocus(true);
                 Log.d(TAG, "Connected");
-                eventSink.success("LOG|Connected");
+//                eventSink.success("LOG|Connected");
                 activeCall = call;
                 /*
                  * Enable changing the volume using the up/down keys during a conversation
@@ -668,4 +676,11 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         }
     }
 
+    private boolean isAppVisible() {
+        return ProcessLifecycleOwner
+                .get()
+                .getLifecycle()
+                .getCurrentState()
+                .isAtLeast(Lifecycle.State.STARTED);
+    }
 }

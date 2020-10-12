@@ -116,8 +116,7 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
 
       switch (event) {
         case CallState.answer:
-          if (Platform.isAndroid ||
-              state == null ||
+          if (Platform.isIOS && state == null ||
               state == AppLifecycleState.resumed) {
             pushToCallScreen();
           }
@@ -125,6 +124,10 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
         case CallState.connected:
           if (Platform.isAndroid && state != AppLifecycleState.resumed) {
             FlutterTwilioVoice.showBackgroundCallUI();
+          } else if (Platform.isAndroid && state == null ||
+              state == AppLifecycleState.resumed &&
+                  FlutterTwilioVoice.callDirection == CallDirection.incoming) {
+            pushToCallScreen();
           }
           break;
         default:
