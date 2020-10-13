@@ -28,8 +28,8 @@ class FlutterTwilioVoice {
       EventChannel('flutter_twilio_voice/events');
 
   static Stream<CallState> _onCallStateChanged;
-  static String callFrom = "SafeNSound";
-  static String callTo = "SafeNSound";
+  static String callFrom;
+  static String callTo;
   static int callStartedOn;
   static CallDirection callDirection = CallDirection.incoming;
   static OnDeviceTokenChanged deviceTokenChanged;
@@ -205,8 +205,8 @@ class FlutterTwilioVoice {
         return CallState.connected;
       case 'Call Ended':
         callStartedOn = null;
-        callFrom = "SafeNSound";
-        callTo = "SafeNSound";
+        callFrom = null;
+        callTo = null;
         callDirection = CallDirection.incoming;
         return CallState.call_ended;
       case 'Unhold':

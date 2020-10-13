@@ -367,6 +367,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             Log.d(TAG, "Making new call");
             sendPhoneCallEvents("LOG|Making new call");
             final HashMap<String, String> params = new HashMap<>();
+            Log.d(TAG, "calling");
+            Log.d(TAG, call.argument("to").toString());
             params.put("To", call.argument("to").toString());
 //             params.put("From", call.argument("from").toString());
             this.callOutgoing = true;
@@ -518,7 +520,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
              */
             @Override
             public void onRinging(Call call) {
-                Log.d(TAG, "Ringing");
+                Log.d(TAG, "onRinging");
                 eventSink.success("Ringing|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
             }
 
@@ -535,7 +537,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             @Override
             public void onConnected(Call call) {
                 // setAudioFocus(true);
-                Log.d(TAG, "Connected");
+                Log.d(TAG, "onConnected");
 //                eventSink.success("LOG|Connected");
                 activeCall = call;
                 /*
@@ -580,9 +582,13 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
     }
 
     private void disconnected() {
+
+        if(activeCall == null) return;
+
         if (backgroundCallUI) {
             Intent intent = new Intent(activity, BackgroundCallJavaActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction(Constants.ACTION_CANCEL_CALL);
 

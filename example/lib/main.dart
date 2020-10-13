@@ -103,11 +103,16 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
   checkActiveCall() async {
     final isOnCall = await FlutterTwilioVoice.isOnCall();
     print("checkActiveCall $isOnCall");
-    if (isOnCall) {
+    if (isOnCall &&
+        !hasPushedToCall &&
+        FlutterTwilioVoice.callDirection == CallDirection.incoming) {
       print("user is on call");
       pushToCallScreen();
+      hasPushedToCall = true;
     }
   }
+
+  var hasPushedToCall = false;
 
   void waitForCall() {
     checkActiveCall();
@@ -116,19 +121,26 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
 
       switch (event) {
         case CallState.answer:
+          //at this point android is still paused
           if (Platform.isIOS && state == null ||
               state == AppLifecycleState.resumed) {
             pushToCallScreen();
+            hasPushedToCall = true;
           }
           break;
         case CallState.connected:
-          if (Platform.isAndroid && state != AppLifecycleState.resumed) {
-            FlutterTwilioVoice.showBackgroundCallUI();
-          } else if (Platform.isAndroid && state == null ||
-              state == AppLifecycleState.resumed &&
-                  FlutterTwilioVoice.callDirection == CallDirection.incoming) {
-            pushToCallScreen();
+          if (Platform.isAndroid &&
+              FlutterTwilioVoice.callDirection == CallDirection.incoming) {
+            if (state != AppLifecycleState.resumed) {
+              FlutterTwilioVoice.showBackgroundCallUI();
+            } else if (state == null || state == AppLifecycleState.resumed) {
+              pushToCallScreen();
+              hasPushedToCall = true;
+            }
           }
+          break;
+        case CallState.call_ended:
+          hasPushedToCall = false;
           break;
         default:
           break;

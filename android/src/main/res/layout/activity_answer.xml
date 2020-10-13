@@ -5,7 +5,7 @@
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#279de1"
+        android:background="@color/primary"
         android:fitsSystemWindows="true">
 
     <LinearLayout
