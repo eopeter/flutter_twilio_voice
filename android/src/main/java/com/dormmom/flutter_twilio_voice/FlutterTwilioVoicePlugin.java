@@ -453,7 +453,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         SoundPoolManager.getInstance(activity).stopRinging();
 
         activeCallInvite.accept(this.activity, callListener);
-        eventSink.success("Answer|"+activeCallInvite.getFrom() + "|" + activeCallInvite.getTo());
+        sendPhoneCallEvents("Answer|"+activeCallInvite.getFrom() + "|" + activeCallInvite.getTo());
         notificationManager.cancel(activeCallNotificationId);
     }
 
@@ -521,7 +521,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             @Override
             public void onRinging(Call call) {
                 Log.d(TAG, "onRinging");
-                eventSink.success("Ringing|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
+                sendPhoneCallEvents("Ringing|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
             }
 
             @Override
@@ -530,7 +530,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                 Log.d(TAG, "Connect failure");
                 String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                 Log.e(TAG, message);
-                eventSink.success("LOG|" + message);
+                sendPhoneCallEvents("LOG|" + message);
 
             }
 
@@ -545,7 +545,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                  */
                 savedVolumeControlStream = activity.getVolumeControlStream();
                 activity.setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-                eventSink.success("Connected|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
+                sendPhoneCallEvents("Connected|" + call.getFrom() + "|" + call.getTo() + "|" + (callOutgoing ? "Outgoing" : "Incoming"));
             }
 
             @Override
@@ -567,7 +567,7 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                     Log.e(TAG, message);
                 }
                 activity.setVolumeControlStream(savedVolumeControlStream);
-                eventSink.success("Call Ended");
+                sendPhoneCallEvents("Call Ended");
                 disconnected();
             }
         };
