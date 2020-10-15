@@ -231,6 +231,24 @@ class FlutterTwilioVoice {
     if (phoneNumber.indexOf('client:') > -1) {
       return phoneNumber.split(':')[1];
     }
-    return phoneNumber;
+    if (phoneNumber.substring(0, 1) == '+') {
+      phoneNumber = phoneNumber.substring(1);
+    }
+    if (phoneNumber.length == 7) {
+      return phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3);
+    }
+    if (phoneNumber.length < 10) {
+      return phoneNumber;
+    }
+    int start = 0;
+    if (phoneNumber.length == 11) {
+      start = 1;
+    }
+    return "(" +
+        phoneNumber.substring(start, start + 3) +
+        ") " +
+        phoneNumber.substring(start + 3, start + 6) +
+        "-" +
+        phoneNumber.substring(start + 6);
   }
 }
