@@ -66,8 +66,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         
         voipRegistry.delegate = self
         voipRegistry.desiredPushTypes = Set([PKPushType.voIP])
-        
-        
+
         let appDelegate = UIApplication.shared.delegate
         guard let controller = appDelegate?.window??.rootViewController as? FlutterViewController else {
             fatalError("rootViewController is not type FlutterViewController")
@@ -76,7 +75,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         let eventChannel = FlutterEventChannel(name: "flutter_twilio_voice/events", binaryMessenger: registrar!.messenger())
         
         eventChannel.setStreamHandler(self)
-        
+
     }
     
     

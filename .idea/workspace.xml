@@ -48,6 +48,7 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_XL_API_28" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/android">
       <ProjectState />
@@ -88,6 +89,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Pull.Settings">
+    <option name="BRANCH" value="master" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -125,7 +129,7 @@
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.1631579" />
     <property name="project.structure.side.proportion" value="0.39549437" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RebelAgentSelection">
@@ -152,17 +156,6 @@
     <option name="showLabels" value="true" />
   </component>
   <component name="RunManager" selected="Gradle./data/git/flutter_twilio_voice/android/build.gradle">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="/data/git/flutter_twilio_voice/android/build.gradle" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -178,6 +171,7 @@
         <option name="vmOptions" />
       </ExternalSystemSettings>
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
   </component>
@@ -208,7 +202,8 @@
       <workItem from="1587041143714" duration="1242000" />
       <workItem from="1591385553277" duration="1640000" />
       <workItem from="1597505112607" duration="2933000" />
-      <workItem from="1597700806667" duration="5134000" />
+      <workItem from="1597700806667" duration="5433000" />
+      <workItem from="1602829140426" duration="354000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -525,7 +520,28 @@
       <option name="project" value="LOCAL" />
       <updated>1597704806440</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Push device token up to flutter">
+      <created>1597766026310</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1597766026310</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Update plugin pubspec.yaml">
+      <created>1602829383667</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1602829383667</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Update plugin pubspec.yaml">
+      <created>1602829440900</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1602829440900</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -548,8 +564,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_twilio_voice" />
     </ignored-roots>
-    <MESSAGE value="Return bool from SwiftFlutterTwilioVoicePlugin.swift for method handler calls" />
-    <MESSAGE value="Add unregister method call" />
     <MESSAGE value="Set localized app name" />
     <MESSAGE value="Set localized app name from CF Bundle" />
     <MESSAGE value="Bump version" />
@@ -573,13 +587,15 @@
     <MESSAGE value="Send notification when remote side ended call" />
     <MESSAGE value="Turn off speaker phone by default" />
     <MESSAGE value="Add explicit voice token to unregister function.  Pass logging up to flutter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add explicit voice token to unregister function.  Pass logging up to flutter" />
+    <MESSAGE value="Push device token up to flutter" />
+    <MESSAGE value="Update plugin pubspec.yaml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update plugin pubspec.yaml" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2" timestamp="1597704806385">
+    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2" timestamp="1597766026251">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704806385" />
+    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597766026251" />
     <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl" timestamp="1597703023819">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
