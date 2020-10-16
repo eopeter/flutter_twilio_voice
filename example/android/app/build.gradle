@@ -35,7 +35,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.diego.flutter_twilio_voice_example"
+        applicationId "com.dormmom.flutter_twilio_voice_example"
         minSdkVersion 16
         targetSdkVersion 28
         multiDexEnabled true
