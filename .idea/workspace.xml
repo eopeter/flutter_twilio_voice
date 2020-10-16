@@ -25,12 +25,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,17 +144,6 @@
     <option name="showLabels" value="true" />
   </component>
   <component name="RunManager" selected="Gradle./data/git/flutter_twilio_voice/android/build.gradle">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="/data/git/flutter_twilio_voice/android/build.gradle" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -175,6 +159,7 @@
         <option name="vmOptions" />
       </ExternalSystemSettings>
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
   </component>
@@ -205,7 +190,7 @@
       <workItem from="1587041143714" duration="1242000" />
       <workItem from="1591385553277" duration="1640000" />
       <workItem from="1597505112607" duration="2933000" />
-      <workItem from="1597700806667" duration="5134000" />
+      <workItem from="1597700806667" duration="5433000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -522,7 +507,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597704806440</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Push device token up to flutter">
+      <created>1597766026310</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1597766026310</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,7 +536,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_twilio_voice" />
     </ignored-roots>
-    <MESSAGE value="Return bool from SwiftFlutterTwilioVoicePlugin.swift for method handler calls" />
     <MESSAGE value="Add unregister method call" />
     <MESSAGE value="Set localized app name" />
     <MESSAGE value="Set localized app name from CF Bundle" />
@@ -569,13 +560,14 @@
     <MESSAGE value="Send notification when remote side ended call" />
     <MESSAGE value="Turn off speaker phone by default" />
     <MESSAGE value="Add explicit voice token to unregister function.  Pass logging up to flutter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add explicit voice token to unregister function.  Pass logging up to flutter" />
+    <MESSAGE value="Push device token up to flutter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Push device token up to flutter" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2" timestamp="1597704806385">
+    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2" timestamp="1597766026251">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704806385" />
+    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597766026251" />
     <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl" timestamp="1597703023819">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -592,10 +584,10 @@
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
     <state x="5270" y="878" width="480" height="194" key="ProcessPopupWindow/0.27.1920.1053/1920.0.1920.1080/3840.0.1920.1080@3840.0.1920.1080" timestamp="1591385697574" />
-    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1597704807357">
+    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1597766027204">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704807357" />
+    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597766027204" />
     <state x="2589" y="255" width="581" height="570" key="find.popup" timestamp="1597702264044">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
