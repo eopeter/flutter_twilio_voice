@@ -56,12 +56,10 @@ public class AnswerJavaActivity extends AppCompatActivity {
         if (isKeyguardUp) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                Log.d(TAG, "ohh shiny phone!");
                 setTurnScreenOn(true);
                 setShowWhenLocked(true);
                 kgm.requestDismissKeyguard(this, null);
             } else {
-                Log.d(TAG, "diego's old phone!");
                 PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
                 wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, TAG);
                 wakeLock.acquire(60 * 1000L /*10 minutes*/);
