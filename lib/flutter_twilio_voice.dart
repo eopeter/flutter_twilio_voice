@@ -3,34 +3,42 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-enum CallState { ringing, connected, call_ended, unhold, hold, unmute, mute, speaker_on, speaker_off, log }
+enum CallState {
+  ringing,
+  connected,
+  call_ended,
+  unhold,
+  hold,
+  unmute,
+  mute,
+  speaker_on,
+  speaker_off,
+  log,
+  answer
+}
 enum CallDirection { incoming, outgoing }
 
-typedef OnDeviceTokenChanged = Function(String deviceToken);
+typedef OnDeviceTokenChanged = Function();
 
 class FlutterTwilioVoice {
-  static final String ACTION_ACCEPT = "ACTION_ACCEPT";
-  static final String ACTION_REJECT = "ACTION_REJECT";
-  static final String ACTION_INCOMING_CALL_NOTIFICATION = "ACTION_INCOMING_CALL_NOTIFICATION";
-  static final String ACTION_INCOMING_CALL = "ACTION_INCOMING_CALL";
-  static final String ACTION_CANCEL_CALL = "ACTION_CANCEL_CALL";
-  static final String ACTION_FCM_TOKEN = "ACTION_FCM_TOKEN";
+  static const MethodChannel _channel =
+      const MethodChannel('flutter_twilio_voice/messages');
 
-  static const MethodChannel _channel = const MethodChannel('flutter_twilio_voice/messages');
-
-  static const EventChannel _eventChannel = EventChannel('flutter_twilio_voice/events');
+  static const EventChannel _eventChannel =
+      EventChannel('flutter_twilio_voice/events');
 
   static Stream<CallState> _onCallStateChanged;
-  static String callFrom = "SafeNSound";
-  static String callTo = "SafeNSound";
-  static String deviceToken;
+  static String callFrom;
+  static String callTo;
   static int callStartedOn;
   static CallDirection callDirection = CallDirection.incoming;
   static OnDeviceTokenChanged deviceTokenChanged;
 
   static Stream<CallState> get onCallStateChanged {
     if (_onCallStateChanged == null) {
-      _onCallStateChanged = _eventChannel.receiveBroadcastStream().map((dynamic event) => _parseCallState(event));
+      _onCallStateChanged = _eventChannel
+          .receiveBroadcastStream()
+          .map((dynamic event) => _parseCallState(event));
     }
     return _onCallStateChanged;
   }
@@ -39,23 +47,29 @@ class FlutterTwilioVoice {
     FlutterTwilioVoice.deviceTokenChanged = deviceTokenChanged;
   }
 
-  static Future<bool> tokens({@required String accessToken, String deviceToken}) {
+  static Future<bool> tokens(
+      {@required String accessToken, String deviceToken}) {
     assert(accessToken != null);
-    return _channel.invokeMethod('tokens', <String, dynamic>{"accessToken": accessToken, "deviceToken": deviceToken});
+    return _channel.invokeMethod('tokens', <String, dynamic>{
+      "accessToken": accessToken,
+      "deviceToken": deviceToken
+    });
   }
 
   static Future<bool> unregister(String accessToken) {
-    return _channel.invokeMethod('unregister', <String, dynamic>{"accessToken": accessToken});
+    return _channel.invokeMethod(
+        'unregister', <String, dynamic>{"accessToken": accessToken});
   }
 
   static Future<bool> makeCall(
-      {@required String from, @required String to, String toDisplayName, Map<String, dynamic> extraOptions}) {
+      {@required String from,
+      @required String to,
+      Map<String, dynamic> extraOptions}) {
     assert(to != null);
     assert(from != null);
     var options = extraOptions != null ? extraOptions : Map<String, dynamic>();
     options['from'] = from;
     options['to'] = to;
-    options['toDisplayName'] = toDisplayName;
     callFrom = from;
     callTo = to;
     callDirection = CallDirection.outgoing;
@@ -80,16 +94,53 @@ class FlutterTwilioVoice {
 
   static Future<bool> toggleSpeaker(bool speakerIsOn) {
     assert(speakerIsOn != null);
-    return _channel.invokeMethod('toggleSpeaker', <String, dynamic>{"speakerIsOn": speakerIsOn});
+    return _channel.invokeMethod(
+        'toggleSpeaker', <String, dynamic>{"speakerIsOn": speakerIsOn});
   }
 
   static Future<bool> sendDigits(String digits) {
     assert(digits != null);
-    return _channel.invokeMethod('sendDigits', <String, dynamic>{"digits": digits});
+    return _channel
+        .invokeMethod('sendDigits', <String, dynamic>{"digits": digits});
+  }
+
+  static Future<bool> requestBackgroundPermissions() {
+    return _channel.invokeMethod('requestBackgroundPermissions', {});
+  }
+
+  static Future<bool> requiresBackgroundPermissions() {
+    return _channel.invokeMethod('requiresBackgroundPermissions', {});
   }
 
   static Future<bool> isOnCall() {
     return _channel.invokeMethod('isOnCall', <String, dynamic>{});
+  }
+
+  static Future<bool> registerClient(String clientId, String clientName) {
+    return _channel.invokeMethod('registerClient',
+        <String, dynamic>{"id": clientId, "name": clientName});
+  }
+
+  static Future<bool> unregisterClient(String clientId) {
+    return _channel
+        .invokeMethod('unregisterClient', <String, dynamic>{"id": clientId});
+  }
+
+  static Future<bool> setDefaultCallerName(String callerName) {
+    return _channel.invokeMethod(
+        'defaultCaller', <String, dynamic>{"defaultCaller": callerName});
+  }
+
+  static Future<bool> hasMicAccess() {
+    return _channel.invokeMethod('hasMicPermission', {});
+  }
+
+  static Future<bool> requestMicAccess() {
+    return _channel.invokeMethod('requestMicPermission', {});
+  }
+
+  static Future showBackgroundCallUI() {
+    return _channel.invokeMethod("backgroundCallUI", {});
   }
 
   static String getFrom() {
@@ -110,10 +161,8 @@ class FlutterTwilioVoice {
 
   static CallState _parseCallState(String state) {
     if (state.startsWith("DEVICETOKEN|")) {
-      List<String> tokens = state.split('|');
-      deviceToken = tokens[1];
       if (deviceTokenChanged != null) {
-        deviceTokenChanged(deviceToken);
+        deviceTokenChanged();
       }
       return CallState.log;
     } else if (state.startsWith("LOG|")) {
@@ -124,20 +173,30 @@ class FlutterTwilioVoice {
       List<String> tokens = state.split('|');
       callFrom = _prettyPrintNumber(tokens[1]);
       callTo = _prettyPrintNumber(tokens[2]);
-      callDirection = ("Incoming" == tokens[3] ? CallDirection.incoming : CallDirection.outgoing);
+      callDirection = ("Incoming" == tokens[3]
+          ? CallDirection.incoming
+          : CallDirection.outgoing);
       if (callStartedOn == null) {
         callStartedOn = DateTime.now().millisecondsSinceEpoch;
       }
-      print('Connected - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
+      print(
+          'Connected - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
       return CallState.connected;
     } else if (state.startsWith("Ringing|")) {
       List<String> tokens = state.split('|');
       callFrom = _prettyPrintNumber(tokens[1]);
       callTo = _prettyPrintNumber(tokens[2]);
-      callDirection = ("Incoming" == tokens[3] ? CallDirection.incoming : CallDirection.outgoing);
-      callStartedOn = DateTime.now().millisecondsSinceEpoch;
-      print('Ringing - From: $callFrom, To: $callTo, StartOn: $callStartedOn, Direction: $callDirection');
+
+      print(
+          'Ringing - From: $callFrom, To: $callTo, Direction: $callDirection');
       return CallState.ringing;
+    } else if (state.startsWith("Answer")) {
+      List<String> tokens = state.split('|');
+      callFrom = _prettyPrintNumber(tokens[1]);
+      callTo = _prettyPrintNumber(tokens[2]);
+      callDirection = CallDirection.incoming;
+      print('Answer - From: $callFrom, To: $callTo, Direction: $callDirection');
+      return CallState.answer;
     }
     switch (state) {
       case 'Ringing':
@@ -146,8 +205,8 @@ class FlutterTwilioVoice {
         return CallState.connected;
       case 'Call Ended':
         callStartedOn = null;
-        callFrom = "SafeNSound";
-        callTo = "SafeNSound";
+        callFrom = null;
+        callTo = null;
         callDirection = CallDirection.incoming;
         return CallState.call_ended;
       case 'Unhold':

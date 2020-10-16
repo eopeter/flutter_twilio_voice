@@ -8,6 +8,7 @@
 .buildlog/
 .history
 .svn/
+.flutter-plugins-dependencies
 
 # IntelliJ related
 *.iml
@@ -36,6 +37,7 @@
 **/android/gradlew
 **/android/gradlew.bat
 **/android/local.properties
+**/android/app/google-services.json
 **/android/**/GeneratedPluginRegistrant.java
 
 # iOS/XCode related
