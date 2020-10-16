@@ -25,7 +25,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="" />
+    <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,6 +43,7 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_XL_API_28" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/android">
       <ProjectState />
@@ -81,6 +84,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Pull.Settings">
+    <option name="BRANCH" value="master" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -106,7 +112,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../solution-studios-java-repository" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -117,7 +123,7 @@
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.1631579" />
     <property name="project.structure.side.proportion" value="0.39549437" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RebelAgentSelection">
@@ -191,6 +197,7 @@
       <workItem from="1591385553277" duration="1640000" />
       <workItem from="1597505112607" duration="2933000" />
       <workItem from="1597700806667" duration="5433000" />
+      <workItem from="1602829140426" duration="354000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -514,7 +521,21 @@
       <option name="project" value="LOCAL" />
       <updated>1597766026310</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Update plugin pubspec.yaml">
+      <created>1602829383667</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1602829383667</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Update plugin pubspec.yaml">
+      <created>1602829440900</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1602829440900</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -536,7 +557,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_twilio_voice" />
     </ignored-roots>
-    <MESSAGE value="Add unregister method call" />
     <MESSAGE value="Set localized app name" />
     <MESSAGE value="Set localized app name from CF Bundle" />
     <MESSAGE value="Bump version" />
@@ -561,7 +581,8 @@
     <MESSAGE value="Turn off speaker phone by default" />
     <MESSAGE value="Add explicit voice token to unregister function.  Pass logging up to flutter" />
     <MESSAGE value="Push device token up to flutter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Push device token up to flutter" />
+    <MESSAGE value="Update plugin pubspec.yaml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update plugin pubspec.yaml" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2" timestamp="1597766026251">
