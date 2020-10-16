@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diego.flutter_twilio_voice_example">
+    package="com.dormmom.flutter_twilio_voice_example">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
