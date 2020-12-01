@@ -27,8 +27,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/flutter_twilio_voice.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/flutter_twilio_voice.podspec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftFlutterTwilioVoicePlugin.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +115,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../boxview" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -205,14 +204,7 @@
       <workItem from="1602829140426" duration="354000" />
       <workItem from="1606567379377" duration="328000" />
       <workItem from="1606831616016" duration="2345000" />
-      <workItem from="1606834151477" duration="599000" />
-    </task>
-    <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
-      <created>1577742952567</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1577742952567</updated>
+      <workItem from="1606834151477" duration="3369000" />
     </task>
     <task id="LOCAL-00002" summary="Work on Swift implementation">
       <created>1577746852528</created>
@@ -550,7 +542,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602867604593</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Miscellaneous fixes for iOS 14 and Xcode 12">
+      <created>1606836139313</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1606836139313</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -572,7 +571,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_twilio_voice" />
     </ignored-roots>
-    <MESSAGE value="Set localized app name from CF Bundle" />
     <MESSAGE value="Bump version" />
     <MESSAGE value="Sync messages sent to Flutter" />
     <MESSAGE value="Refactor events and return a Stream of CallState enum values" />
@@ -597,6 +595,7 @@
     <MESSAGE value="Push device token up to flutter" />
     <MESSAGE value="Update plugin pubspec.yaml" />
     <MESSAGE value="Bumpng versio to 0.0.5 for Android completion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bumpng versio to 0.0.5 for Android completion" />
+    <MESSAGE value="Miscellaneous fixes for iOS 14 and Xcode 12" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous fixes for iOS 14 and Xcode 12" />
   </component>
 </project>
