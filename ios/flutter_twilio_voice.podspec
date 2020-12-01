@@ -15,7 +15,7 @@ Provides an interface to Twilio&#x27;s Programmable Voice SDK to allows adding v
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'TwilioVoice','~> 6.0.0'
+  s.dependency 'TwilioVoice','~> 6.0.2'
 
 
   s.pod_target_xcconfig = { "DEFINES_MODULE" => "YES" }

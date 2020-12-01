@@ -11,7 +11,10 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     var _result: FlutterResult?
     private var eventSink: FlutterEventSink?
     
+    let kRegistrationTTLInDays = 365
+    
     let kCachedDeviceToken = "CachedDeviceToken"
+    let kCachedBindingDate = "CachedBindingDate"
     let kClientList = "TwilioContactList"
     private var clients: [String:String]!
     
@@ -314,7 +317,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             return
         }
         
-        guard deviceToken != credentials.token else { return }
+        guard registrationRequired() || deviceToken != credentials.token else { return }
 
         let deviceToken = credentials.token
         
@@ -331,8 +334,31 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             }
         }
         self.deviceToken = deviceToken
+        UserDefaults.standard.set(Date(), forKey: kCachedBindingDate)
 
     }
+    
+    /**
+      * The TTL of a registration is 1 year. The TTL for registration for this device/identity pair is reset to
+      * 1 year whenever a new registration occurs or a push notification is sent to this device/identity pair.
+      * This method checks if binding exists in UserDefaults, and if half of TTL has been passed then the method
+      * will return true, else false.
+      */
+     func registrationRequired() -> Bool {
+         guard
+             let lastBindingCreated = UserDefaults.standard.object(forKey: kCachedBindingDate)
+         else { return true }
+
+         let date = Date()
+         var components = DateComponents()
+         components.setValue(kRegistrationTTLInDays/2, for: .day)
+         let expirationDate = Calendar.current.date(byAdding: components, to: lastBindingCreated as! Date)!
+
+         if expirationDate.compare(date) == ComparisonResult.orderedDescending {
+             return false
+         }
+         return true;
+     }
     
     public func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
         self.sendPhoneCallEvents(description: "LOG|pushRegistry:didInvalidatePushTokenForType:", isError: false)
@@ -362,6 +388,9 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             }
         }
         UserDefaults.standard.removeObject(forKey: kCachedDeviceToken)
+        
+        // Remove the cached binding as credentials are invalidated
+        UserDefaults.standard.removeObject(forKey: kCachedBindingDate)
     }
     
     /**
@@ -411,6 +440,13 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     // MARK: TVONotificaitonDelegate
     public func callInviteReceived(callInvite: CallInvite) {
         self.sendPhoneCallEvents(description: "LOG|callInviteReceived:", isError: false)
+        
+        /**
+         * The TTL of a registration is 1 year. The TTL for registration for this device/identity
+         * pair is reset to 1 year whenever a new registration occurs or a push notification is
+         * sent to this device/identity pair.
+         */
+        UserDefaults.standard.set(Date(), forKey: kCachedBindingDate)
         
         var from:String = callInvite.from ?? defaultCaller
         from = from.replacingOccurrences(of: "client:", with: "")

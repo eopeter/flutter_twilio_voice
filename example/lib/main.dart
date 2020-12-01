@@ -38,7 +38,7 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
 
     register();
 
-    FlutterTwilioVoice.setOnDeviceTokenChanged(() {
+    FlutterTwilioVoice.setOnDeviceTokenChanged((token) {
       print("voip-device token changed");
       register();
     });
@@ -79,6 +79,20 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
         this.userId = user.uid;
         print("registering user ${user.uid}");
         registerUser();
+        // FirebaseMessaging.instance.configure(
+        //     onMessage: (Map<String, dynamic> message) {
+        //   print("onMessage");
+        //   print(message);
+        //   return;
+        // }, onLaunch: (Map<String, dynamic> message) {
+        //   print("onLaunch");
+        //   print(message);
+        //   return;
+        // }, onResume: (Map<String, dynamic> message) {
+        //   print("onResume");
+        //   print(message);
+        //   return;
+        // });
       }
     });
   }

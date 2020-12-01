@@ -131,7 +131,6 @@ public class BackgroundCallJavaActivity extends AppCompatActivity{
 
     boolean isMuted = false;
     private void configCallUI() {
-        // SoundPoolManager.getInstance(this).playRinging();
         Log.d(TAG, "configCallUI");
 
             btnMute.setOnClickListener(new View.OnClickListener() {
@@ -154,12 +153,10 @@ public class BackgroundCallJavaActivity extends AppCompatActivity{
             btnOutput.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //SoundPoolManager.getInstance(this@AnswerJavaActivity).playDisconnect();
                     AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
                     boolean isOnSpeaker = !audioManager.isSpeakerphoneOn();
                     audioManager.setSpeakerphoneOn(isOnSpeaker);
                     applyFabState(btnOutput, isOnSpeaker);
-//                    v.setBackgroundColor(isOnSpeaker ? "" : ""); //ayuda
                 }
             });
 
