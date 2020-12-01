@@ -26,12 +26,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0230c-34b7-475b-939e-c09d6c91a6eb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/AnswerJavaActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/AnswerJavaActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/FlutterTwilioVoicePlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/IncomingCallNotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/dormmom/flutter_twilio_voice/IncomingCallNotificationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/res/layout/activity_answer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/res/layout/activity_answer.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/flutter_twilio_voice.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/flutter_twilio_voice.podspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_twilio_voice.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +56,9 @@
     <system id="GRADLE">
       <state>
         <task path="$PROJECT_DIR$/android">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/android/build.gradle">
           <activation />
         </task>
         <projects_view>
@@ -88,9 +89,6 @@
         <option value="resourceFile" />
       </list>
     </option>
-  </component>
-  <component name="Git.Pull.Settings">
-    <option name="BRANCH" value="master" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -170,12 +168,13 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -204,6 +203,9 @@
       <workItem from="1597505112607" duration="2933000" />
       <workItem from="1597700806667" duration="5433000" />
       <workItem from="1602829140426" duration="354000" />
+      <workItem from="1606567379377" duration="328000" />
+      <workItem from="1606831616016" duration="2345000" />
+      <workItem from="1606834151477" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="- Add build.gradle file missing in VCS&#10;- Set range of supported flutter versions">
       <created>1577742952567</created>
@@ -541,7 +543,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602829440900</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Bumpng versio to 0.0.5 for Android completion">
+      <created>1602867604593</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1602867604593</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -552,19 +561,17 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_twilio_voice" />
     </ignored-roots>
-    <MESSAGE value="Set localized app name" />
     <MESSAGE value="Set localized app name from CF Bundle" />
     <MESSAGE value="Bump version" />
     <MESSAGE value="Sync messages sent to Flutter" />
@@ -589,36 +596,7 @@
     <MESSAGE value="Add explicit voice token to unregister function.  Pass logging up to flutter" />
     <MESSAGE value="Push device token up to flutter" />
     <MESSAGE value="Update plugin pubspec.yaml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update plugin pubspec.yaml" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2" timestamp="1597766026251">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2474" y="102" width="802" height="890" key="CommitChangelistDialog2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597766026251" />
-    <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl" timestamp="1597703023819">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597703023819" />
-    <state x="2102" y="107" width="1536" height="879" key="MergeDialog" timestamp="1597704793799">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2102" y="107" width="1536" height="879" key="MergeDialog/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704793799" />
-    <state x="2517" y="303" width="715" height="480" key="MultipleFileMergeDialog" timestamp="1597704793800">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2517" y="303" width="715" height="480" key="MultipleFileMergeDialog/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704793800" />
-    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1597704807357">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2475" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597704807357" />
-    <state x="1003" y="438" key="com.intellij.ide.util.TipDialog" timestamp="1601602451604">
-      <screen x="0" y="23" width="2560" height="1417" />
-    </state>
-    <state x="1003" y="438" key="com.intellij.ide.util.TipDialog/0.23.2560.1417@0.23.2560.1417" timestamp="1601602451604" />
-    <state x="2589" y="255" width="581" height="570" key="find.popup" timestamp="1597702264044">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2589" y="255" width="581" height="570" key="find.popup/0.27.1920.1053/3840.0.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597702264044" />
+    <MESSAGE value="Bumpng versio to 0.0.5 for Android completion" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bumpng versio to 0.0.5 for Android completion" />
   </component>
 </project>
