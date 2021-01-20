@@ -108,7 +108,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             self.accessToken = token
             if let deviceToken = deviceToken, let token = accessToken {
                 self.sendPhoneCallEvents(description: "LOG|pushRegistry:attempting to register with twilio", isError: false)
-                TwilioVoice.register(accessToken: token, deviceToken: deviceToken) { (error) in
+                TwilioVoiceSDK.register(accessToken: token, deviceToken: deviceToken) { (error) in
                     if let error = error {
                         self.sendPhoneCallEvents(description: "LOG|An error occurred while registering: \(error.localizedDescription)", isError: false)
                     }
@@ -194,11 +194,14 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             // nuthin
         }
         else if flutterCall.method == "unregister" {
-            guard let token = arguments["accessToken"] as? String else {return}
             guard let deviceToken = deviceToken else {
                 return
             }
-            self.unregisterTokens(token: token, deviceToken: deviceToken)
+            if let token = arguments["accessToken"] as? String{
+                self.unregisterTokens(token: token, deviceToken: deviceToken)
+            }else if let token = accessToken{
+                self.unregisterTokens(token: token, deviceToken: deviceToken)
+            }
             
         }else if flutterCall.method == "hangUp"{
             if (self.call != nil && self.call?.state == .connected) {
@@ -227,10 +230,22 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                 UserDefaults.standard.set(clients, forKey: kClientList)
             }
         }else if flutterCall.method == "hasMicPermission" {
-            result(true) ///do nuthin
+            let permission = AVAudioSession.sharedInstance().recordPermission
+            result(permission == .granted)
             return
         }else if flutterCall.method == "requestMicPermission"{
-            result(true)///do nuthin
+            switch(AVAudioSession.sharedInstance().recordPermission){
+            case .granted:
+                result(true)
+            case .denied:
+                result(false)
+            case .undetermined:
+                AVAudioSession.sharedInstance().requestRecordPermission({ (granted) in
+                    result(granted)
+                })
+            @unknown default:
+                result(false)
+            }
             return
         }
         result(true)
@@ -323,7 +338,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         
         self.sendPhoneCallEvents(description: "LOG|pushRegistry:attempting to register with twilio", isError: false)
         if let token = accessToken {
-            TwilioVoice.register(accessToken: token, deviceToken: deviceToken) { (error) in
+            TwilioVoiceSDK.register(accessToken: token, deviceToken: deviceToken) { (error) in
                 if let error = error {
                     self.sendPhoneCallEvents(description: "LOG|An error occurred while registering: \(error.localizedDescription)", isError: false)
                     self.sendPhoneCallEvents(description: "DEVICETOKEN|\(String(decoding: deviceToken, as: UTF8.self))", isError: false)
@@ -380,7 +395,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     }
     
     func unregisterTokens(token: String, deviceToken: Data) {
-        TwilioVoice.unregister(accessToken: token, deviceToken: deviceToken) { (error) in
+        TwilioVoiceSDK.unregister(accessToken: token, deviceToken: deviceToken) { (error) in
             if let error = error {
                 self.sendPhoneCallEvents(description: "LOG|An error occurred while unregistering: \(error.localizedDescription)", isError: false)
             } else {
@@ -401,7 +416,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         self.sendPhoneCallEvents(description: "LOG|pushRegistry:didReceiveIncomingPushWithPayload:forType:", isError: false)
         
         if (type == PKPushType.voIP) {
-            TwilioVoice.handleNotification(payload.dictionaryPayload, delegate: self, delegateQueue: nil)
+            TwilioVoiceSDK.handleNotification(payload.dictionaryPayload, delegate: self, delegateQueue: nil)
         }
     }
     
@@ -415,7 +430,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
 //        self.incomingPushCompletionCallback = completion
         
         if (type == PKPushType.voIP) {
-            TwilioVoice.handleNotification(payload.dictionaryPayload, delegate: self, delegateQueue: nil)
+            TwilioVoiceSDK.handleNotification(payload.dictionaryPayload, delegate: self, delegateQueue: nil)
         }
         
         if let version = Float(UIDevice.current.systemVersion), version < 13.0 {
@@ -741,7 +756,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
             }
             builder.uuid = uuid
         }
-        let theCall = TwilioVoice.connect(options: connectOptions, delegate: self)
+        let theCall = TwilioVoiceSDK.connect(options: connectOptions, delegate: self)
         self.call = theCall
         self.callKitCompletionCallback = completionHandler
     }

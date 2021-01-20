@@ -93,9 +93,9 @@ public class AnswerJavaActivity extends AppCompatActivity {
                 case Constants.ACTION_CANCEL_CALL:
                     newCancelCallClickListener();
                     break;
-//                case Constants.ACTION_ACCEPT:
-//                    newAnswerCallClickListener();
-//                    break;
+               case Constants.ACTION_ACCEPT:
+                   checkPermissionsAndAccept();
+                   break;
 //                case Constants.ACTION_REJECT:
 //                    newCancelCallClickListener();
 //                    break;
@@ -135,13 +135,7 @@ public class AnswerJavaActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "onCLick");
-                    if (!checkPermissionForMicrophone()) {
-                        Log.d(TAG, "configCallUI-requestAudioPermissions");
-                        requestAudioPermissions();
-                    } else {
-                        Log.d(TAG, "configCallUI-newAnswerCallClickListener");
-                        newAnswerCallClickListener();
-                    }
+                    checkPermissionsAndAccept();
                 }
             });
 
@@ -154,12 +148,24 @@ public class AnswerJavaActivity extends AppCompatActivity {
         }
     }
 
-
-    private void newAnswerCallClickListener() {
+    private void checkPermissionsAndAccept(){
         Log.d(TAG, "Clicked accept");
+        if (!checkPermissionForMicrophone()) {
+            Log.d(TAG, "configCallUI-requestAudioPermissions");
+            requestAudioPermissions();
+        } else {
+            Log.d(TAG, "configCallUI-newAnswerCallClickListener");
+            acceptCall();
+        }
+    }
+
+
+    private void acceptCall() {
+        Log.d(TAG, "Accepting call");
         Intent acceptIntent = new Intent(this, IncomingCallNotificationService.class);
         acceptIntent.setAction(Constants.ACTION_ACCEPT);
         acceptIntent.putExtra(Constants.INCOMING_CALL_INVITE, activeCallInvite);
+        acceptIntent.putExtra(Constants.ACCEPT_CALL_ORIGIN, 1);
         acceptIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, activeCallNotificationId);
         Log.d(TAG, "Clicked accept startService");
         startService(acceptIntent);
@@ -197,7 +203,7 @@ public class AnswerJavaActivity extends AppCompatActivity {
             }
         } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "requestAudioPermissions-> permission granted->newAnswerCallClickListener");
-            newAnswerCallClickListener();
+            acceptCall();
         }
     }
 
@@ -208,7 +214,7 @@ public class AnswerJavaActivity extends AppCompatActivity {
                 Toast.makeText(this, "Microphone permissions needed. Please allow in your application settings.", Toast.LENGTH_LONG).show();
                 rejectCallClickListener();
             } else {
-                newAnswerCallClickListener();
+                acceptCall();
             }
         } else {
             throw new IllegalStateException("Unexpected value: " + requestCode);

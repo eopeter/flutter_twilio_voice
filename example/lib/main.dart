@@ -47,8 +47,8 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
   register() async {
     print("voip-registtering with token ");
     print("voip-calling voice-accessToken");
-    final function = CloudFunctions.instance
-        .getHttpsCallable(functionName: "voice-accessToken");
+    final function =
+        FirebaseFunctions.instance.httpsCallable("voice-accessToken");
 
     final data = {
       "platform": Platform.isIOS ? "iOS" : "Android",
@@ -59,7 +59,7 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
     print(result.data);
     String androidToken;
     if (Platform.isAndroid) {
-      androidToken = await FirebaseMessaging().getToken();
+      androidToken = await FirebaseMessaging.instance.getToken();
       print("androidToken is " + androidToken);
     }
     FlutterTwilioVoice.tokens(
@@ -108,10 +108,7 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
 
     final partnerId = "alicesId";
     FlutterTwilioVoice.registerClient(partnerId, "Alice");
-
-    final a4 = "p32GLAC6CEfBz3mOJHQJdqR3ReE2";
-    final other = "OwicvyDkHlR1ggI4R0k8ecYhWLt2";
-    _controller = TextEditingController(text: a4);
+    _controller = TextEditingController(text: "");
   }
 
   checkActiveCall() async {

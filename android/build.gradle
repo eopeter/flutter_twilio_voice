@@ -58,7 +58,7 @@ android {
 dependencies {
     testImplementation 'junit:junit:4.12'
     implementation platform('com.google.firebase:firebase-bom:26.0.0')
-    implementation 'com.twilio:voice-android:5.6.0'
+    implementation 'com.twilio:voice-android:5.6.1'
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'

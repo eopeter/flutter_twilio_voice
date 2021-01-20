@@ -137,7 +137,19 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
                     handleReject();
                     break;
                 case Constants.ACTION_ACCEPT:
-                    answer();
+                        int acceptOrigin = intent.getIntExtra(Constants.ACCEPT_CALL_ORIGIN,0);
+                        if(acceptOrigin == 0){
+                             Intent answerIntent = new Intent(activity, AnswerJavaActivity.class);
+                            answerIntent.setAction(Constants.ACTION_ACCEPT);
+                            answerIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, activeCallNotificationId);
+                            answerIntent.putExtra(Constants.INCOMING_CALL_INVITE, activeCallInvite);
+                            answerIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            answerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            activity.startActivity(answerIntent);
+                        }else{
+                            answer();
+                        }
+
                     break;
                 case Constants.ACTION_TOGGLE_MUTE:
                     mute();
@@ -291,9 +303,12 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
         }
     }
 
-    private void unregisterForCallInvites() {
-        if (this.accessToken != null && this.fcmToken != null) {
-            Log.i(TAG, "Un-registering with FCM");
+    private void unregisterForCallInvites(String accessToken) {
+        if(this.fcmToken == null){return;}
+        Log.i(TAG, "Un-registering with FCM");
+        if (accessToken != null) {
+            Voice.unregister(accessToken, Voice.RegistrationChannel.FCM, this.fcmToken, unregistrationListener);
+        }else if (this.accessToken != null) {
             Voice.unregister(this.accessToken, Voice.RegistrationChannel.FCM, this.fcmToken, unregistrationListener);
         }
     }
@@ -364,7 +379,8 @@ public class FlutterTwilioVoicePlugin implements FlutterPlugin, MethodChannel.Me
             this.answer();
             result.success(true);
         } else if (call.method.equals("unregister")) {
-            this.unregisterForCallInvites();
+            String accessToken = call.argument("accessToken");
+            this.unregisterForCallInvites(accessToken);
             result.success(true);
         } else if (call.method.equals("makeCall")) {
             Log.d(TAG, "Making new call");

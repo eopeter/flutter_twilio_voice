@@ -40,7 +40,9 @@ public class IncomingCallNotificationService extends Service {
                     handleIncomingCall(callInvite, notificationId);
                     break;
                 case Constants.ACTION_ACCEPT:
-                    accept(callInvite, notificationId);
+                    int origin = intent.getIntExtra(Constants.ACCEPT_CALL_ORIGIN,0);
+                    Log.d(TAG, "onStartCommand-ActionAccept $origin");
+                    accept(callInvite, notificationId, origin);
                     break;
                 case Constants.ACTION_REJECT:
                     reject(callInvite);
@@ -134,6 +136,7 @@ public class IncomingCallNotificationService extends Service {
 
         Intent acceptIntent = new Intent(getApplicationContext(), IncomingCallNotificationService.class);
         acceptIntent.setAction(Constants.ACTION_ACCEPT);
+        acceptIntent.putExtra(Constants.ACCEPT_CALL_ORIGIN, 0);
         acceptIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
         acceptIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         PendingIntent piAcceptIntent = PendingIntent.getService(getApplicationContext(), 0, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -178,7 +181,7 @@ public class IncomingCallNotificationService extends Service {
         return channelId;
     }
 
-    private void accept(CallInvite callInvite, int notificationId) {
+    private void accept(CallInvite callInvite, int notificationId, int origin) {
         endForeground();
         Log.i(TAG, "accept call invite!");
         Intent activeCallIntent = new Intent();
@@ -186,6 +189,7 @@ public class IncomingCallNotificationService extends Service {
         activeCallIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activeCallIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
         activeCallIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
+        activeCallIntent.putExtra(Constants.ACCEPT_CALL_ORIGIN, origin);
         activeCallIntent.setAction(Constants.ACTION_ACCEPT);
         LocalBroadcastManager.getInstance(this).sendBroadcast(activeCallIntent);
     }

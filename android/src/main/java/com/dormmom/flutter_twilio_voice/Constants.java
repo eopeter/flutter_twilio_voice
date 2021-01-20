@@ -8,6 +8,7 @@ public class Constants {
     public static final String INCOMING_CALL_INVITE = "INCOMING_CALL_INVITE";
     public static final String CALL_FROM = "CALL_FROM";
     public static final String CANCELLED_CALL_INVITE = "CANCELLED_CALL_INVITE";
+    public static final String ACCEPT_CALL_ORIGIN = "ACCEPT_CALL_ORIGIN";
     public static final String INCOMING_CALL_NOTIFICATION_ID = "INCOMING_CALL_NOTIFICATION_ID";
     public static final String ACTION_ACCEPT = "ACTION_ACCEPT";
     public static final String ACTION_REJECT = "ACTION_REJECT";
