@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_twilio_voice/flutter_twilio_voice.dart';
 import 'package:flutter_twilio_voice_example/call_screen.dart';
 
@@ -27,8 +28,8 @@ class DialScreen extends StatefulWidget {
 }
 
 class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
-  TextEditingController _controller;
-  String userId;
+  TextEditingController? _controller;
+  late String userId;
 
   registerUser() {
     print("voip- service init");
@@ -57,10 +58,10 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
     final result = await function.call(data);
     print("voip-result");
     print(result.data);
-    String androidToken;
+    String? androidToken;
     if (Platform.isAndroid) {
       androidToken = await FirebaseMessaging.instance.getToken();
-      print("androidToken is " + androidToken);
+      print("androidToken is " + androidToken!);
     }
     FlutterTwilioVoice.tokens(
         accessToken: result.data, deviceToken: androidToken);
@@ -104,7 +105,7 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
 
     super.initState();
     waitForCall();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
 
     final partnerId = "alicesId";
     FlutterTwilioVoice.registerClient(partnerId, "Alice");
@@ -159,7 +160,7 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
     });
   }
 
-  AppLifecycleState state;
+  AppLifecycleState? state;
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     this.state = state;
@@ -171,7 +172,7 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -196,16 +197,16 @@ class _DialScreenState extends State<DialScreen> with WidgetsBindingObserver {
                 SizedBox(
                   height: 10,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text("Make Call"),
                   onPressed: () async {
-                    if (!await FlutterTwilioVoice.hasMicAccess()) {
+                    if (!await (FlutterTwilioVoice.hasMicAccess())) {
                       print("request mic access");
                       FlutterTwilioVoice.requestMicAccess();
                       return;
                     }
                     FlutterTwilioVoice.makeCall(
-                        to: _controller.text, from: userId);
+                        to: _controller!.text, from: userId);
                     pushToCallScreen();
                   },
                 ),

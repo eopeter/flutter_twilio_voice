@@ -30,5 +30,6 @@
                 <action android:name="ACTION_REJECT" />
             </intent-filter>
         </service>
+        <meta-data android:name="flutterEmbedding" android:value="2"/>
     </application>
 </manifest>

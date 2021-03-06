@@ -13,8 +13,8 @@ class _CallScreenState extends State<CallScreen> {
   var mute = false;
   var isEnded = false;
 
-  var message = "Connecting...";
-  StreamSubscription<CallState> callStateListener;
+  String? message = "Connecting...";
+  late StreamSubscription<CallState> callStateListener;
   void listenCall() {
     callStateListener = FlutterTwilioVoice.onCallStateChanged.listen((event) {
       print("voip-onCallStateChanged $event");
@@ -67,20 +67,19 @@ class _CallScreenState extends State<CallScreen> {
     });
   }
 
-  String caller;
+  late String caller;
 
-  getCaller() async {
-    String caller = FlutterTwilioVoice.callDirection == CallDirection.outgoing
-        ? FlutterTwilioVoice.callTo
-        : FlutterTwilioVoice.callFrom;
-    this.caller = caller;
+  String getCaller() {
+    return FlutterTwilioVoice.callDirection == CallDirection.outgoing
+        ? FlutterTwilioVoice.callTo!
+        : FlutterTwilioVoice.callFrom!;
   }
 
   @override
   void initState() {
     listenCall();
     super.initState();
-    getCaller();
+    caller = getCaller();
   }
 
   @override
@@ -106,19 +105,18 @@ class _CallScreenState extends State<CallScreen> {
                         caller,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(color: Colors.white),
                       ),
                       SizedBox(height: 8),
-                      message != null
-                          ? Text(
-                              message,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6
-                                  .copyWith(color: Colors.white),
-                            )
-                          : null,
+                      if (message != null)
+                        Text(
+                          message!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6!
+                              .copyWith(color: Colors.white),
+                        )
                     ],
                   ),
                   Row(
