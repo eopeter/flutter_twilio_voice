@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 enum CallState {
@@ -25,12 +26,12 @@ class FlutterTwilioVoice {
   static const EventChannel _eventChannel =
       EventChannel('flutter_twilio_voice/events');
 
-  static Stream<CallState>? _onCallStateChanged;
-  static String? callFrom;
-  static String? callTo;
-  static int? callStartedOn;
+  static Stream<CallState> _onCallStateChanged;
+  static String callFrom;
+  static String callTo;
+  static int callStartedOn;
   static CallDirection callDirection = CallDirection.incoming;
-  static OnDeviceTokenChanged? deviceTokenChanged;
+  static OnDeviceTokenChanged deviceTokenChanged;
 
   static Stream<CallState> get onCallStateChanged {
     if (_onCallStateChanged == null) {
@@ -38,30 +39,30 @@ class FlutterTwilioVoice {
           .receiveBroadcastStream()
           .map((dynamic event) => _parseCallState(event));
     }
-    return _onCallStateChanged!;
+    return _onCallStateChanged;
   }
 
   static void setOnDeviceTokenChanged(OnDeviceTokenChanged deviceTokenChanged) {
     FlutterTwilioVoice.deviceTokenChanged = deviceTokenChanged;
   }
 
-  static Future<bool?> tokens(
-      {required String accessToken, String? deviceToken}) {
+  static Future<bool> tokens(
+      {@required String accessToken, String deviceToken}) {
     return _channel.invokeMethod('tokens', <String, dynamic>{
       "accessToken": accessToken,
       "deviceToken": deviceToken
     });
   }
 
-  static Future<bool?> unregister({String? accessToken}) {
+  static Future<bool> unregister({String accessToken}) {
     return _channel.invokeMethod(
         'unregister', <String, dynamic>{"accessToken": accessToken});
   }
 
-  static Future<bool?> makeCall(
-      {required String from,
-      required String to,
-      Map<String, dynamic>? extraOptions}) {
+  static Future<bool> makeCall(
+      {@required String from,
+      @required String to,
+      Map<String, dynamic> extraOptions}) {
     var options = extraOptions ?? Map<String, dynamic>();
     options['from'] = from;
     options['to'] = to;
@@ -71,66 +72,66 @@ class FlutterTwilioVoice {
     return _channel.invokeMethod('makeCall', options);
   }
 
-  static Future<bool?> hangUp() {
+  static Future<bool> hangUp() {
     return _channel.invokeMethod('hangUp', <String, dynamic>{});
   }
 
-  static Future<bool?> answer() {
+  static Future<bool> answer() {
     return _channel.invokeMethod('answer', <String, dynamic>{});
   }
 
-  static Future<bool?> holdCall() {
+  static Future<bool> holdCall() {
     return _channel.invokeMethod('holdCall', <String, dynamic>{});
   }
 
-  static Future<bool?> muteCall() {
+  static Future<bool> muteCall() {
     return _channel.invokeMethod('muteCall', <String, dynamic>{});
   }
 
-  static Future<bool?> toggleSpeaker(bool speakerIsOn) {
+  static Future<bool> toggleSpeaker(bool speakerIsOn) {
     return _channel.invokeMethod(
         'toggleSpeaker', <String, dynamic>{"speakerIsOn": speakerIsOn});
   }
 
-  static Future<bool?> sendDigits(String digits) {
+  static Future<bool> sendDigits(String digits) {
     return _channel
         .invokeMethod('sendDigits', <String, dynamic>{"digits": digits});
   }
 
-  static Future<bool?> requestBackgroundPermissions() {
+  static Future<bool> requestBackgroundPermissions() {
     return _channel.invokeMethod('requestBackgroundPermissions', {});
   }
 
-  static Future<bool?> requiresBackgroundPermissions() {
+  static Future<bool> requiresBackgroundPermissions() {
     return _channel.invokeMethod('requiresBackgroundPermissions', {});
   }
 
   static Future<bool> isOnCall() {
-    return _channel.invokeMethod<bool?>('isOnCall',
-        <String, dynamic>{}).then<bool>((bool? value) => value ?? false);
+    return _channel.invokeMethod<bool>('isOnCall',
+        <String, dynamic>{}).then<bool>((bool value) => value ?? false);
   }
 
-  static Future<bool?> registerClient(String clientId, String clientName) {
+  static Future<bool> registerClient(String clientId, String clientName) {
     return _channel.invokeMethod('registerClient',
         <String, dynamic>{"id": clientId, "name": clientName});
   }
 
-  static Future<bool?> unregisterClient(String clientId) {
+  static Future<bool> unregisterClient(String clientId) {
     return _channel
         .invokeMethod('unregisterClient', <String, dynamic>{"id": clientId});
   }
 
-  static Future<bool?> setDefaultCallerName(String callerName) {
+  static Future<bool> setDefaultCallerName(String callerName) {
     return _channel.invokeMethod(
         'defaultCaller', <String, dynamic>{"defaultCaller": callerName});
   }
 
   static Future<bool> hasMicAccess() {
-    return _channel.invokeMethod<bool?>(
-        'hasMicPermission', {}).then<bool>((bool? value) => value ?? false);
+    return _channel.invokeMethod<bool>(
+        'hasMicPermission', {}).then<bool>((bool value) => value ?? false);
   }
 
-  static Future<bool?> requestMicAccess() {
+  static Future<bool> requestMicAccess() {
     return _channel.invokeMethod('requestMicPermission', {});
   }
 
@@ -138,15 +139,15 @@ class FlutterTwilioVoice {
     return _channel.invokeMethod("backgroundCallUI", {});
   }
 
-  static String? getFrom() {
+  static String getFrom() {
     return callFrom;
   }
 
-  static String? getTo() {
+  static String getTo() {
     return callTo;
   }
 
-  static int? getCallStartedOn() {
+  static int getCallStartedOn() {
     return callStartedOn;
   }
 
@@ -158,7 +159,7 @@ class FlutterTwilioVoice {
     if (state.startsWith("DEVICETOKEN|")) {
       var token = state.split('|')[1];
       if (deviceTokenChanged != null) {
-        deviceTokenChanged!(token);
+        deviceTokenChanged(token);
       }
       return CallState.log;
     } else if (state.startsWith("LOG|")) {
