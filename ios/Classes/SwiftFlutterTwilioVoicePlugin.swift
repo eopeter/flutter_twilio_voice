@@ -39,7 +39,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
         if let callKitIcon = UIImage(named: "iconMask80") {
-            configuration.iconTemplateImageData = UIImagePNGRepresentation(callKitIcon)
+            configuration.iconTemplateImageData = callKitIcon.pngData()
         }
         
         callKitProvider = CXProvider(configuration: configuration)
@@ -156,8 +156,8 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
                         let goToSettings: UIAlertAction = UIAlertAction(title: "Settings",
                                                                         style: .default,
                                                                         handler: { (action) in
-                                                                            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!,
-                                                      options: [UIApplicationOpenURLOptionUniversalLinksOnly: false],
+                                                                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!,
+                                                                                                      options: [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly: false],
                                                       completionHandler: nil)
                         })
                         alertController.addAction(goToSettings)
@@ -191,7 +191,7 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
     }
     
     func checkRecordPermission(completion: @escaping (_ permissionGranted: Bool) -> Void) {
-        let permissionStatus: AVAudioSession.RecordPermission = AVAudioSession.sharedInstance().recordPermission()
+        let permissionStatus: AVAudioSession.RecordPermission = AVAudioSession.sharedInstance().recordPermission
         
         switch permissionStatus {
         case AVAudioSessionRecordPermission.granted:

@@ -48,14 +48,14 @@ class _MyAppState extends State<MyApp> {
 
   void _onEvent(Object event) {
     setState(() {
-      _eventMessage =
-          "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
+      _eventMessage = "status: ${event == 'charging' ? '' : 'dis'}charging.";
     });
   }
 
   void _onError(Object error) {
     setState(() {
-      _eventMessage = 'Battery status: unknown.';
+      _eventMessage = 'status: unknown.';
+      print(_eventMessage);
     });
   }
 
@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
                 SizedBox(
                   height: 10,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text("Make Call"),
                   onPressed: () async {
                     FlutterTwilioVoice.phoneCallEventSubscription

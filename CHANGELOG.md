@@ -1,3 +1,6 @@
+## 0.0.5
+* null safety
+
 ## 0.0.4
 * update ios library
 
