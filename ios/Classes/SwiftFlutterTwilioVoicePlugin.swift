@@ -194,15 +194,15 @@ public class SwiftFlutterTwilioVoicePlugin: NSObject, FlutterPlugin,  FlutterStr
         let permissionStatus: AVAudioSession.RecordPermission = AVAudioSession.sharedInstance().recordPermission
         
         switch permissionStatus {
-        case AVAudioSessionRecordPermission.granted:
+        case AVAudioSession.RecordPermission.granted:
             // Record permission already granted.
             completion(true)
             break
-        case AVAudioSessionRecordPermission.denied:
+        case AVAudioSession.RecordPermission.denied:
             // Record permission denied.
             completion(false)
             break
-        case AVAudioSessionRecordPermission.undetermined:
+        case AVAudioSession.RecordPermission.undetermined:
             // Requesting record permission.
             // Optional: pop up app dialog to let the users know if they want to request.
             AVAudioSession.sharedInstance().requestRecordPermission({ (granted) in
