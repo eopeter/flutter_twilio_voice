@@ -1,3 +1,6 @@
+## 0.0.6
+* Fix deprecated properties
+
 ## 0.0.5
 * null safety
 
